@@ -16,6 +16,7 @@ import ResetParol from "./components/LoginRegistration/ResetParol/ResetParol";
 import ErrorBlock from "./components/Error/Error";
 import Footer from "./components/Footer/Footer";
 import MyMap from "./components/myMap/myMap";
+import HeaderNew from "./components/HeaderNew/HeaderNew";
 
 function App() {
   const location = useLocation();
@@ -43,7 +44,8 @@ function App() {
   return (
     <>
       {loading && <LoadingOverlay />}
-      <Header />
+      {/* <Header /> */}
+      <HeaderNew />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutPages />} />

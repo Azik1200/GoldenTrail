@@ -9,8 +9,9 @@
     display: flex;
     justify-content: space-between;
     margin-top: 32px;
+    gap: 16px;
     .About-Info {
-      width: 512px;
+      width: 50%;
       .About-Descs {
         margin-bottom: 16px;
 
@@ -32,13 +33,12 @@
 @media screen and (max-width: 768px) {
   .container-About {
     margin: 0 auto;
-    padding: 0 68px;
+    // padding: 0 68px;
     margin-top: 100px;
     .about-block {
       display: flex;
       flex-direction: column-reverse;
       .About-Info {
-        width: 632px;
         margin-top: 48px;
         .About-Descs {
           margin-bottom: 16px;
@@ -52,7 +52,6 @@
         }
       }
       .AboutPic-img {
-        width: 632px;
         img {
           width: 100%;
           height: 100%;

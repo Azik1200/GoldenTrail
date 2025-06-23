@@ -24,19 +24,13 @@
 }
 
 .modal-title {
-  font-family:$font-bold;
+  font-family: $font-bold;
   font-weight: 700;
   font-size: 36px;
   line-height: 100%;
   letter-spacing: 0%;
   text-align: center;
   margin-bottom: 24px;
-}
-
-p {
-  font-size: 14px;
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .form {
@@ -71,18 +65,7 @@ p {
   line-height: 100%;
   letter-spacing: 0%;
 }
-span {
-  font-family: $font-semibold;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  text-decoration: underline;
-  text-decoration-style: solid;
-  text-decoration-offset: 0%;
-  text-decoration-thickness: 0%;
-  text-decoration-skip-ink: auto;
-}
+
 .checkboxLabel input {
   margin-top: 3px;
 }

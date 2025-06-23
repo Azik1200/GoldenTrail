@@ -13,10 +13,12 @@ const PopularBrands = () => {
   const data = t("popular_brands");
   return (
     <>
-      <div className="PopularBrands-container">
-        <div className="PopularBrands-Blocks">
-          <h2 className="H2">{data.title}</h2>
-          <p className="p">{data.desc}</p>
+      <div className="container">
+        <div className="PopularBrands-container">
+          <div className="PopularBrands-Blocks">
+            <h2 className="H2">{data.title}</h2>
+            <p className="p">{data.desc}</p>
+          </div>
         </div>
       </div>
       <div className="popularBrands_container">
