@@ -3,6 +3,10 @@
 .header {
   background-color: $color-blue;
   color: $color-white;
+
+  position: fixed;
+  width: 100%;
+  z-index: 999;
 }
 
 .header-main__wrapper {
@@ -15,7 +19,6 @@
 
 .header-main {
   position: relative;
-  border-bottom: 1px solid white;
   padding: 0 16px;
 }
 

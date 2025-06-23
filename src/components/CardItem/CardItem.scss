@@ -9,13 +9,14 @@
     display: flex;
     gap: 17px;
     margin-top: 32px;
+    min-height: 490px;
     .productCard {
       align-items: stretch;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       min-height: 100%;
-      height: 490px;
+      flex: 0 0 33.33%;
       .productCard_top {
         margin-bottom: 23px;
         .productCard_main-info {
@@ -23,7 +24,7 @@
           margin-bottom: 20px;
           .productCard_img {
             background-color: rgba(217, 217, 217, 1);
-            width: 336px;
+
             height: 278px;
             img {
               width: 100%;
@@ -147,6 +148,7 @@
             font-weight: 600;
             font-size: 16px;
             color: rgba(255, 255, 255, 1);
+            white-space: nowrap;
           }
           a {
             font-family: $font-medium;
@@ -169,16 +171,18 @@
 @media screen and (max-width: 768px) {
   .container-productCard {
     margin: 0 auto;
-    padding: 0 68px;
+    // padding: 0 68px;
     margin-top: 100px;
     .productCard-objs {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(308px, 1fr));
+      display: flex;
+      // grid-template-columns: repeat(2, 1fr);
+
       justify-content: center;
       column-gap: 16px;
       row-gap: 16px;
+      flex-wrap: wrap;
       .productCard {
-        width: 308px;
+        // width: 308px;
         .productCard_top {
           margin-bottom: 18px;
           .productCard_main-info {
@@ -186,8 +190,10 @@
             margin-bottom: 20px;
             .productCard_img {
               background-color: rgba(217, 217, 217, 1);
-              width: 308px;
-              height: 278px;
+              // width: 308px;
+              // height: 278px;
+              aspect-ratio: 1/1;
+              width: 100%;
               img {
                 height: 278px;
               }
@@ -336,7 +342,7 @@
       column-gap: 12px;
       row-gap: 12px;
       .productCard {
-        width: 150px;
+        // width: 150px;
         .productCard_top {
           margin-bottom: 18px;
           .productCard_main-info {
@@ -477,5 +483,11 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container-About .about-block .About-Info {
+    width: unset;
   }
 }
