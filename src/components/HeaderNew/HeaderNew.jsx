@@ -115,6 +115,19 @@ const HeaderNew = () => {
     };
   }, [catalogs]);
 
+  useEffect(() => {
+    const body = document.body;
+    const mobileBar = document.querySelector(".headerFunctionsMobile");
+
+    if (isSearchOpen) {
+      body.classList.add("active");
+      mobileBar?.classList.add("hidden");
+    } else {
+      body.classList.remove("active");
+      mobileBar?.classList.remove("hidden");
+    }
+  }, [isSearchOpen]);
+
   return (
     <>
       <div className="headerMain">

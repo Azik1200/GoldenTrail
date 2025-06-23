@@ -481,6 +481,9 @@ body.active::after {
     background: $color-blue;
     z-index: 999;
   }
+  .headerFunctionsMobile.hidden {
+    display: none;
+  }
 
   .headerFunctionsMobileWrapper {
     display: flex;
