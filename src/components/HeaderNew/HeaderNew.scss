@@ -354,6 +354,9 @@ body.active::after {
 .headerSearch {
   background: $color-blue;
   display: none;
+  &.active {
+    display: block;
+  }
   .headerWrapper {
     display: flex;
     align-items: center;
