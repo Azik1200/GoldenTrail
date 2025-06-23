@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import logo from "./../../assets/img/Logo.svg";
 import searchResult1 from "./../../assets/img/searchResult1.png";
 import searchResult2 from "./../../assets/img/searchResult2.png";
+import { fetchCatalogs } from "../../api/catalogs";
 import "./HeaderNew.scss";
 
 const HeaderNew = () => {
-  const [activeTab, setActiveTab] = useState("rent-1");
+  const [catalogs, setCatalogs] = useState([]);
+  const [activeTab, setActiveTab] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
@@ -23,6 +25,20 @@ const HeaderNew = () => {
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
+
+  useEffect(() => {
+    fetchCatalogs()
+      .then((data) => {
+        setCatalogs(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    if (catalogs.length && !activeTab) {
+      setActiveTab(`cat-${catalogs[0].id}`);
+    }
+  }, [catalogs, activeTab]);
 
   useEffect(() => {
     const burger = document.getElementById("burgerID");
@@ -96,7 +112,7 @@ const HeaderNew = () => {
         btn.removeEventListener("click", backToMain);
       });
     };
-  }, []);
+  }, [catalogs]);
 
   return (
     <>
@@ -211,80 +227,38 @@ const HeaderNew = () => {
           <div className="container">
             <div className="headerDropdownDesktop_wrapper">
               <div className="headerDropdownDesktop_chapter">
-                <div
-                  className={`headerDropdownDesktop_chapter_item ${
-                    activeTab === "rent-1" ? "active" : ""
-                  }`}
-                  id="rent-1"
-                  onClick={() => setActiveTab("rent-1")}
-                >
-                  Рентгенозащитная продукция
-                </div>
-                <div
-                  className={`headerDropdownDesktop_chapter_item ${
-                    activeTab === "odn-1" ? "active" : ""
-                  }`}
-                  id="odn-1"
-                  onClick={() => setActiveTab("odn-1")}
-                >
-                  Одноразовая продукция
-                </div>
+                {catalogs.map((cat) => (
+                  <div
+                    key={cat.id}
+                    className={`headerDropdownDesktop_chapter_item ${
+                      activeTab === `cat-${cat.id}` ? "active" : ""
+                    }`}
+                    id={`cat-${cat.id}`}
+                    onClick={() => setActiveTab(`cat-${cat.id}`)}
+                  >
+                    {cat.name || cat.slug}
+                  </div>
+                ))}
               </div>
 
               <div className="headerDropdownDesktop_categories">
-                {activeTab === "rent-1" && (
-                  <ul className="headerDropdownDesktop_categories_list">
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Фартуки</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Юбки и жилеты</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Защитные халаты</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Комбинированные костюмы</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Брюшные и тазовые экраны</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Одеяла с защитой</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Колпаки и шапки</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Рентгенозащитные перчатки</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Защитные очки</a>
-                    </li>
-                  </ul>
-                )}
-                {activeTab === "odn-1" && (
-                  <ul className="headerDropdownDesktop_categories_list">
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Медицинские перчатки</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Маски</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Колпаки и шапочки</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Халаты одноразовые</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Комбинезоны защитные</a>
-                    </li>
-                    <li className="headerDropdownDesktop_categories_item">
-                      <a href="#">Бахилы</a>
-                    </li>
-                  </ul>
-                )}
+                {catalogs.map((cat) => (
+                  activeTab === `cat-${cat.id}` && (
+                    <ul
+                      key={cat.id}
+                      className="headerDropdownDesktop_categories_list"
+                    >
+                      {cat.categories?.map((c) => (
+                        <li
+                          key={c.id}
+                          className="headerDropdownDesktop_categories_item"
+                        >
+                          <a href="#">{c.name || c.slug}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                ))}
               </div>
             </div>
           </div>
@@ -298,105 +272,50 @@ const HeaderNew = () => {
                   Продукция
                 </div>
                 <div className="headerDropdownMobile_item_content">
-                  <div
-                    className="headerDropdownMobile_item_content_btn"
-                    id="rent-mob-1"
-                  >
-                    Рентгенозащитная продукция
-                  </div>
-                  <div
-                    className="headerDropdownMobile_item_content_btn"
-                    id="odn-mob-1"
-                  >
-                    Одноразовая продукция
-                  </div>
+                  {catalogs.map((cat) => (
+                    <div
+                      key={cat.id}
+                      className="headerDropdownMobile_item_content_btn"
+                      id={`cat-mob-${cat.id}`}
+                    >
+                      {cat.name || cat.slug}
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="headerDropdownMobile_item">О нас</div>
               <div className="headerDropdownMobile_item">Контакты</div>
             </div>
             <div className="headerDropdownMobile_wrapper_second">
-              <div
-                className="headerDropdownMobile_wrapper_second-inner"
-                data-id="rent-mob-1"
-              >
-                <button
-                  className="headerDropdownMobile_wrapper_second-back"
-                  id="headerGOBACK"
+              {catalogs.map((cat) => (
+                <div
+                  key={cat.id}
+                  className="headerDropdownMobile_wrapper_second-inner"
+                  data-id={`cat-mob-${cat.id}`}
                 >
-                  Назад
-                </button>
-                <div className="headerDropdownMobile_wrapper_second-inner-innerest">
-                  <div className="headerDropdownMobile_wrapper_second-inner_name">
-                    Рентгенозащитная продукция
+                  <button
+                    className="headerDropdownMobile_wrapper_second-back"
+                    id="headerGOBACK"
+                  >
+                    Назад
+                  </button>
+                  <div className="headerDropdownMobile_wrapper_second-inner-innerest">
+                    <div className="headerDropdownMobile_wrapper_second-inner_name">
+                      {cat.name || cat.slug}
+                    </div>
+                    <ul className="headerDropdownMobile_wrapper_second-inner-list">
+                      {cat.categories?.map((c) => (
+                        <li
+                          key={c.id}
+                          className="headerDropdownMobile_wrapper_second-inner-list-item"
+                        >
+                          <a href="#">{c.name || c.slug}</a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="headerDropdownMobile_wrapper_second-inner-list">
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Фартуки</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Юбки и жилеты</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Защитные халаты</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Комбинированные костюмы</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Брюшные и тазовые экраны</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Одеяла с защитой</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Колпаки и шапки</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Рентгенозащитные перчатки</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Защитные очки</a>
-                    </li>
-                  </ul>
                 </div>
-              </div>
-              <div
-                className="headerDropdownMobile_wrapper_second-inner"
-                data-id="odn-mob-1"
-              >
-                <button
-                  className="headerDropdownMobile_wrapper_second-back"
-                  id="headerGOBACK"
-                >
-                  Назад
-                </button>
-                <div className="headerDropdownMobile_wrapper_second-inner-innerest">
-                  <div className="headerDropdownMobile_wrapper_second-inner_name">
-                    Одноразовая продукция
-                  </div>
-                  <ul className="headerDropdownMobile_wrapper_second-inner-list">
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Медицинские перчатки</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Маски</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Колпаки и шапочки</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Халаты одноразовые</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Комбинезоны защитные</a>
-                    </li>
-                    <li className="headerDropdownMobile_wrapper_second-inner-list-item">
-                      <a href="#">Бахилы</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
