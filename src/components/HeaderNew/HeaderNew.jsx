@@ -9,21 +9,36 @@ const HeaderNew = () => {
   const [catalogs, setCatalogs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     const body = document.body;
     const dropdown = document.querySelector(".headerDropdownDesktop");
+    const search = document.querySelector(".headerSearch");
 
     if (isHovered) {
       body.classList.add("active");
       dropdown?.classList.add("opened");
     } else {
-      body.classList.remove("active");
       dropdown?.classList.remove("opened");
     }
-  }, [isHovered]);
 
-  const handleMouseEnter = () => setIsHovered(true);
+    if (isSearchOpen) {
+      body.classList.add("active");
+      search?.classList.add("open");
+    } else {
+      search?.classList.remove("open");
+    }
+
+    if (!isHovered && !isSearchOpen) {
+      body.classList.remove("active");
+    }
+  }, [isHovered, isSearchOpen]);
+
+  const handleMouseEnter = () => {
+    setIsSearchOpen(false);
+    setIsHovered(true);
+  };
   const handleMouseLeave = () => setIsHovered(false);
 
   useEffect(() => {
@@ -141,6 +156,10 @@ const HeaderNew = () => {
                 <button
                   className="headerNew_functions_btn"
                   id="openSearchPanelDesctop"
+                  onClick={() => {
+                    setIsSearchOpen(true);
+                    setIsHovered(false);
+                  }}
                 >
                   <svg
                     width="22"
@@ -330,7 +349,10 @@ const HeaderNew = () => {
                   placeholder="Search"
                 />
               </form>
-              <button className="headerNewCloseBtn">
+              <button
+                className="headerNewCloseBtn"
+                onClick={() => setIsSearchOpen(false)}
+              >
                 <span></span>
                 <span></span>
               </button>
@@ -417,10 +439,14 @@ const HeaderNew = () => {
       <div className="headerFunctionsMobile">
         <div className="container">
           <div className="headerFunctionsMobileWrapper">
-            <button
-              className="headerNew_functions_btn"
-              id="openSearchPanelMobile"
-            >
+              <button
+                className="headerNew_functions_btn"
+                id="openSearchPanelMobile"
+                onClick={() => {
+                  setIsSearchOpen(true);
+                  setIsHovered(false);
+                }}
+              >
               <svg
                 width="22"
                 height="22"
