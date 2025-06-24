@@ -452,6 +452,7 @@ const HeaderNew = () => {
             <button
               className="headerNew_functions_btn"
               id="openSearchPanelMobile"
+              onClick={() => setIsSearchOpen((prev) => !prev)}
             >
               <svg
                 width="22"
