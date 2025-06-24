@@ -353,7 +353,7 @@ body.active::after {
 
 .headerSearch {
   background: $color-blue;
-  display: none;
+  display: block;
   .headerWrapper {
     display: flex;
     align-items: center;
