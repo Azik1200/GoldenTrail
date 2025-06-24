@@ -10,6 +10,7 @@ const HeaderNew = () => {
   const [catalogs, setCatalogs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { language, setLanguage, t } = useContext(LanguageContext);
 
   useEffect(() => {
@@ -25,7 +26,10 @@ const HeaderNew = () => {
     }
   }, [isHovered]);
 
-  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseEnter = () => {
+    setIsSearchOpen(false);
+    setIsHovered(true);
+  };
   const handleMouseLeave = () => setIsHovered(false);
 
   useEffect(() => {
@@ -143,6 +147,10 @@ const HeaderNew = () => {
                 <button
                   className="headerNew_functions_btn"
                   id="openSearchPanelDesctop"
+                  onClick={() => {
+                    setIsSearchOpen((prev) => !prev);
+                    setIsHovered(false);
+                  }}
                 >
                   <svg
                     width="22"
@@ -337,6 +345,7 @@ const HeaderNew = () => {
           </div>
         </div>
 
+        {isSearchOpen && (
         <div className="headerSearch">
           <div className="container">
             <div className="headerWrapper">
@@ -347,7 +356,10 @@ const HeaderNew = () => {
                   placeholder="Search"
                 />
               </form>
-              <button className="headerNewCloseBtn">
+              <button
+                className="headerNewCloseBtn"
+                onClick={() => setIsSearchOpen(false)}
+              >
                 <span></span>
                 <span></span>
               </button>
@@ -430,6 +442,7 @@ const HeaderNew = () => {
             </div>
           </div>
         </div>
+        )}
       </div>
       <div className="headerFunctionsMobile">
         <div className="container">
