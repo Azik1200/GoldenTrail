@@ -354,6 +354,9 @@ body.active::after {
 .headerSearch {
   background: $color-blue;
   display: none;
+  &.active {
+    display: block;
+  }
   .headerWrapper {
     display: flex;
     align-items: center;
@@ -477,6 +480,9 @@ body.active::after {
     bottom: 0;
     background: $color-blue;
     z-index: 999;
+  }
+  .headerFunctionsMobile.hidden {
+    display: none;
   }
 
   .headerFunctionsMobileWrapper {
