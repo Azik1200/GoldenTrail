@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import logo from "./../../assets/img/Logo.svg";
 import searchResult1 from "./../../assets/img/searchResult1.png";
 import searchResult2 from "./../../assets/img/searchResult2.png";
 import { fetchCatalogs } from "../../api/catalogs";
+import { LanguageContext } from "../../context/LanguageContext";
 import "./HeaderNew.scss";
 
 const HeaderNew = () => {
   const [catalogs, setCatalogs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const { language, setLanguage, t } = useContext(LanguageContext);
 
   useEffect(() => {
     const body = document.body;
@@ -130,12 +132,12 @@ const HeaderNew = () => {
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
-                  Продукция
+                  {t("header.products")}
                 </button>
                 <a href="#" className="headerNew_nav_btn">
-                  О нас
+                  {t("header.about")}
                 </a>
-                <button className="headerNew_nav_btn">Контакты</button>
+                <button className="headerNew_nav_btn">{t("header.contacts")}</button>
               </div>
               <div className="headerNew_functions">
                 <button
@@ -205,9 +207,24 @@ const HeaderNew = () => {
               </div>
               <div className="headerNew_right">
                 <div className="headerNew_languages">
-                  <button className="headerNew_languages_btn">AZ</button>
-                  <button className="headerNew_languages_btn">EN</button>
-                  <button className="headerNew_languages_btn active">RU</button>
+                  <button
+                    onClick={() => setLanguage("az")}
+                    className={`headerNew_languages_btn ${language === "az" ? "active" : ""}`}
+                  >
+                    AZ
+                  </button>
+                  <button
+                    onClick={() => setLanguage("en")}
+                    className={`headerNew_languages_btn ${language === "en" ? "active" : ""}`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    onClick={() => setLanguage("ru")}
+                    className={`headerNew_languages_btn ${language === "ru" ? "active" : ""}`}
+                  >
+                    RU
+                  </button>
                 </div>
                 <button className="headerNew_right_burger" id="burgerID">
                   <span></span>
