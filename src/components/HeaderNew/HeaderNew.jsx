@@ -353,6 +353,8 @@ const HeaderNew = () => {
                 <input
                   type="text"
                   className="headerNewSearchInput"
+                  name="search"
+                  id="headerNewSearchInput"
                   placeholder="Search"
                 />
               </form>
