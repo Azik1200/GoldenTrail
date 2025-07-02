@@ -60,7 +60,10 @@ function ChoseProffesional() {
             </div>
             <div className="ChoseProffesional_status">{product.status}</div>
             <div className="ChoseProffesional_btns">
-              <button className="ChoseProffesional_btn baasket" onClick={handleAdd}></button>
+              <button
+                className="ChoseProffesional_btn baasket"
+                onClick={handleAdd}
+              ></button>
               <button
                 className={`ChoseProffesional_btn fav${
                   favorites.find(
@@ -96,8 +99,14 @@ function ChoseProffesional() {
         <div className="ChoseProffesional_bottom">
           <div className="ChoseProffesional_bottom-info">
             <div className="ChoseProffesional_price">
-              <div className="ChoseProffesional_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="ChoseProffesional_price_old-price">{product.oldPrice}</div>}
+              <div className="ChoseProffesional_price_main-price">
+                {product.mainPrice}
+              </div>
+              {product.oldPrice && (
+                <div className="ChoseProffesional_price_old-price">
+                  {product.oldPrice}
+                </div>
+              )}
             </div>
             <ul className="ChoseProffesional_colors">
               {product.colors.map((c, index) => (
@@ -125,7 +134,11 @@ function ChoseProffesional() {
             <button className="btn-main" onClick={() => setIsModalOpen(true)}>
               {t("products_block.buy")}
             </button>
-            <Link to={`/desc/${product.id}`} className="link-main" onClick={() => dispatch(setCurrentProduct(product))}>
+            <Link
+              to={`/desc/${product.id}`}
+              className="link-main"
+              onClick={() => dispatch(setCurrentProduct(product))}
+            >
               {t("products_block.more")}
             </Link>
             {isModalOpen && <BuyModal onClose={() => setIsModalOpen(false)} />}
@@ -135,12 +148,14 @@ function ChoseProffesional() {
     );
   };
   return (
-    <div className="container-ChoseProffesional">
-      <h2>{t("products_block.choose")}</h2>
-      <div className="ChoseProffesional-objs">
-        {products.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+    <div className="container">
+      <div className="container-ChoseProffesional">
+        <h2>{t("products_block.choose")}</h2>
+        <div className="ChoseProffesional-objs">
+          {products.map((product) => (
+            <Item key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );

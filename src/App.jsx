@@ -20,6 +20,7 @@ import HeaderNew from "./components/HeaderNew/HeaderNew";
 import FooterNew from "./components/FooterNew/FooterNew";
 import PrivacyPolicy from "./pages/Policy/PrivacyPolicy";
 import TermsOfService from "./pages/Policy/TermsOfService";
+import BlogPage from "./components/BlogPage/BlogPage";
 
 function App() {
   const location = useLocation();
@@ -61,6 +62,7 @@ function App() {
         <Route path="/Error" element={<ErrorBlock />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/blog/:id" element={<BlogPage />} />
       </Routes>
       {/* <MyMap /> */}
       <FooterNew />

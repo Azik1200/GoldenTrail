@@ -60,7 +60,10 @@ function BestSellers() {
             </div>
             <div className="BestSellers_status">{product.status}</div>
             <div className="BestSellers_btns">
-              <button className="BestSellers_btn baasket " onClick={handleAdd}></button>
+              <button
+                className="BestSellers_btn baasket "
+                onClick={handleAdd}
+              ></button>
               <button
                 className={`BestSellers_btn fav${
                   favorites.find(
@@ -96,8 +99,14 @@ function BestSellers() {
         <div className="BestSellers_bottom">
           <div className="BestSellers_bottom-info">
             <div className="BestSellers_price">
-              <div className="BestSellers_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="BestSellers_price_old-price">{product.oldPrice}</div>}
+              <div className="BestSellers_price_main-price">
+                {product.mainPrice}
+              </div>
+              {product.oldPrice && (
+                <div className="BestSellers_price_old-price">
+                  {product.oldPrice}
+                </div>
+              )}
             </div>
             <ul className="BestSellers_colors">
               {product.colors.map((c, index) => (
@@ -125,7 +134,11 @@ function BestSellers() {
             <button className="btn-main" onClick={() => setIsModalOpen(true)}>
               {t("products_block.buy")}
             </button>
-            <Link to={`/desc/${product.id}`} className="link-main" onClick={() => dispatch(setCurrentProduct(product))}>
+            <Link
+              to={`/desc/${product.id}`}
+              className="link-main"
+              onClick={() => dispatch(setCurrentProduct(product))}
+            >
               {t("products_block.more")}
             </Link>
             {isModalOpen && <BuyModal onClose={() => setIsModalOpen(false)} />}
@@ -135,12 +148,14 @@ function BestSellers() {
     );
   };
   return (
-    <div className="container-BestSellers">
-      <h2>{t("products_block.best")}</h2>
-      <div className="BestSellers-objs">
-        {products.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+    <div className="container">
+      <div className="container-BestSellers">
+        <h2>{t("products_block.best")}</h2>
+        <div className="BestSellers-objs">
+          {products.map((product) => (
+            <Item key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );

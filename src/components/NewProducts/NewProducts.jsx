@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 import BuyModal from "../BuyModal/BuyModal";
 
+import image from "./../../assets/img/bahil.png";
+
 function NewProducts() {
   const { t } = useContext(LanguageContext);
   const dispatch = useDispatch();
@@ -55,10 +57,14 @@ function NewProducts() {
           <div className="newProducts_main-info">
             <div className="newProducts_img">
               <img src={product.img} alt={product.name} />
+              {/* <img src={image} alt={product.name} /> */}
             </div>
             <div className="newProducts_status">{product.status}</div>
             <div className="newProducts_btns">
-              <button className="newProducts_btn baasket" onClick={handleAdd}></button>
+              <button
+                className="newProducts_btn baasket"
+                onClick={handleAdd}
+              ></button>
               <button
                 className={`newProducts_btn fav${
                   favorites.find(
@@ -94,8 +100,14 @@ function NewProducts() {
         <div className="newProducts_bottom">
           <div className="newProducts_bottom-info">
             <div className="newProducts_price">
-              <div className="newProducts_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="newProducts_price_old-price">{product.oldPrice}</div>}
+              <div className="newProducts_price_main-price">
+                {product.mainPrice}
+              </div>
+              {product.oldPrice && (
+                <div className="newProducts_price_old-price">
+                  {product.oldPrice}
+                </div>
+              )}
             </div>
             <ul className="newProducts_colors">
               {product.colors.map((c, index) => (
@@ -123,7 +135,11 @@ function NewProducts() {
             <button className="btn-main" onClick={() => setIsModalOpen(true)}>
               {t("products_block.buy")}
             </button>
-            <Link to={`/desc/${product.id}`} className="link-main" onClick={() => dispatch(setCurrentProduct(product))}>
+            <Link
+              to={`/desc/${product.id}`}
+              className="link-main"
+              onClick={() => dispatch(setCurrentProduct(product))}
+            >
               {t("products_block.more")}
             </Link>
             {isModalOpen && <BuyModal onClose={() => setIsModalOpen(false)} />}
@@ -134,12 +150,14 @@ function NewProducts() {
   };
 
   return (
-    <div className="container-newproducts">
-      <h2>{t("products_block.new")}</h2>
-      <div className="newProducts-objs">
-        {products.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+    <div className="container">
+      <div className="container-newproducts">
+        <h2>{t("products_block.new")}</h2>
+        <div className="newProducts-objs">
+          {products.map((product) => (
+            <Item key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );

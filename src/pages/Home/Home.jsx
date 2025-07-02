@@ -2,6 +2,7 @@ import About from "../../components/About/About";
 import Advantages from "../../components/Advantages/Advantages";
 import BanerReviews from "../../components/BanerReviews/BanerReviews";
 import BestSellers from "../../components/BestSellers/BestSellers";
+import BlogList from "../../components/BlogList/BlogList";
 import CardItem from "../../components/CardItem/CardItem";
 
 import ChoseProffesional from "../../components/ChoseProffesional/ChoseProffesional";
@@ -27,6 +28,7 @@ function Home() {
       <WideUsage />
       <Sertificates />
       <Advantages />
+      <BlogList />
       {/* <Reviews /> */}
       <OrderEasily />
     </>
