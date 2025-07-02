@@ -15,6 +15,10 @@ const HeaderNew = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [searchHistory, setSearchHistory] = useState(() => {
+    const stored = localStorage.getItem("searchHistory");
+    return stored ? JSON.parse(stored) : [];
+  });
   const products = useProducts();
   const dispatch = useDispatch();
   const { language, setLanguage, t } = useContext(LanguageContext);
@@ -60,6 +64,23 @@ const HeaderNew = () => {
     const q = searchQuery.toLowerCase();
     setSearchResults(products.filter((p) => p.name.toLowerCase().includes(q)));
   }, [searchQuery, products]);
+
+  const addToHistory = (query) => {
+    if (!query.trim()) return;
+    setSearchHistory((prev) => {
+      const newHistory = [query, ...prev.filter((q) => q !== query)].slice(0, 5);
+      localStorage.setItem("searchHistory", JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
+
+  const removeFromHistory = (query) => {
+    setSearchHistory((prev) => {
+      const newHistory = prev.filter((q) => q !== query);
+      localStorage.setItem("searchHistory", JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
 
   useEffect(() => {
     const burger = document.getElementById("burgerID");
@@ -400,6 +421,7 @@ const HeaderNew = () => {
                             to={`/desc/${product.id}`}
                             onClick={() => {
                               dispatch(setCurrentProduct(product));
+                              addToHistory(searchQuery);
                               setIsSearchOpen(false);
                               setSearchQuery("");
                             }}
@@ -429,12 +451,33 @@ const HeaderNew = () => {
                       ))}
                     </ul>
                   </div>
+                ) : searchQuery ? (
+                  <div className="headerResultsMinus">
+                    <p className="headerNewSearchResultsMinus">
+                      По вашему запросу ничего не найдено
+                    </p>
+                  </div>
                 ) : (
-                  searchQuery && (
-                    <div className="headerResultsMinus">
-                      <p className="headerNewSearchResultsMinus">
-                        По вашему запросу ничего не найдено
-                      </p>
+                  searchHistory.length > 0 && (
+                    <div className="headerResultsStory">
+                      <ul className="headerResultsStoryList">
+                        {searchHistory.map((item) => (
+                          <li key={item} className="headerResultsStoryListItem">
+                            <div
+                              className="headerResultsStoryListItemName"
+                              onClick={() => setSearchQuery(item)}
+                            >
+                              {item}
+                            </div>
+                            <button
+                              className="headerResultsStoryListItemBtn"
+                              onClick={() => removeFromHistory(item)}
+                            >
+                              Удалить
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )
                 )}
