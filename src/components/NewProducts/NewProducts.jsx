@@ -11,6 +11,7 @@ import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 import { Link } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
+import formatPrice from "../../utils/formatPrice";
 import BuyModal from "../BuyModal/BuyModal";
 
 function NewProducts() {
@@ -94,8 +95,8 @@ function NewProducts() {
         <div className="newProducts_bottom">
           <div className="newProducts_bottom-info">
             <div className="newProducts_price">
-              <div className="newProducts_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="newProducts_price_old-price">{product.oldPrice}</div>}
+              <div className="newProducts_price_main-price">{formatPrice(product.mainPrice)}</div>
+              {product.oldPrice && <div className="newProducts_price_old-price">{formatPrice(product.oldPrice)}</div>}
             </div>
             <ul className="newProducts_colors">
               {product.colors.map((c, index) => (

@@ -5,6 +5,7 @@ import logo from "./../../assets/img/Logo.svg";
 import { fetchCatalogs } from "../../api/catalogs";
 import useProducts from "../../hooks/useProducts";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
+import formatPrice from "../../utils/formatPrice";
 import { LanguageContext } from "../../context/LanguageContext";
 import "./HeaderNew.scss";
 
@@ -436,11 +437,11 @@ const HeaderNew = () => {
                                 </div>
                                 <div className="headerResultsListItem_price">
                                   <div className="headerResultsListItem_price-actual">
-                                    {product.mainPrice}
+                                    {formatPrice(product.mainPrice)}
                                   </div>
                                   {product.oldPrice && (
                                     <div className="headerResultsListItem_price-old">
-                                      {product.oldPrice}
+                                      {formatPrice(product.oldPrice)}
                                     </div>
                                   )}
                                 </div>
