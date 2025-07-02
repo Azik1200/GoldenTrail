@@ -58,8 +58,7 @@ function CardItem() {
         <div className="productCard_top">
           <div className="productCard_main-info">
             <div className="productCard_img">
-              {/* <img src={product.img} alt={product.name} /> */}
-              <img src={image} alt={product.name} />
+              <img src={product.img} alt={product.name} />
             </div>
             <div className="productCard_status">{product.status}</div>
             <div className="productCard_btns">
