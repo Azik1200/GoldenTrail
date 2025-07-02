@@ -4,7 +4,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
-import heroImg from "../../assets/img/girlBaner.png";
 import { useContext } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
 import slideContent from "../../data/slidesContent";
