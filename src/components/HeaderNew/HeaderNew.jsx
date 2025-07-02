@@ -1,8 +1,10 @@
 import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import logo from "./../../assets/img/Logo.svg";
-import searchResult1 from "./../../assets/img/searchResult1.png";
-import searchResult2 from "./../../assets/img/searchResult2.png";
 import { fetchCatalogs } from "../../api/catalogs";
+import useProducts from "../../hooks/useProducts";
+import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 import { LanguageContext } from "../../context/LanguageContext";
 import "./HeaderNew.scss";
 
@@ -11,6 +13,14 @@ const HeaderNew = () => {
   const [activeTab, setActiveTab] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchHistory, setSearchHistory] = useState(() => {
+    const stored = localStorage.getItem("searchHistory");
+    return stored ? JSON.parse(stored) : [];
+  });
+  const products = useProducts();
+  const dispatch = useDispatch();
   const { language, setLanguage, t } = useContext(LanguageContext);
 
   useEffect(() => {
@@ -45,6 +55,32 @@ const HeaderNew = () => {
       setActiveTab(`cat-${catalogs[0].id}`);
     }
   }, [catalogs, activeTab]);
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setSearchResults([]);
+      return;
+    }
+    const q = searchQuery.toLowerCase();
+    setSearchResults(products.filter((p) => p.name.toLowerCase().includes(q)));
+  }, [searchQuery, products]);
+
+  const addToHistory = (query) => {
+    if (!query.trim()) return;
+    setSearchHistory((prev) => {
+      const newHistory = [query, ...prev.filter((q) => q !== query)].slice(0, 5);
+      localStorage.setItem("searchHistory", JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
+
+  const removeFromHistory = (query) => {
+    setSearchHistory((prev) => {
+      const newHistory = prev.filter((q) => q !== query);
+      localStorage.setItem("searchHistory", JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
 
   useEffect(() => {
     const burger = document.getElementById("burgerID");
@@ -356,11 +392,16 @@ const HeaderNew = () => {
                   name="search"
                   id="headerNewSearchInput"
                   placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </form>
               <button
                 className="headerNewCloseBtn"
-                onClick={() => setIsSearchOpen(false)}
+                onClick={() => {
+                  setIsSearchOpen(false);
+                  setSearchQuery("");
+                }}
               >
                 <span></span>
                 <span></span>
@@ -371,75 +412,75 @@ const HeaderNew = () => {
           <div className="headerResults">
             <div className="container">
               <div className="headerResultsWrapper">
-                <div className="headerResultsPlus">
-                  <ul className="headerResultsList">
-                    <li className="headerResultsListItem">
-                      <a href="#">
-                        <div className="headerResultsListItem_wrapper">
-                          <div className="headerResultsListItem_img">
-                            <img src={searchResult1} alt="searchResult1" />
-                          </div>
-                          <div className="headerResultsListItem_wrapper-inner">
-                            <div className="headerResultsListItem_name">
-                              Фартук рентгенозащитный
-                            </div>
-                            <div className="headerResultsListItem_price">
-                              <div className="headerResultsListItem_price-actual">
-                                7 800 ₽
+                {searchResults.length > 0 ? (
+                  <div className="headerResultsPlus">
+                    <ul className="headerResultsList">
+                      {searchResults.map((product) => (
+                        <li key={product.id} className="headerResultsListItem">
+                          <Link
+                            to={`/desc/${product.id}`}
+                            onClick={() => {
+                              dispatch(setCurrentProduct(product));
+                              addToHistory(searchQuery);
+                              setIsSearchOpen(false);
+                              setSearchQuery("");
+                            }}
+                          >
+                            <div className="headerResultsListItem_wrapper">
+                              <div className="headerResultsListItem_img">
+                                <img src={product.img} alt={product.name} />
                               </div>
-                              <div className="headerResultsListItem_price-old">
-                                11 300 ₽
+                              <div className="headerResultsListItem_wrapper-inner">
+                                <div className="headerResultsListItem_name">
+                                  {product.name}
+                                </div>
+                                <div className="headerResultsListItem_price">
+                                  <div className="headerResultsListItem_price-actual">
+                                    {product.mainPrice}
+                                  </div>
+                                  {product.oldPrice && (
+                                    <div className="headerResultsListItem_price-old">
+                                      {product.oldPrice}
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li className="headerResultsListItem">
-                      <a href="#">
-                        <div className="headerResultsListItem_wrapper">
-                          <div className="headerResultsListItem_img">
-                            <img src={searchResult2} alt="searchResult2" />
-                          </div>
-                          <div className="headerResultsListItem_wrapper-inner">
-                            <div className="headerResultsListItem_name">
-                              Очки рентгенозащитные
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : searchQuery ? (
+                  <div className="headerResultsMinus">
+                    <p className="headerNewSearchResultsMinus">
+                      По вашему запросу ничего не найдено
+                    </p>
+                  </div>
+                ) : (
+                  searchHistory.length > 0 && (
+                    <div className="headerResultsStory">
+                      <ul className="headerResultsStoryList">
+                        {searchHistory.map((item) => (
+                          <li key={item} className="headerResultsStoryListItem">
+                            <div
+                              className="headerResultsStoryListItemName"
+                              onClick={() => setSearchQuery(item)}
+                            >
+                              {item}
                             </div>
-                            <div className="headerResultsListItem_price">
-                              <div className="headerResultsListItem_price-actual">
-                                4 200 ₽
-                              </div>
-                              <div className="headerResultsListItem_price-old"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="headerResultsMinus">
-                  <p className="headerNewSearchResultsMinus">
-                    По вашему запросу ничего не найдено
-                  </p>
-                </div>
-                <div className="headerResultsStory">
-                  <ul className="headerResultsStoryList">
-                    <li className="headerResultsStoryListItem">
-                      <div className="headerResultsStoryListItemName">
-                        Защита от мошенников
-                      </div>
-                      <button className="headerResultsStoryListItemBtn">
-                        Удалить
-                      </button>
-                    </li>
-                    <li className="headerResultsStoryListItem">
-                      <div className="headerResultsStoryListItemName">Защи</div>
-                      <button className="headerResultsStoryListItemBtn">
-                        Удалить
-                      </button>
-                    </li>
-                  </ul>
-                </div>
+                            <button
+                              className="headerResultsStoryListItemBtn"
+                              onClick={() => removeFromHistory(item)}
+                            >
+                              Удалить
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>
