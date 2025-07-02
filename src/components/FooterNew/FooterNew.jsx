@@ -4,15 +4,15 @@ import logo from "./../../assets/img/Logo.svg";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
-import { fetchCategories } from "../../api/categories";
+import { fetchCatalogs } from "../../api/catalogs";
 
 const FooterNew = () => {
   const { t, language } = useContext(LanguageContext);
-  const [categories, setCategories] = useState([]);
+  const [catalogs, setCatalogs] = useState([]);
 
   useEffect(() => {
-    fetchCategories()
-      .then((data) => setCategories(data))
+    fetchCatalogs()
+      .then((data) => setCatalogs(Array.isArray(data) ? data : []))
       .catch((err) => console.error(err));
   }, [language]);
 
@@ -107,16 +107,16 @@ const FooterNew = () => {
               </ul>
               </div>
               <div className="footerNewCatalogs">
-                {categories.map((cat) => (
+                {catalogs.map((cat) => (
                   <div key={cat.id} className="footerNewCatalogItem">
                     <div className="footerNewCatalogItemName">{cat.name}</div>
                     <ul className="footerNewCatalogItemList">
-                      {cat.children?.map((child) => (
+                      {cat.categories?.map((child) => (
                         <li
                           key={child.id}
                           className="footerNewCatalogItemListItem"
                         >
-                          {child.name || child.slug}
+                          <a href="#">{child.name || child.slug}</a>
                         </li>
                       ))}
                     </ul>
