@@ -409,7 +409,8 @@ const HeaderNew = () => {
             </div>
           </div>
 
-          <div className="headerResults">
+          {(searchHistory.length > 0 || searchQuery) && (
+            <div className="headerResults">
             <div className="container">
               <div className="headerResultsWrapper">
                 {searchResults.length > 0 ? (
@@ -484,6 +485,7 @@ const HeaderNew = () => {
               </div>
             </div>
           </div>
+        )
         </div>
         )}
       </div>
