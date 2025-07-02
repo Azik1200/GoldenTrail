@@ -116,7 +116,7 @@ const FooterNew = () => {
                           key={child.id}
                           className="footerNewCatalogItemListItem"
                         >
-                          <a href="#">{child.name || child.slug}</a>
+                          <Link to="/Filter">{child.name || child.slug}</Link>
                         </li>
                       ))}
                     </ul>
@@ -152,7 +152,7 @@ const FooterNew = () => {
               </div>
               <div className="footerNewBottomRight">
                 <p className="footerNewBottomLink">2025</p>
-                <a href="#" className="footerNewBottomLink">
+                <a href="/" className="footerNewBottomLink">
                   {t("footer.development")}
                 </a>
               </div>
