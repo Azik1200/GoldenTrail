@@ -175,10 +175,12 @@ const HeaderNew = () => {
                 >
                   {t("header.products")}
                 </button>
-                <a href="#" className="headerNew_nav_btn">
+                <Link to="/about" className="headerNew_nav_btn">
                   {t("header.about")}
+                </Link>
+                <a href="#contacts" className="headerNew_nav_btn">
+                  {t("header.contacts")}
                 </a>
-                <button className="headerNew_nav_btn">{t("header.contacts")}</button>
               </div>
               <div className="headerNew_functions">
                 <button
@@ -205,7 +207,7 @@ const HeaderNew = () => {
                     />
                   </svg>
                 </button>
-                <a href="#" className="headerNew_functions_btn">
+                <Link to="/favorites" className="headerNew_functions_btn">
                   <svg
                     width="21"
                     height="22"
@@ -219,8 +221,8 @@ const HeaderNew = () => {
                       strokeWidth="1.5"
                     />
                   </svg>
-                </a>
-                <a href="#" className="headerNew_functions_btn">
+                </Link>
+                <Link to="/Busket" className="headerNew_functions_btn">
                   <svg
                     width="21"
                     height="22"
@@ -233,8 +235,8 @@ const HeaderNew = () => {
                       fill="white"
                     />
                   </svg>
-                </a>
-                <a href="#" className="headerNew_functions_btn">
+                </Link>
+                <Link to="/LR" className="headerNew_functions_btn">
                   <svg
                     width="22"
                     height="22"
@@ -248,7 +250,7 @@ const HeaderNew = () => {
                       fill="white"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
               <div className="headerNew_right">
                 <div className="headerNew_languages">
@@ -315,7 +317,7 @@ const HeaderNew = () => {
                           key={c.id}
                           className="headerDropdownDesktop_categories_item"
                         >
-                          <a href="#">{c.name || c.slug}</a>
+                          <Link to="/Filter">{c.name || c.slug}</Link>
                         </li>
                       ))}
                     </ul>
@@ -371,7 +373,7 @@ const HeaderNew = () => {
                           key={c.id}
                           className="headerDropdownMobile_wrapper_second-inner-list-item"
                         >
-                          <a href="#">{c.name || c.slug}</a>
+                          <Link to="/Filter">{c.name || c.slug}</Link>
                         </li>
                       ))}
                     </ul>
@@ -512,7 +514,7 @@ const HeaderNew = () => {
                 />
               </svg>
             </button>
-            <a href="#" className="headerNew_functions_btn">
+            <Link to="/favorites" className="headerNew_functions_btn">
               <svg
                 width="21"
                 height="22"
@@ -526,8 +528,8 @@ const HeaderNew = () => {
                   strokeWidth="1.5"
                 />
               </svg>
-            </a>
-            <a href="#" className="headerNew_functions_btn">
+            </Link>
+            <Link to="/Busket" className="headerNew_functions_btn">
               <svg
                 width="21"
                 height="22"
@@ -540,8 +542,8 @@ const HeaderNew = () => {
                   fill="white"
                 />
               </svg>
-            </a>
-            <a href="#" className="headerNew_functions_btn">
+            </Link>
+            <Link to="/LR" className="headerNew_functions_btn">
               <svg
                 width="22"
                 height="22"
@@ -555,7 +557,7 @@ const HeaderNew = () => {
                   fill="white"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
