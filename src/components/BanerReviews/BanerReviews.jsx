@@ -7,6 +7,9 @@ import { Pagination } from "swiper/modules";
 import heroImg from "../../assets/img/girlBaner.png";
 import { useContext } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
+import slideContent from "../../data/slidesContent";
+
+import { Autoplay } from "swiper/modules";
 
 function BanerReviews() {
   const { t } = useContext(LanguageContext);
@@ -14,26 +17,27 @@ function BanerReviews() {
     <>
       <div className="mainBanner__container">
         <Swiper
-          modules={[Pagination]}
+          modules={[Pagination, Autoplay]}
           pagination={{ el: ".customPagination", clickable: true }}
           loop={true}
           className="heroSwiper"
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
         >
-          {[...Array(3)].map((_, i) => (
+          {slideContent.map((slide, i) => (
             <SwiperSlide key={i}>
               <div className="container">
                 <div className="heroWrapper">
                   <div className="heroContent">
-                    <span className="heroBadge">{t("hero.badge")}</span>
-                    <h1 className="heroTitle">{t("hero.title")}</h1>
-                    <p className="heroSubtitle">{t("hero.subtitle")}</p>
-                    <a href="#" className="heroLink">
+                    <span className="heroBadge">{slide.badge}</span>
+                    <h1 className="heroTitle">{slide.title}</h1>
+                    <p className="heroSubtitle">{slide.subtitle}</p>
+                    <a href={slide.link} className="heroLink">
                       {t("hero.go_to_catalog")}
                     </a>
                   </div>
                   <div className="heroImg__wrapper">
                     <div className="heroImg">
-                      <img src={heroImg} alt="Медицинская защита" />
+                      <img src={slide.image} alt={slide.title} />
                     </div>
                   </div>
                 </div>

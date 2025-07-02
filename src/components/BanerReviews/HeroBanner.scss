@@ -8,7 +8,7 @@
     justify-content: space-between;
     gap: 16px;
     margin-top: 44px;
-    align-items: flex-start;
+    align-items: stretch;
     .heroContent {
       max-width: 60%;
       margin-top: 30px;
@@ -39,11 +39,16 @@
       }
     }
     .heroImg__wrapper {
-      display: contents;
+      display: flex;
+      width: 40%;
+      align-items: stretch;
+      justify-content: center;
     }
     .heroImg {
-      max-width: 40%;
+      max-width: 100%;
       position: relative;
+      display: flex;
+      align-items: flex-end;
     }
     .heroImg::after {
       content: "";
@@ -78,6 +83,29 @@
   }
 }
 
+/* HeroBanner.scss */
+
+.mainBanner__container,
+.heroSwiper,
+.swiper-wrapper,
+.swiper-slide {
+  height: 100%;
+}
+
+/* Чтобы .heroWrapper растягивался на всю высоту */
+.heroWrapper {
+  min-height: 460px; // можно и просто height: 100%
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mainBanner__container {
+  height: 460px;
+  position: relative;
+  overflow: hidden;
+}
+
 @media screen and (max-width: 880px) {
   .mainBanner__container .heroWrapper {
     flex-direction: column;
@@ -91,6 +119,9 @@
   .mainBanner__container .heroWrapper .heroContent {
     max-width: unset;
   }
+  .mainBanner__container {
+    height: 720px;
+  }
 }
 
 @media screen and (max-width: 540px) {
@@ -99,8 +130,12 @@
   }
   .mainBanner__container .heroWrapper {
     gap: 32px;
+    margin-top: 80px;
   }
   .mainBanner__container .heroWrapper .heroImg {
     max-width: unset;
+  }
+  .mainBanner__container {
+    height: 640px;
   }
 }

@@ -30,6 +30,10 @@
   }
 }
 
+.AboutPic-img {
+  max-width: 40%;
+}
+
 @media screen and (max-width: 768px) {
   .container-About {
     margin: 0 auto;
@@ -60,12 +64,15 @@
       }
     }
   }
+
+  .AboutPic-img {
+    max-width: 100%;
+  }
 }
 
-@media screen and (max-width: 677px) {
+@media screen and (max-width: 540px) {
   .container-About {
     margin: 0 auto;
-    padding: 0 50px;
     margin-top: 100px;
     .about-block {
       display: flex;
@@ -75,7 +82,7 @@
         margin-top: 48px;
         .About-Descs {
           margin-bottom: 16px;
-          width: 500px;
+          // width: 500px;
           .About-Desc {
             font-family: $font-regular;
             font-weight: 400;
@@ -90,108 +97,6 @@
           width: 100%;
           height: 100%;
           object-fit: cover;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .container-About {
-    margin: 0 auto;
-    padding: 0 48px;
-    margin-top: 100px;
-    .about-block {
-      display: flex;
-      flex-direction: column-reverse;
-      width: 400px;
-      margin: 0 auto;
-      .About-Info {
-        width: 400px;
-        margin-top: 48px;
-        .About-Descs {
-          margin-bottom: 36px;
-          width: 400px;
-          .About-Desc {
-            font-family: $font-regular;
-            font-weight: 400;
-            font-size: 15px;
-            margin-bottom: 16px;
-          }
-        }
-      }
-      .AboutPic-img {
-        width: 432px;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 490px) {
-  .container-About {
-    margin: 0 auto;
-    padding: 0 42px;
-    margin-top: 100px;
-    .about-block {
-      display: flex;
-      flex-direction: column-reverse;
-      width: 300px;
-      margin: 0 auto;
-      .About-Info {
-        width: 400px;
-        margin-top: 48px;
-        .About-Descs {
-          margin-bottom: 36px;
-          width: 300px;
-          .About-Desc {
-            font-family: $font-regular;
-            font-weight: 400;
-            font-size: 15px;
-            margin-bottom: 16px;
-          }
-        }
-      }
-      .AboutPic-img {
-        width: 300px;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 360px) {
-  .container-About {
-    margin: 0 auto;
-    padding: 0 24px;
-    margin-top: 100px;
-    .about-block {
-      display: flex;
-      flex-direction: column-reverse;
-      .About-Info {
-        width: 312px;
-        .About-Descs {
-          display: flex;
-          flex-direction: column;
-          .About-Desc {
-            font-family: $font-regular;
-            font-weight: 400;
-            font-size: 16px;
-          }
-        }
-      }
-      .AboutPic-img {
-        width: 312px;
-        img {
-          width: 312px;
         }
       }
     }

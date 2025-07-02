@@ -17,6 +17,9 @@ import ErrorBlock from "./components/Error/Error";
 import Footer from "./components/Footer/Footer";
 import MyMap from "./components/myMap/myMap";
 import HeaderNew from "./components/HeaderNew/HeaderNew";
+import FooterNew from "./components/FooterNew/FooterNew";
+import PrivacyPolicy from "./pages/Policy/PrivacyPolicy";
+import TermsOfService from "./pages/Policy/TermsOfService";
 
 function App() {
   const location = useLocation();
@@ -56,9 +59,12 @@ function App() {
         <Route path="/Filter" element={<FilteredProducts />} />
         <Route path="/LR/ResetParol" element={<ResetParol />} />
         <Route path="/Error" element={<ErrorBlock />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
       </Routes>
-      <MyMap />
-      <Footer />
+      {/* <MyMap /> */}
+      <FooterNew />
+      {/* <Footer /> */}
     </>
   );
 }

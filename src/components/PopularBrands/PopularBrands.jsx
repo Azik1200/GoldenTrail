@@ -2,7 +2,12 @@ import React, { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules"; // Импорт модуля Autoplay
 
-import amazonLogo from "../../assets/img/amazon-logo.png";
+// import amazonLogo from "../../assets/img/amazon-logo.png";
+import brand1 from "../../assets/img/SVG/brand1.svg";
+import brand2 from "../../assets/img/SVG/brand2.svg";
+import brand3 from "../../assets/img/SVG/brand3.svg";
+import brand4 from "../../assets/img/SVG/brand4.svg";
+import brand5 from "../../assets/img/SVG/brand5.svg";
 import "swiper/css";
 
 import "./PopularBrands.scss";
@@ -46,13 +51,59 @@ const PopularBrands = () => {
           }}
           className="PopularBrandsSwiper"
         >
-          {[...Array(8)].map((_, index) => (
-            <SwiperSlide key={index}>
-              <div className="logo-img">
-                <img src={amazonLogo} alt="Amazon" />
-              </div>
-            </SwiperSlide>
-          ))}
+          {/* {[...Array(8)].map((_, index) => ( */}
+          <SwiperSlide key="brand1">
+            <div className="logo-img">
+              <img src={brand1} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand2">
+            <div className="logo-img">
+              <img src={brand2} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand3">
+            <div className="logo-img">
+              <img src={brand3} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand4">
+            <div className="logo-img">
+              <img src={brand4} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand5">
+            <div className="logo-img">
+              <img src={brand5} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand1">
+            <div className="logo-img">
+              <img src={brand1} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand2">
+            <div className="logo-img">
+              <img src={brand2} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand3">
+            <div className="logo-img">
+              <img src={brand3} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand4">
+            <div className="logo-img">
+              <img src={brand4} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide key="brand5">
+            <div className="logo-img">
+              <img src={brand5} alt="Amazon" />
+            </div>
+          </SwiperSlide>
+
+          {/* ))} */}
         </Swiper>
       </div>
     </>

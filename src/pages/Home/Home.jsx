@@ -10,6 +10,7 @@ import OrderEasily from "../../components/OrderEasily/OrderEasily";
 import PopularBrands from "../../components/PopularBrands/PopularBrands";
 import ProductCategories from "../../components/ProductCategories/ProductCategories";
 import Reviews from "../../components/Reviews/Reviews";
+import Sertificates from "../../components/Sertificates/Sertificates";
 import WideUsage from "../../components/WideUsage/WideUsage";
 
 function Home() {
@@ -24,8 +25,9 @@ function Home() {
       <BestSellers />
       <ChoseProffesional />
       <WideUsage />
+      <Sertificates />
       <Advantages />
-      <Reviews />
+      {/* <Reviews /> */}
       <OrderEasily />
     </>
   );

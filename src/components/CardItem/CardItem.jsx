@@ -14,6 +14,8 @@ import { addFavorite, productToFavorite } from "../../api/favorites";
 import BuyModal from "../BuyModal/BuyModal";
 import useProducts from "../../hooks/useProducts";
 
+import image from "./../../assets/img/bahil.png";
+
 function CardItem() {
   const { t } = useContext(LanguageContext);
   const dispatch = useDispatch();
@@ -55,11 +57,15 @@ function CardItem() {
         <div className="productCard_top">
           <div className="productCard_main-info">
             <div className="productCard_img">
-              <img src={product.img} alt={product.name} />
+              {/* <img src={product.img} alt={product.name} /> */}
+              <img src={image} alt={product.name} />
             </div>
             <div className="productCard_status">{product.status}</div>
             <div className="productCard_btns">
-              <button className="productCard_btn baasket" onClick={handleAdd}></button>
+              <button
+                className="productCard_btn baasket"
+                onClick={handleAdd}
+              ></button>
               <button
                 className={`productCard_btn fav${
                   favorites.find(
@@ -95,8 +101,14 @@ function CardItem() {
         <div className="productCard_bottom">
           <div className="productCard_bottom-info">
             <div className="productCard_price">
-              <div className="productCard_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="productCard_price_old-price">{product.oldPrice}</div>}
+              <div className="productCard_price_main-price">
+                {product.mainPrice}
+              </div>
+              {product.oldPrice && (
+                <div className="productCard_price_old-price">
+                  {product.oldPrice}
+                </div>
+              )}
             </div>
             <ul className="productCard_colors">
               {product.colors.map((c, index) => (
@@ -124,7 +136,11 @@ function CardItem() {
             <button className="btn-main" onClick={() => setIsModalOpen(true)}>
               {t("products_block.buy")}
             </button>
-            <Link to={`/desc/${product.id}`} className="link-main" onClick={() => dispatch(setCurrentProduct(product))}>
+            <Link
+              to={`/desc/${product.id}`}
+              className="link-main"
+              onClick={() => dispatch(setCurrentProduct(product))}
+            >
               {t("products_block.more")}
             </Link>
             {isModalOpen && <BuyModal onClose={() => setIsModalOpen(false)} />}
@@ -135,12 +151,15 @@ function CardItem() {
   };
 
   return (
-    <div className="container-productCard">
-      <h2>{t("products_block.popular")}</h2>
-      <div className="productCard-objs">
-        {products.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+    <div className="container">
+      {" "}
+      <div className="container-productCard">
+        <h2>{t("products_block.popular")}</h2>
+        <div className="productCard-objs">
+          {products.map((product) => (
+            <Item key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );
