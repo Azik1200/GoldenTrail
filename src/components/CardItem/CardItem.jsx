@@ -15,7 +15,6 @@ import BuyModal from "../BuyModal/BuyModal";
 import useProducts from "../../hooks/useProducts";
 import formatPrice from "../../utils/formatPrice";
 
-import image from "./../../assets/img/bahil.png";
 
 function CardItem() {
   const { t } = useContext(LanguageContext);

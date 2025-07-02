@@ -31,7 +31,7 @@ function ChoseProffesional() {
       console.error(err);
     }
   };
-  const products = useProducts();
+  const products = useProducts().slice(0, 6);
 
   const Item = ({ product }) => {
     const [size, setSize] = useState(product.sizes?.[0] || "");
