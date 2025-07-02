@@ -22,16 +22,48 @@ const ProductCard = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(product?.colors?.[0] || '');
   const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || '');
+  const [imagesReady, setImagesReady] = useState(false);
 
   useEffect(() => {
     setSelectedColor(product?.colors?.[0] || '');
     setSelectedSize(product?.sizes?.[0] || '');
   }, [product]);
 
+  useEffect(() => {
+    let active = true;
+    setImagesReady(false);
+    if (product?.images?.length) {
+      Promise.all(
+        product.images.map((src) =>
+          new Promise((resolve) => {
+            const img = new Image();
+            img.src = src;
+            if (img.complete) {
+              resolve();
+            } else {
+              img.onload = img.onerror = () => resolve();
+            }
+          })
+        )
+      ).then(() => {
+        if (active) setImagesReady(true);
+      });
+    } else {
+      setImagesReady(true);
+    }
+    return () => {
+      active = false;
+    };
+  }, [product]);
+
   if (!product) {
     return (
       <div className={styles.ProductWrapper}>{t('product_page.product_not_selected')}</div>
     );
+  }
+
+  if (!imagesReady) {
+    return <div className={styles.ProductWrapper}>{t('product_page.loading')}</div>;
   }
 
   return (
@@ -42,6 +74,8 @@ const ProductCard = ({ product }) => {
             modules={[Navigation, Thumbs]}
             thumbs={{ swiper: thumbsSwiper }}
             navigation
+            observer
+            observeParents
             className={styles.mainSwiper}
           >
             {product.images?.map((img, idx) => (
@@ -57,6 +91,8 @@ const ProductCard = ({ product }) => {
             slidesPerView={4}
             spaceBetween={10}
             watchSlidesProgress
+            observer
+            observeParents
             className={styles.thumbSwiper}
           >
             {product.images?.map((img, idx) => (
