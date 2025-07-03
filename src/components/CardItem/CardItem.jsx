@@ -1,7 +1,7 @@
 import "./CardItem.scss";
 
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useMemo } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 
@@ -32,6 +32,11 @@ function CardItem() {
     }
   };
   const products = useProducts().filter((p) => p.is_popular);
+
+  const randomProducts = useMemo(() => {
+    const shuffled = [...products].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 3);
+  }, [products]);
 
   const Item = ({ product }) => {
     const [size, setSize] = useState(product.sizes?.[0] || "");
@@ -155,7 +160,7 @@ function CardItem() {
       <div className="container-productCard">
         <h2>{t("products_block.popular")}</h2>
         <div className="productCard-objs">
-          {products.map((product) => (
+          {randomProducts.map((product) => (
             <Item key={product.id} product={product} />
           ))}
         </div>
