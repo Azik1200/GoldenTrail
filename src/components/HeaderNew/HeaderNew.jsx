@@ -412,9 +412,10 @@ const HeaderNew = () => {
             </div>
           </div>
 
-          <div className="headerResults">
-            <div className="container">
-              <div className="headerResultsWrapper">
+          {(searchQuery || searchHistory.length > 0) && (
+            <div className="headerResults">
+              <div className="container">
+                <div className="headerResultsWrapper">
                 {searchResults.length > 0 ? (
                   <div className="headerResultsPlus">
                     <ul className="headerResultsList">
@@ -484,11 +485,11 @@ const HeaderNew = () => {
                     </div>
                   )
                 )}
+                </div>
               </div>
             </div>
+          )}
           </div>
-        </div>
-        )}
       </div>
       <div className="headerFunctionsMobile">
         <div className="container">
