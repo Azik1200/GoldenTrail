@@ -494,17 +494,14 @@
 
 @import "./../../styles/utils/variables";
 
-.productCard {
-  background: red;
-}
-
 .container-productCard {
   margin-top: 160px;
 }
 
 .productCard-objs {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  // grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 16px;
   align-items: stretch;
 }
@@ -558,6 +555,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-bottom: 8px;
 }
 
 .productCard_price_main-price {
@@ -601,4 +599,14 @@
     aspect-ratio: 1/1;
     display: block;
   }
+}
+
+.productCard_sizes {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.productCard_action {
+  white-space: nowrap;
 }
