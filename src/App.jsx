@@ -28,6 +28,8 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
     const loadFavs = async () => {
       try {
         const data = await fetchFavorites();

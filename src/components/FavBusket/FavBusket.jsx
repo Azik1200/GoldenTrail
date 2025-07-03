@@ -27,6 +27,8 @@ function FavBusket() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
     const load = async () => {
       try {
         const data = await fetchFavorites();
