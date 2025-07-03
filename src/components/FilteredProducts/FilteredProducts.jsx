@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/CardSlice";
 import { addCartItem, productToCartItem } from "../../api/cart";
 import { optionKey, optionValue, optionLabel } from "../../utils/options";
+import formatPrice from "../../utils/formatPrice";
 import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 
@@ -151,11 +152,11 @@ function FilteredProducts() {
           <div className="FilteredProducts_bottom-info">
             <div className="FilteredProducts_price">
               <div className="FilteredProducts_price_main-price">
-                {product.mainPrice}
+                {formatPrice(product.mainPrice)}
               </div>
               {product.oldPrice && (
                 <div className="FilteredProducts_price_old-price">
-                  {product.oldPrice}
+                  {formatPrice(product.oldPrice)}
                 </div>
               )}
             </div>

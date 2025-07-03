@@ -13,6 +13,7 @@ import cart from '../../assets/img/cartb.svg';
 import { LanguageContext } from '../../context/LanguageContext';
 
 import styles from './ProductCard.module.css';
+import formatPrice from '../../utils/formatPrice';
 
 const ProductCard = ({ product }) => {
   const { t } = useContext(LanguageContext);
@@ -118,9 +119,9 @@ const ProductCard = ({ product }) => {
           </div>
 
           <div className={styles.priceBlock}>
-            <div className={styles.currentPrice}>{product.mainPrice}</div>
+            <div className={styles.currentPrice}>{formatPrice(product.mainPrice)}</div>
             {product.oldPrice && (
-              <div className={styles.oldPrice}>{product.oldPrice}</div>
+              <div className={styles.oldPrice}>{formatPrice(product.oldPrice)}</div>
             )}
           </div>
 

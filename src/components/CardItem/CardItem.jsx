@@ -13,6 +13,7 @@ import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 import BuyModal from "../BuyModal/BuyModal";
 import useProducts from "../../hooks/useProducts";
+import formatPrice from "../../utils/formatPrice";
 
 import image from "./../../assets/img/bahil.png";
 
@@ -57,8 +58,7 @@ function CardItem() {
         <div className="productCard_top">
           <div className="productCard_main-info">
             <div className="productCard_img">
-              {/* <img src={product.img} alt={product.name} /> */}
-              <img src={image} alt={product.name} />
+              <img src={product.img} alt={product.name} />
             </div>
             <div className="productCard_status">{product.status}</div>
             <div className="productCard_btns">
@@ -102,11 +102,11 @@ function CardItem() {
           <div className="productCard_bottom-info">
             <div className="productCard_price">
               <div className="productCard_price_main-price">
-                {product.mainPrice}
+                {formatPrice(product.mainPrice)}
               </div>
               {product.oldPrice && (
                 <div className="productCard_price_old-price">
-                  {product.oldPrice}
+                  {formatPrice(product.oldPrice)}
                 </div>
               )}
             </div>

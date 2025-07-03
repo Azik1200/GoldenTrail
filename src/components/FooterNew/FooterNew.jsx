@@ -2,8 +2,20 @@ import "./FooterNew.scss";
 import logo from "./../../assets/img/Logo.svg";
 
 import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { LanguageContext } from "../../context/LanguageContext";
+import { fetchCatalogs } from "../../api/catalogs";
 
 const FooterNew = () => {
+  const { t, language } = useContext(LanguageContext);
+  const [catalogs, setCatalogs] = useState([]);
+
+  useEffect(() => {
+    fetchCatalogs()
+      .then((data) => setCatalogs(Array.isArray(data) ? data : []))
+      .catch((err) => console.error(err));
+  }, [language]);
+
   return (
     <>
       <div className="footerNewContactsMapWrapper">
@@ -37,7 +49,7 @@ const FooterNew = () => {
                 <a href="tel:+994103231074">
                   <div className="contactsFooterListItemIcon phone"></div>
                   <div className="contactsFooterListItemText">
-                    +994 10 323 10 74
+                    +994 10 323 10 74
                   </div>
                 </a>
               </li>
@@ -75,109 +87,41 @@ const FooterNew = () => {
           <div className="footerNewTop">
             <div className="footerNewWrapper">
               <div className="footerNewItem">
-                <div className="footerNewItemName">Меню</div>
-                <ul className="footerNewItemList">
-                  <li className="footerNewItemListItem">
-                    <a href="#">Личный кабинет</a>
-                  </li>
-                  <li className="footerNewItemListItem">
-                    <a href="#">Вход/Регистрация</a>
-                  </li>
-                  <li className="footerNewItemListItem">
-                    <a href="#">Корзина</a>
-                  </li>
-                  <li className="footerNewItemListItem">
-                    <a href="#">Избранное</a>
-                  </li>
-                  <li className="footerNewItemListItem">
-                    <a href="#">О нас</a>
-                  </li>
-                </ul>
+              <div className="footerNewItemName">{t("footer.menu")}</div>
+              <ul className="footerNewItemList">
+                <li className="footerNewItemListItem">
+                    <Link to="/LR">{t("footer.personal")}</Link>
+                </li>
+                <li className="footerNewItemListItem">
+                    <Link to="/LR">{t("footer.login_registration")}</Link>
+                </li>
+                <li className="footerNewItemListItem">
+                    <Link to="/Busket">{t("footer.cart")}</Link>
+                </li>
+                <li className="footerNewItemListItem">
+                    <Link to="/favorites">{t("footer.favorites")}</Link>
+                </li>
+                <li className="footerNewItemListItem">
+                    <Link to="/about">{t("footer.about")}</Link>
+                </li>
+              </ul>
               </div>
               <div className="footerNewCatalogs">
-                <div className="footerNewCatalogItem">
-                  <div className="footerNewCatalogItemName">
-                    Рентгенозащитная продукция
+                {catalogs.map((cat) => (
+                  <div key={cat.id} className="footerNewCatalogItem">
+                    <div className="footerNewCatalogItemName">{cat.name}</div>
+                    <ul className="footerNewCatalogItemList">
+                      {cat.categories?.map((child) => (
+                        <li
+                          key={child.id}
+                          className="footerNewCatalogItemListItem"
+                        >
+                          <Link to="/Filter">{child.name || child.slug}</Link>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="footerNewCatalogItemList">
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Фартуки</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Юбки и жилеты</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Защитные халаты</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Комбинированные костюмы</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Брюшные и тазовые экраны</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Одеяла с защитой</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Колпаки и шапки</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Рентгенозащитные перчатки</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Защитные очки</a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="footerNewCatalogItem">
-                  <div className="footerNewCatalogItemName">
-                    Одноразовая продукция
-                  </div>
-                  <ul className="footerNewCatalogItemList">
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Медицинские перчатки</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Маски</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Колпаки и шапочки</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Халаты одноразовые</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Комбинезоны защитные</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Бахилы</a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="footerNewCatalogItem">
-                  <div className="footerNewCatalogItemName">
-                    Антисептики и дезинфекция
-                  </div>
-                  <ul className="footerNewCatalogItemList">
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Кожные антисептики</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Дезинфицирующие средства для поверхностей</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Средства для инструментов</a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">
-                        Средства для санитарной обработки помещений
-                      </a>
-                    </li>
-                    <li className="footerNewCatalogItemListItem">
-                      <a href="#">Дозаторы и аксессуары</a>
-                    </li>
-                  </ul>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -208,8 +152,8 @@ const FooterNew = () => {
               </div>
               <div className="footerNewBottomRight">
                 <p className="footerNewBottomLink">2025</p>
-                <a href="#" className="footerNewBottomLink">
-                  Разработка сайта <span>idarelab.az</span>
+                <a href="/" className="footerNewBottomLink">
+                  {t("footer.development")}
                 </a>
               </div>
             </div>

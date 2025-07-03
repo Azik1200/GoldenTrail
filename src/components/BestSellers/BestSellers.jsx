@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/CardSlice";
 import { addCartItem, productToCartItem } from "../../api/cart";
 import { optionKey, optionValue, optionLabel } from "../../utils/options";
+import formatPrice from "../../utils/formatPrice";
 import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 
@@ -99,14 +100,8 @@ function BestSellers() {
         <div className="BestSellers_bottom">
           <div className="BestSellers_bottom-info">
             <div className="BestSellers_price">
-              <div className="BestSellers_price_main-price">
-                {product.mainPrice}
-              </div>
-              {product.oldPrice && (
-                <div className="BestSellers_price_old-price">
-                  {product.oldPrice}
-                </div>
-              )}
+              <div className="BestSellers_price_main-price">{formatPrice(product.mainPrice)}</div>
+              {product.oldPrice && <div className="BestSellers_price_old-price">{formatPrice(product.oldPrice)}</div>}
             </div>
             <ul className="BestSellers_colors">
               {product.colors.map((c, index) => (

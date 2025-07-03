@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/CardSlice";
 import { addCartItem, productToCartItem } from "../../api/cart";
 import { optionKey, optionValue, optionLabel } from "../../utils/options";
+import formatPrice from "../../utils/formatPrice";
 import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 
@@ -99,14 +100,8 @@ function ChoseProffesional() {
         <div className="ChoseProffesional_bottom">
           <div className="ChoseProffesional_bottom-info">
             <div className="ChoseProffesional_price">
-              <div className="ChoseProffesional_price_main-price">
-                {product.mainPrice}
-              </div>
-              {product.oldPrice && (
-                <div className="ChoseProffesional_price_old-price">
-                  {product.oldPrice}
-                </div>
-              )}
+              <div className="ChoseProffesional_price_main-price">{formatPrice(product.mainPrice)}</div>
+              {product.oldPrice && <div className="ChoseProffesional_price_old-price">{formatPrice(product.oldPrice)}</div>}
             </div>
             <ul className="ChoseProffesional_colors">
               {product.colors.map((c, index) => (
