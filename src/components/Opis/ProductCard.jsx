@@ -78,10 +78,9 @@ const ProductCard = ({ product }) => {
                 {product.colors.map((color, index) => (
                   <button
                     key={index}
-                    className={`${styles.colorDot} ${
+                    className={`${styles.colorDot} ${styles[color] ?? ''} ${
                       selectedColor === color ? styles.active : ''
                     }`}
-                    style={{ background: color }}
                     onClick={() => setSelectedColor(color)}
                   />
                 ))}
