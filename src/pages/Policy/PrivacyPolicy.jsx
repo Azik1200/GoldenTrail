@@ -122,7 +122,7 @@ const PrivacyPolicyRu = () => (
       </div>
     </>
   );
-};
+
 
 const PrivacyPolicyAz = () => (
   <>
