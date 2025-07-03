@@ -14,7 +14,6 @@ import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 import formatPrice from "../../utils/formatPrice";
 import BuyModal from "../BuyModal/BuyModal";
 
-import image from "./../../assets/img/bahil.png";
 
 function NewProducts() {
   const { t } = useContext(LanguageContext);
@@ -84,11 +83,6 @@ function NewProducts() {
                 className={`newProducts_size-item${
                   optionKey(s) === optionKey(size) ? " active" : ""
                 }`}
-                style={
-                  optionKey(s) === optionKey(size)
-                    ? { border: "1px solid #000" }
-                    : {}
-                }
                 onClick={() => setSize(s)}
                 key={index}
               >

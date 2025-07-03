@@ -89,11 +89,6 @@ function CardItem() {
                 className={`productCard_size-item${
                   optionKey(s) === optionKey(size) ? " active" : ""
                 }`}
-                style={
-                  optionKey(s) === optionKey(size)
-                    ? { border: "1px solid #000" }
-                    : {}
-                }
                 onClick={() => setSize(s)}
                 key={index}
               >
