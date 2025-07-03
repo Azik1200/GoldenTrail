@@ -22,6 +22,10 @@ export default function transformProduct(product) {
     is_new: product.is_new,
     is_popular: product.is_popular,
     is_on_sale: product.is_on_sale,
-    desc: product.description || product.desc || '',
+    desc:
+      product.full_description ||
+      product.description ||
+      product.desc ||
+      '',
   };
 }
