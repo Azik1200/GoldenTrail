@@ -20,12 +20,16 @@ const ProductCard = ({ product }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [ready, setReady] = useState(false);
   const [selectedColor, setSelectedColor] = useState(product?.colors?.[0] || '');
   const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || '');
 
   useEffect(() => {
     setSelectedColor(product?.colors?.[0] || '');
     setSelectedSize(product?.sizes?.[0] || '');
+    if (product?.images?.length) {
+      setReady(true);
+    }
   }, [product]);
 
   if (!product) {
@@ -38,33 +42,41 @@ const ProductCard = ({ product }) => {
     <div className={styles.ProductWrapper}>
       <div className={styles.productCard}>
         <div className={styles.imageSection}>
-          <Swiper
-            modules={[Navigation, Thumbs]}
-            thumbs={{ swiper: thumbsSwiper }}
-            navigation
-            className={styles.mainSwiper}
-          >
-            {product.images?.map((img, idx) => (
-              <SwiperSlide key={idx}>
-                <img src={img} alt={`Product ${idx}`} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          {ready && (
+            <>
+              <Swiper
+                modules={[Navigation, Thumbs]}
+                thumbs={{ swiper: thumbsSwiper || null }}
+                navigation
+                observer
+                observeParents
+                className={styles.mainSwiper}
+              >
+                {product.images?.map((img, idx) => (
+                  <SwiperSlide key={idx}>
+                    <img src={img} alt={`Product ${idx}`} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
 
-          <Swiper
-            modules={[Thumbs]}
-            onSwiper={setThumbsSwiper}
-            slidesPerView={4}
-            spaceBetween={10}
-            watchSlidesProgress
-            className={styles.thumbSwiper}
-          >
-            {product.images?.map((img, idx) => (
-              <SwiperSlide key={idx}>
-                <img src={img} alt={`Thumb ${idx}`} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+              <Swiper
+                modules={[Thumbs]}
+                onSwiper={setThumbsSwiper}
+                slidesPerView={4}
+                spaceBetween={10}
+                watchSlidesProgress
+                observer
+                observeParents
+                className={styles.thumbSwiper}
+              >
+                {product.images?.map((img, idx) => (
+                  <SwiperSlide key={idx}>
+                    <img src={img} alt={`Thumb ${idx}`} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </>
+          )}
         </div>
 
         <div className={styles.infoSection}>
