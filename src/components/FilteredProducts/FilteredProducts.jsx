@@ -1,5 +1,5 @@
 import "./FilteredProducts.scss";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import up from "../../assets/img/up.svg";
 import vector from "../../assets/img/Vector.svg";
@@ -14,8 +14,7 @@ import formatPrice from "../../utils/formatPrice";
 import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 
-import { Link, useSearchParams } from "react-router-dom";
-import { LanguageContext } from "../../context/LanguageContext";
+import { Link } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 
 function FilteredProducts() {
@@ -29,9 +28,6 @@ function FilteredProducts() {
 
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
-  const [searchParams] = useSearchParams();
-  const { t } = useContext(LanguageContext);
-  const catalogParam = searchParams.get('catalog');
 
   useEffect(() => {
     fetchProductFilters()
@@ -49,36 +45,18 @@ function FilteredProducts() {
       console.error(err);
     }
   };
-  const products = useProducts({ catalog: catalogParam });
+  const filterParams = useMemo(() => {
+    const params = {};
+    if (selectedBrands.length) params.brands = selectedBrands;
+    if (selectedColors.length) params.colors = selectedColors;
+    if (selectedSizes.length) params.sizes = selectedSizes;
+    if (minPrice) params.min_price = minPrice;
+    if (maxPrice) params.max_price = maxPrice;
+    return params;
+  }, [selectedBrands, selectedColors, selectedSizes, minPrice, maxPrice]);
 
-  const filteredProducts = products.filter((product) => {
-    if (catalogParam) {
-      const slug = String(product.catalog_slug || product.catalog).toLowerCase();
-      const id = String(product.catalog_id);
-      if (slug !== catalogParam.toLowerCase() && id !== catalogParam) {
-        return false;
-      }
-    }
-    if (selectedBrands.length && product.brand && !selectedBrands.includes(product.brand)) {
-      return false;
-    }
-    if (
-      selectedColors.length &&
-      !product.colors.some((c) => selectedColors.includes(optionLabel(c)))
-    ) {
-      return false;
-    }
-    if (
-      selectedSizes.length &&
-      !product.sizes.some((s) => selectedSizes.includes(optionLabel(s)))
-    ) {
-      return false;
-    }
-    const price = parseFloat(product.mainPrice);
-    if (minPrice && price < parseFloat(minPrice)) return false;
-    if (maxPrice && price > parseFloat(maxPrice)) return false;
-    return true;
-  });
+  const products = useProducts(filterParams);
+  const filteredProducts = products;
 
   const toggleItem = (list, setList, value) => {
     setList((prev) =>
@@ -201,11 +179,9 @@ function FilteredProducts() {
     );
   };
 
-  const categoryKey = catalogParam || 'xr';
-
   return (
     <div className="FilteredProducts-container">
-      <h2>{t(`categories.${categoryKey}`)}</h2>
+      <h2>Рентгенозащитная продукция</h2>
       <div className="FilteredProducts-Buttons">
         <div className="FilteredProducts-filter">
           <div className="FilteredProducts-name">По умолчанию</div>

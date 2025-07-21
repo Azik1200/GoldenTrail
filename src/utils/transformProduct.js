@@ -16,8 +16,6 @@ export default function transformProduct(product) {
     sizes: product.sizes || [],
     colors: product.colors || [],
     brand: product.brand || product.brand_name || '',
-    catalog_id: product.catalog_id,
-    catalog_slug: product.catalog_slug || product.catalog,
     mainPrice: product.price,
     oldPrice: product.discount === '0.00' ? '' : product.discount,
     status,

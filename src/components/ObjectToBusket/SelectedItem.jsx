@@ -1,6 +1,5 @@
 import "./SelectedItem.scss";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   removeItem,
   increaseQuantity,
@@ -76,9 +75,9 @@ function SelectedItem() {
   }, 0);
 
   const categories = [
-    { id: 1, slug: "xr", name: t("categories.xr"), bg: person },
-    { id: 2, slug: "disposable", name: t("categories.disposable"), bg: bahyli },
-    { id: 3, slug: "antiseptics", name: t("categories.antiseptics"), bg: dezenfekiciya },
+    { id: 1, name: t("categories.xr"), bg: person },
+    { id: 2, name: t("categories.disposable"), bg: bahyli },
+    { id: 3, name: t("categories.antiseptics"), bg: dezenfekiciya },
   ];
 
   return (
@@ -97,12 +96,9 @@ function SelectedItem() {
                 style={{ backgroundImage: `url(${category.bg})` }}
               >
                 <h3 className="SelectedItem-category-name">{category.name}</h3>
-                <Link
-                  to={`/Filter?catalog=${category.slug}`}
-                  className="btn-main btn"
-                >
+                <button className="btn-main btn">
                   {t("busket.go_to_catalog")}
-                </Link>
+                </button>
               </div>
             ))}
           </div>

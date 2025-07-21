@@ -116,7 +116,7 @@ const FooterNew = () => {
                           key={child.id}
                           className="footerNewCatalogItemListItem"
                         >
-                          <Link to={`/Filter?catalog=${child.slug || child.id}`}>{child.name || child.slug}</Link>
+                          <Link to="/Filter">{child.name || child.slug}</Link>
                         </li>
                       ))}
                     </ul>

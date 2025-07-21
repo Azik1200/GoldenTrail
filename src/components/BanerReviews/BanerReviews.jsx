@@ -1,6 +1,5 @@
 import "./HeroBanner.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
@@ -31,9 +30,9 @@ function BanerReviews() {
                     <span className="heroBadge">{slide.badge}</span>
                     <h1 className="heroTitle">{slide.title}</h1>
                     <p className="heroSubtitle">{slide.subtitle}</p>
-                    <Link to={slide.link} className="heroLink">
+                    <a href={slide.link} className="heroLink">
                       {t("hero.go_to_catalog")}
-                    </Link>
+                    </a>
                   </div>
                   <div className="heroImg__wrapper">
                     <div className="heroImg">

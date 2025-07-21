@@ -317,7 +317,7 @@ const HeaderNew = () => {
                           key={c.id}
                           className="headerDropdownDesktop_categories_item"
                         >
-                          <Link to={`/Filter?catalog=${c.slug || c.id}`}>{c.name || c.slug}</Link>
+                          <Link to="/Filter">{c.name || c.slug}</Link>
                         </li>
                       ))}
                     </ul>
@@ -373,7 +373,7 @@ const HeaderNew = () => {
                           key={c.id}
                           className="headerDropdownMobile_wrapper_second-inner-list-item"
                         >
-                          <Link to={`/Filter?catalog=${c.slug || c.id}`}>{c.name || c.slug}</Link>
+                          <Link to="/Filter">{c.name || c.slug}</Link>
                         </li>
                       ))}
                     </ul>
