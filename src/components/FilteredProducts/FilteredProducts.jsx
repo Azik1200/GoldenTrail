@@ -1,5 +1,5 @@
 import "./FilteredProducts.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import up from "../../assets/img/up.svg";
 import vector from "../../assets/img/Vector.svg";
@@ -14,7 +14,7 @@ import formatPrice from "../../utils/formatPrice";
 import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 
 function FilteredProducts() {
@@ -27,19 +27,17 @@ function FilteredProducts() {
   const [maxPrice, setMaxPrice] = useState('');
   const location = useLocation();
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const [selectedCatalog, setSelectedCatalog] = useState(
-    searchParams.get("catalog") || ""
-  );
-  const [selectedCategory, setSelectedCategory] = useState(
-    searchParams.get("category") || ""
-  );
+  const initialCategory = searchParams.get("category") || "";
+  const initialCatalog = initialCategory ? "" : searchParams.get("catalog") || "";
+  const [selectedCatalog, setSelectedCatalog] = useState(initialCatalog);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const cat = params.get("catalog") || "";
     const category = params.get("category") || "";
-    setSelectedCatalog(cat);
+    const cat = category ? "" : params.get("catalog") || "";
     setSelectedCategory(category);
+    setSelectedCatalog(cat);
   }, [location.search]);
 
   const dispatch = useDispatch();
@@ -50,6 +48,17 @@ function FilteredProducts() {
       .then((data) => setFilterOptions(data))
       .catch((err) => console.error(err));
   }, []);
+
+  useEffect(() => {
+    if (filterOptions && selectedCategory) {
+      const found = filterOptions.catalogs?.find((cat) =>
+        cat.categories?.some((c) => c.slug === selectedCategory)
+      );
+      if (found && found.slug !== selectedCatalog) {
+        setSelectedCatalog(found.slug);
+      }
+    }
+  }, [filterOptions, selectedCategory, selectedCatalog]);
 
   const handleAddFav = async (product) => {
     try {
@@ -63,7 +72,7 @@ function FilteredProducts() {
   };
   const filterParams = useMemo(() => {
     const params = {};
-    if (selectedCatalog) params.catalog = selectedCatalog;
+    if (!selectedCategory && selectedCatalog) params.catalog = selectedCatalog;
     if (selectedCategory) params.category = selectedCategory;
     if (selectedBrands.length) params.brands = selectedBrands;
     if (selectedColors.length) params.colors = selectedColors;
