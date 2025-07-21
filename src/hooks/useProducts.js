@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
-import { fetchProducts, filterProducts } from '../api/products';
+import { fetchProducts } from '../api/products';
 import transformProduct from '../utils/transformProduct';
 
-export default function useProducts(filters) {
+export default function useProducts(params) {
   const [products, setProducts] = useState([]);
-  const key = JSON.stringify(filters || {});
+  const key = JSON.stringify(params || {});
 
   useEffect(() => {
-    const hasFilters = filters && Object.keys(filters).length > 0;
-    const loader = hasFilters ? filterProducts(filters) : fetchProducts();
-    loader
+    fetchProducts(params || {})
       .then((data) => setProducts(data.map(transformProduct)))
       .catch((err) => console.error(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
