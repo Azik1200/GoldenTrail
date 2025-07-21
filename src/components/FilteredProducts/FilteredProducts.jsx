@@ -247,6 +247,41 @@ function FilteredProducts() {
         </button>
       </div>
 
+      <div className="FilteredProducts-All-buttns">
+        {!selectedCategory && selectedCatalog && (
+          <div className="FilteredProducts-All-btn">
+            {filterOptions?.catalogs?.find((c) => c.slug === selectedCatalog)?.name || selectedCatalog}
+          </div>
+        )}
+        {selectedCategory && (
+          <div className="FilteredProducts-All-btn">
+            {filterOptions?.catalogs?.flatMap((c) => c.categories || []).find((c) => c.slug === selectedCategory)?.name || selectedCategory}
+          </div>
+        )}
+        {selectedBrands.map((b) => (
+          <div key={`brand-${b}`} className="FilteredProducts-All-btn">
+            {b}
+          </div>
+        ))}
+        {selectedColors.map((c) => (
+          <div key={`color-${optionKey(c)}`} className="FilteredProducts-All-btn">
+            {optionLabel(c)}
+          </div>
+        ))}
+        {selectedSizes.map((s) => (
+          <div key={`size-${optionKey(s)}`} className="FilteredProducts-All-btn">
+            {optionLabel(s)}
+          </div>
+        ))}
+        {(minPrice || maxPrice) && (
+          <div className="FilteredProducts-All-btn">
+            {minPrice ? `От ${minPrice}` : ''}
+            {minPrice && maxPrice ? ' - ' : ''}
+            {maxPrice ? `До ${maxPrice}` : ''}
+          </div>
+        )}
+      </div>
+
       {sidebarOpen && filterOptions && (
         <div className="FilterSidebar">
           <div className="FilterSidebar-header">

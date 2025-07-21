@@ -70,7 +70,9 @@
   background-color: rgb(127, 127, 127);
   padding: 6px 28px;
   min-width: 195px;
-  height: 34px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .FilteredProducts-objs {
