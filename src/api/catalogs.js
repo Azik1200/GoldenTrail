@@ -4,7 +4,7 @@ export async function fetchCatalogs() {
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
   const headers = {};
-  if (language) headers['X-Language'] = language;
+  if (language) headers['Accept-Language'] = language;
   const resp = await fetch(`${API_BASE_URL}/api/catalogs`, {
     credentials: 'include',
     headers,

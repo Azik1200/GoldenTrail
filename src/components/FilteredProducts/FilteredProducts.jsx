@@ -1,5 +1,6 @@
 import "./FilteredProducts.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 
 import up from "../../assets/img/up.svg";
 import vector from "../../assets/img/Vector.svg";
@@ -25,6 +26,22 @@ function FilteredProducts() {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const location = useLocation();
+  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const [selectedCatalog, setSelectedCatalog] = useState(
+    searchParams.get("catalog") || ""
+  );
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("category") || ""
+  );
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const cat = params.get("catalog") || "";
+    const category = params.get("category") || "";
+    setSelectedCatalog(cat);
+    setSelectedCategory(category);
+  }, [location.search]);
 
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
@@ -45,29 +62,47 @@ function FilteredProducts() {
       console.error(err);
     }
   };
-  const products = useProducts();
+  const filterParams = useMemo(() => {
+    const params = {};
+    if (selectedCatalog) params.catalog = selectedCatalog;
+    if (selectedCategory) params.category = selectedCategory;
+    if (selectedBrands.length) params.brands = selectedBrands;
+    if (selectedColors.length) params.colors = selectedColors;
+    if (selectedSizes.length) params.sizes = selectedSizes;
+    if (minPrice) params.min_price = minPrice;
+    if (maxPrice) params.max_price = maxPrice;
+    return params;
+  }, [selectedCatalog, selectedCategory, selectedBrands, selectedColors, selectedSizes, minPrice, maxPrice]);
 
-  const filteredProducts = products.filter((product) => {
-    if (selectedBrands.length && product.brand && !selectedBrands.includes(product.brand)) {
-      return false;
+  const appliedFilters = useMemo(() => {
+    const labels = [];
+    if (selectedCatalog && filterOptions) {
+      const cat = filterOptions.catalogs?.find((c) => c.slug === selectedCatalog);
+      if (cat) labels.push(cat.name || cat.slug);
     }
-    if (
-      selectedColors.length &&
-      !product.colors.some((c) => selectedColors.includes(optionLabel(c)))
-    ) {
-      return false;
+    if (selectedCategory && filterOptions) {
+      for (const cat of filterOptions.catalogs || []) {
+        const found = cat.categories?.find((c) => c.slug === selectedCategory);
+        if (found) {
+          labels.push(found.name || found.slug);
+          break;
+        }
+      }
     }
-    if (
-      selectedSizes.length &&
-      !product.sizes.some((s) => selectedSizes.includes(optionLabel(s)))
-    ) {
-      return false;
+    selectedBrands.forEach((b) => labels.push(b));
+    selectedColors.forEach((c) => labels.push(c));
+    selectedSizes.forEach((s) => labels.push(s));
+    if (minPrice || maxPrice) {
+      let label = 'Цена:';
+      if (minPrice) label += ` от ${minPrice}`;
+      if (maxPrice) label += ` до ${maxPrice}`;
+      labels.push(label);
     }
-    const price = parseFloat(product.mainPrice);
-    if (minPrice && price < parseFloat(minPrice)) return false;
-    if (maxPrice && price > parseFloat(maxPrice)) return false;
-    return true;
-  });
+    return labels;
+  }, [selectedCatalog, selectedCategory, selectedBrands, selectedColors, selectedSizes, minPrice, maxPrice, filterOptions]);
+
+  const products = useProducts(filterParams);
+  const filteredProducts = products;
 
   const toggleItem = (list, setList, value) => {
     setList((prev) =>
@@ -83,6 +118,8 @@ function FilteredProducts() {
     setSelectedSizes([]);
     setMinPrice('');
     setMaxPrice('');
+    setSelectedCatalog('');
+    setSelectedCategory('');
   };
 
   const Item = ({ product }) => {
@@ -190,9 +227,24 @@ function FilteredProducts() {
     );
   };
 
+  const heading = useMemo(() => {
+    if (!filterOptions) return 'Каталог';
+    if (selectedCategory) {
+      for (const cat of filterOptions.catalogs || []) {
+        const found = cat.categories?.find((c) => c.slug === selectedCategory);
+        if (found) return found.name || found.slug;
+      }
+    }
+    if (selectedCatalog) {
+      const cat = (filterOptions.catalogs || []).find((c) => c.slug === selectedCatalog);
+      if (cat) return cat.name || cat.slug;
+    }
+    return 'Каталог';
+  }, [filterOptions, selectedCatalog, selectedCategory]);
+
   return (
     <div className="FilteredProducts-container">
-      <h2>Рентгенозащитная продукция</h2>
+      <h2>{heading}</h2>
       <div className="FilteredProducts-Buttons">
         <div className="FilteredProducts-filter">
           <div className="FilteredProducts-name">По умолчанию</div>
@@ -214,6 +266,14 @@ function FilteredProducts() {
         </button>
       </div>
 
+      {appliedFilters.length > 0 && (
+        <div className="FilteredProducts-All-buttns">
+          {appliedFilters.map((label, idx) => (
+            <div key={idx} className="FilteredProducts-All-btn">{label}</div>
+          ))}
+        </div>
+      )}
+
       {sidebarOpen && filterOptions && (
         <div className="FilterSidebar">
           <div className="FilterSidebar-header">
@@ -222,6 +282,51 @@ function FilteredProducts() {
               ×
             </button>
           </div>
+          {filterOptions.catalogs?.length > 0 && (
+            <div className="FilterSidebar-section">
+              <h3>Каталог</h3>
+              <ul className="FilterSidebar-menu">
+                {filterOptions.catalogs.map((cat) => (
+                  <li key={cat.slug} className="FilterSidebar-menu-item">
+                    <label className="custom-checkbox-square">
+                      <input
+                        type="radio"
+                        name="catalog"
+                        checked={selectedCatalog === cat.slug}
+                        onChange={() => {
+                          setSelectedCatalog(cat.slug);
+                          setSelectedCategory('');
+                        }}
+                      />
+                      <span className={selectedCatalog === cat.slug ? 'active' : ''}></span>
+                    </label>
+                    <span className="section-label-text">{cat.name}</span>
+                  </li>
+                ))}
+              </ul>
+              {selectedCatalog &&
+                filterOptions.catalogs.find((c) => c.slug === selectedCatalog)?.categories?.length > 0 && (
+                  <ul className="FilterSidebar-menu">
+                    {filterOptions.catalogs
+                      .find((c) => c.slug === selectedCatalog)
+                      .categories.map((c) => (
+                        <li key={c.slug} className="FilterSidebar-menu-item">
+                          <label className="custom-checkbox-square">
+                            <input
+                              type="radio"
+                              name="category"
+                              checked={selectedCategory === c.slug}
+                              onChange={() => setSelectedCategory(c.slug)}
+                            />
+                            <span className={selectedCategory === c.slug ? 'active' : ''}></span>
+                          </label>
+                          <span className="section-label-text">{c.name}</span>
+                        </li>
+                      ))}
+                  </ul>
+                )}
+            </div>
+          )}
           {filterOptions.brands?.length > 0 && (
             <div className="FilterSidebar-section">
               <h3>Бренды</h3>

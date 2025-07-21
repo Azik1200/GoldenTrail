@@ -10,7 +10,7 @@ export async function sendContact(info) {
   if (match) headers['X-XSRF-TOKEN'] = decodeURIComponent(match[1]);
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
-  if (language) headers['X-Language'] = language;
+  if (language) headers['Accept-Language'] = language;
 
   const resp = await fetch(`${API_BASE_URL}/api/contact`, {
     method: 'POST',
