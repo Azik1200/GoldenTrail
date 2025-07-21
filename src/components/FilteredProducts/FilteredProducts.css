@@ -317,17 +317,22 @@
   margin-bottom: 10px;
   cursor: pointer;
 }
-.FilterSidebar .FilterSidebar-section-color .FilterSidebar-menu .FilterSidebar-menu-item .custom-checkbox-static input {
+.FilterSidebar .FilterSidebar-section-color .FilterSidebar-menu .FilterSidebar-menu-item .custom-checkbox-square input {
   display: none;
 }
-.FilterSidebar .FilterSidebar-section-color .FilterSidebar-menu .FilterSidebar-menu-item .custom-checkbox-static .checkbox-square {
+.FilterSidebar .FilterSidebar-section-color .FilterSidebar-menu .FilterSidebar-menu-item .custom-checkbox-square span {
   width: 16px;
   height: 16px;
   background: #d9d9d9;
   border: 1px solid #aaa;
   display: inline-block;
   border-radius: 4px;
+  transition: background 0.2s ease;
   margin-right: 6px;
+}
+.FilterSidebar .FilterSidebar-section-color .FilterSidebar-menu .FilterSidebar-menu-item .custom-checkbox-square .active {
+  background: #ffffff;
+  border-color: #333;
 }
 .FilterSidebar .FilterSidebar-section-color .FilterSidebar-menu .FilterSidebar-menu-item .color-dot {
   width: 18px;
@@ -353,11 +358,22 @@
   gap: 8px;
   margin-bottom: 10px;
 }
-.FilterSidebar .FilterSidebar-section-size .size-list .size-item .size-square {
-  width: 12px;
-  height: 12px;
+.FilterSidebar .FilterSidebar-section-size .size-list .size-item .custom-checkbox-square input {
+  display: none;
+}
+.FilterSidebar .FilterSidebar-section-size .size-list .size-item .custom-checkbox-square span {
+  width: 16px;
+  height: 16px;
   background: #d9d9d9;
-  border-radius: 2px;
+  border: 1px solid #aaa;
+  display: inline-block;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+  margin-right: 6px;
+}
+.FilterSidebar .FilterSidebar-section-size .size-list .size-item .custom-checkbox-square .active {
+  background: #ffffff;
+  border-color: #333;
 }
 .FilterSidebar .FilterSidebar-section-size .size-list .size-item .size-label {
   font-size: 14px;

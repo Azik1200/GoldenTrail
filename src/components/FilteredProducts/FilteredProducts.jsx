@@ -361,16 +361,15 @@ function FilteredProducts() {
               <ul className="FilterSidebar-menu">
                 {filterOptions.colors.map((color) => (
                   <li key={color} className="FilterSidebar-menu-item">
-                    <label className="custom-checkbox-static">
+                    <label className="custom-checkbox-square">
                       <input
                         type="checkbox"
                         checked={selectedColors.includes(color)}
                         onChange={() => toggleItem(selectedColors, setSelectedColors, color)}
                       />
-                      <span className="checkbox-square"></span>
+                      <span className={selectedColors.includes(color) ? 'active' : ''}></span>
                     </label>
                     <span className="color-dot" style={{ background: color }}></span>
-                    <span className="section-label-text">{color}</span>
                   </li>
                 ))}
               </ul>
@@ -388,7 +387,7 @@ function FilteredProducts() {
                         checked={selectedSizes.includes(size)}
                         onChange={() => toggleItem(selectedSizes, setSelectedSizes, size)}
                       />
-                      <span className="size-square"></span>
+                      <span className={selectedSizes.includes(size) ? 'active' : ''}></span>
                     </label>
                     <span className="size-label">{size}</span>
                   </li>
