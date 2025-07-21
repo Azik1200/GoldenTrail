@@ -28,8 +28,20 @@ function FilteredProducts() {
   const [maxPrice, setMaxPrice] = useState('');
   const location = useLocation();
   const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const [selectedCatalog, setSelectedCatalog] = useState(searchParams.get('catalog') || '');
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
+  const [selectedCatalog, setSelectedCatalog] = useState(
+    searchParams.get("catalog") || ""
+  );
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("category") || ""
+  );
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const cat = params.get("catalog") || "";
+    const category = params.get("category") || "";
+    setSelectedCatalog(cat);
+    setSelectedCategory(category);
+  }, [location.search]);
 
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
