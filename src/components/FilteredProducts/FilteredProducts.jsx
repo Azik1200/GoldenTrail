@@ -49,7 +49,7 @@ function FilteredProducts() {
       console.error(err);
     }
   };
-  const products = useProducts();
+  const products = useProducts({ catalog: catalogParam });
 
   const filteredProducts = products.filter((product) => {
     if (catalogParam) {
