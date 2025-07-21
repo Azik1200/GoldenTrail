@@ -1,5 +1,5 @@
 import "./FilteredProducts.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import up from "../../assets/img/up.svg";
 import vector from "../../assets/img/Vector.svg";
@@ -14,7 +14,7 @@ import formatPrice from "../../utils/formatPrice";
 import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 
 function FilteredProducts() {
@@ -317,16 +317,17 @@ function FilteredProducts() {
               <ul className="FilterSidebar-menu">
                 {filterOptions.colors.map((color) => (
                   <li key={color} className="FilterSidebar-menu-item">
-                    <label className="custom-checkbox-static">
+                    <label className="custom-checkbox-square">
                       <input
                         type="checkbox"
                         checked={selectedColors.includes(color)}
-                        onChange={() => toggleItem(selectedColors, setSelectedColors, color)}
+                        onChange={() =>
+                          toggleItem(selectedColors, setSelectedColors, color)
+                        }
                       />
-                      <span className="checkbox-square"></span>
+                      <span className={selectedColors.includes(color) ? 'active' : ''}></span>
                     </label>
                     <span className="color-dot" style={{ background: color }}></span>
-                    <span className="section-label-text">{color}</span>
                   </li>
                 ))}
               </ul>
@@ -342,9 +343,11 @@ function FilteredProducts() {
                       <input
                         type="checkbox"
                         checked={selectedSizes.includes(size)}
-                        onChange={() => toggleItem(selectedSizes, setSelectedSizes, size)}
+                        onChange={() =>
+                          toggleItem(selectedSizes, setSelectedSizes, size)
+                        }
                       />
-                      <span className="size-square"></span>
+                      <span className={selectedSizes.includes(size) ? 'active' : ''}></span>
                     </label>
                     <span className="size-label">{size}</span>
                   </li>
