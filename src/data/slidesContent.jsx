@@ -8,21 +8,21 @@ const slidesContent = [
     title: "Надёжная защита для медперсонала",
     subtitle: "Рентгенозащитные фартуки, воротники и очки",
     image: slider1,
-    link: "#",
+    link: "/Filter?catalog=xr",
   },
   {
     badge: "Гигиена и удобство",
     title: "Одноразовая продукция для медицины",
     subtitle: "Халаты, перчатки, бахилы и многое другое — всегда в наличии",
     image: slider2,
-    link: "#",
+    link: "/Filter?catalog=disposable",
   },
   {
     badge: "Для косметологов и мастеров",
     title: "Продукция для салонов и клиник",
     subtitle: "Решения для СПА, эстетики и салонов красоты",
     image: slider3,
-    link: "#",
+    link: "/Filter?catalog=disposable",
   },
 ];
 

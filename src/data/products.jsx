@@ -6,6 +6,8 @@ export const products = [
     images: [],
     sizes: [],
     colors: [],
+    catalog_id: 0,
+    catalog_slug: "",
     mainPrice: "",
     oldPrice: "",
     is_active: "",

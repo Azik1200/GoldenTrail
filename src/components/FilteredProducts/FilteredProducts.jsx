@@ -1,5 +1,5 @@
 import "./FilteredProducts.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import up from "../../assets/img/up.svg";
 import vector from "../../assets/img/Vector.svg";
@@ -14,7 +14,8 @@ import formatPrice from "../../utils/formatPrice";
 import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { LanguageContext } from "../../context/LanguageContext";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 
 function FilteredProducts() {
@@ -28,6 +29,9 @@ function FilteredProducts() {
 
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
+  const [searchParams] = useSearchParams();
+  const { t } = useContext(LanguageContext);
+  const catalogParam = searchParams.get('catalog');
 
   useEffect(() => {
     fetchProductFilters()
@@ -48,6 +52,13 @@ function FilteredProducts() {
   const products = useProducts();
 
   const filteredProducts = products.filter((product) => {
+    if (catalogParam) {
+      const slug = String(product.catalog_slug || product.catalog).toLowerCase();
+      const id = String(product.catalog_id);
+      if (slug !== catalogParam.toLowerCase() && id !== catalogParam) {
+        return false;
+      }
+    }
     if (selectedBrands.length && product.brand && !selectedBrands.includes(product.brand)) {
       return false;
     }
@@ -190,9 +201,11 @@ function FilteredProducts() {
     );
   };
 
+  const categoryKey = catalogParam || 'xr';
+
   return (
     <div className="FilteredProducts-container">
-      <h2>Рентгенозащитная продукция</h2>
+      <h2>{t(`categories.${categoryKey}`)}</h2>
       <div className="FilteredProducts-Buttons">
         <div className="FilteredProducts-filter">
           <div className="FilteredProducts-name">По умолчанию</div>
