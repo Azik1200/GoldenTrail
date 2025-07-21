@@ -23,8 +23,8 @@ async function request(path, options = {}) {
     ...(options.headers || {}),
   };
   const language =
-    localStorage.getItem('language') || navigator.language?.slice(0, 2) || 'az';
-  if (language) headers['Accept-Language'] = language;
+    localStorage.getItem('language') || navigator.language?.slice(0, 2);
+  if (language) headers['X-Language'] = language;
   if (token) headers['Authorization'] = `Bearer ${token}`;
   const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
   if (match) headers['X-XSRF-TOKEN'] = decodeURIComponent(match[1]);
