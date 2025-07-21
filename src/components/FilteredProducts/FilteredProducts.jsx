@@ -50,6 +50,16 @@ function FilteredProducts() {
   }, []);
 
   useEffect(() => {
+    const body = document.body;
+    if (sidebarOpen) {
+      body.classList.add('active');
+    } else {
+      body.classList.remove('active');
+    }
+    return () => body.classList.remove('active');
+  }, [sidebarOpen]);
+
+  useEffect(() => {
     if (filterOptions && selectedCategory) {
       const found = filterOptions.catalogs?.find((cat) =>
         cat.categories?.some((c) => c.slug === selectedCategory)
