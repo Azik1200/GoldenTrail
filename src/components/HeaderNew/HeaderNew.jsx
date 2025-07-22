@@ -37,6 +37,20 @@ const HeaderNew = () => {
     }
   }, [isHovered]);
 
+  useEffect(() => {
+    const body = document.body;
+    if (isSearchOpen) {
+      body.classList.add("active");
+    } else if (!isHovered) {
+      body.classList.remove("active");
+    }
+    return () => {
+      if (!isHovered) {
+        body.classList.remove("active");
+      }
+    };
+  }, [isSearchOpen, isHovered]);
+
   const handleMouseEnter = () => {
     setIsSearchOpen(false);
     setIsHovered(true);
