@@ -140,7 +140,9 @@ const ProductCard = ({ product }) => {
             </button>
           </div>
 
-          <p className={styles.guarantee}>✓ {t('product_page.guarantee')}</p>
+          <p className={styles.guarantee}>
+            ✓ {product.warrantyText || t('product_page.guarantee')}
+          </p>
         </div>
       </div>
 
