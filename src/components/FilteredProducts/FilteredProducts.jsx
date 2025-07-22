@@ -430,9 +430,19 @@ function FilteredProducts() {
       )}
 
       <div className="FilteredProducts-objs">
-        {filteredProducts.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <Item key={product.id} product={product} />
+          ))
+        ) : (
+          <div className="FilteredProducts-empty">
+            <p>Нет совпадений.</p>
+            <p>
+              Ни один товар не соответствует заданым условиям. Попробуйте
+              обновить фильтры.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

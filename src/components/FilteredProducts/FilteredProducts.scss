@@ -237,6 +237,16 @@
   }
 }
 
+.FilteredProducts-empty {
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
+  p {
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+}
+
 .FilterSidebar {
   position: fixed;
   top: 57px;
