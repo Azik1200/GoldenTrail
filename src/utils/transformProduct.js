@@ -22,6 +22,8 @@ export default function transformProduct(product) {
     is_new: product.is_new,
     is_popular: product.is_popular,
     is_on_sale: product.is_on_sale,
+    hasWarranty: Boolean(product.has_warranty),
+    warrantyText: product.warranty_text || '',
     desc:
       product.full_description ||
       product.description ||
