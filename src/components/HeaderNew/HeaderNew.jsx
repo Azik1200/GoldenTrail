@@ -69,7 +69,10 @@ const HeaderNew = () => {
   const addToHistory = (query) => {
     if (!query.trim()) return;
     setSearchHistory((prev) => {
-      const newHistory = [query, ...prev.filter((q) => q !== query)].slice(0, 5);
+      const newHistory = [query, ...prev.filter((q) => q !== query)].slice(
+        0,
+        5
+      );
       localStorage.setItem("searchHistory", JSON.stringify(newHistory));
       return newHistory;
     });
@@ -163,9 +166,9 @@ const HeaderNew = () => {
         <div className="headerNew">
           <div className="container">
             <div className="headerNew_wrapper">
-              <div className="headerNew_logo">
+              <a href="/" className="headerNew_logo">
                 <img src={logo} alt="GoldenTrail" />
-              </div>
+              </a>
               <div className="headerNew_nav">
                 <button
                   className="headerNew_nav_btn"
@@ -256,19 +259,25 @@ const HeaderNew = () => {
                 <div className="headerNew_languages">
                   <button
                     onClick={() => setLanguage("az")}
-                    className={`headerNew_languages_btn ${language === "az" ? "active" : ""}`}
+                    className={`headerNew_languages_btn ${
+                      language === "az" ? "active" : ""
+                    }`}
                   >
                     AZ
                   </button>
                   <button
                     onClick={() => setLanguage("en")}
-                    className={`headerNew_languages_btn ${language === "en" ? "active" : ""}`}
+                    className={`headerNew_languages_btn ${
+                      language === "en" ? "active" : ""
+                    }`}
                   >
                     EN
                   </button>
                   <button
                     onClick={() => setLanguage("ru")}
-                    className={`headerNew_languages_btn ${language === "ru" ? "active" : ""}`}
+                    className={`headerNew_languages_btn ${
+                      language === "ru" ? "active" : ""
+                    }`}
                   >
                     RU
                   </button>
@@ -306,23 +315,24 @@ const HeaderNew = () => {
               </div>
 
               <div className="headerDropdownDesktop_categories">
-                {catalogs.map((cat) => (
-                  activeTab === `cat-${cat.id}` && (
-                    <ul
-                      key={cat.id}
-                      className="headerDropdownDesktop_categories_list"
-                    >
-                      {cat.categories?.map((c) => (
-                        <li
-                          key={c.id}
-                          className="headerDropdownDesktop_categories_item"
-                        >
-                          <Link to="/Filter">{c.name || c.slug}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                ))}
+                {catalogs.map(
+                  (cat) =>
+                    activeTab === `cat-${cat.id}` && (
+                      <ul
+                        key={cat.id}
+                        className="headerDropdownDesktop_categories_list"
+                      >
+                        {cat.categories?.map((c) => (
+                          <li
+                            key={c.id}
+                            className="headerDropdownDesktop_categories_item"
+                          >
+                            <Link to="/Filter">{c.name || c.slug}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )
+                )}
               </div>
             </div>
           </div>
@@ -385,109 +395,115 @@ const HeaderNew = () => {
         </div>
 
         {isSearchOpen && (
-        <div className="headerSearch">
-          <div className="container">
-            <div className="headerWrapper">
-              <form action="#" id="headerNewFormSearch">
-                <input
-                  type="text"
-                  className="headerNewSearchInput"
-                  name="search"
-                  id="headerNewSearchInput"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </form>
-              <button
-                className="headerNewCloseBtn"
-                onClick={() => {
-                  setIsSearchOpen(false);
-                  setSearchQuery("");
-                }}
-              >
-                <span></span>
-                <span></span>
-              </button>
-            </div>
-          </div>
-
-          <div className="headerResults">
+          <div className="headerSearch">
             <div className="container">
-              <div className="headerResultsWrapper">
-                {searchResults.length > 0 ? (
-                  <div className="headerResultsPlus">
-                    <ul className="headerResultsList">
-                      {searchResults.map((product) => (
-                        <li key={product.id} className="headerResultsListItem">
-                          <Link
-                            to={`/desc/${product.id}`}
-                            onClick={() => {
-                              dispatch(setCurrentProduct(product));
-                              addToHistory(searchQuery);
-                              setIsSearchOpen(false);
-                              setSearchQuery("");
-                            }}
+              <div className="headerWrapper">
+                <form action="#" id="headerNewFormSearch">
+                  <input
+                    type="text"
+                    className="headerNewSearchInput"
+                    name="search"
+                    id="headerNewSearchInput"
+                    placeholder="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </form>
+                <button
+                  className="headerNewCloseBtn"
+                  onClick={() => {
+                    setIsSearchOpen(false);
+                    setSearchQuery("");
+                  }}
+                >
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+
+            <div className="headerResults">
+              <div className="container">
+                <div className="headerResultsWrapper">
+                  {searchResults.length > 0 ? (
+                    <div className="headerResultsPlus">
+                      <ul className="headerResultsList">
+                        {searchResults.map((product) => (
+                          <li
+                            key={product.id}
+                            className="headerResultsListItem"
                           >
-                            <div className="headerResultsListItem_wrapper">
-                              <div className="headerResultsListItem_img">
-                                <img src={product.img} alt={product.name} />
-                              </div>
-                              <div className="headerResultsListItem_wrapper-inner">
-                                <div className="headerResultsListItem_name">
-                                  {product.name}
+                            <Link
+                              to={`/desc/${product.id}`}
+                              onClick={() => {
+                                dispatch(setCurrentProduct(product));
+                                addToHistory(searchQuery);
+                                setIsSearchOpen(false);
+                                setSearchQuery("");
+                              }}
+                            >
+                              <div className="headerResultsListItem_wrapper">
+                                <div className="headerResultsListItem_img">
+                                  <img src={product.img} alt={product.name} />
                                 </div>
-                                <div className="headerResultsListItem_price">
-                                  <div className="headerResultsListItem_price-actual">
-                                    {formatPrice(product.mainPrice)}
+                                <div className="headerResultsListItem_wrapper-inner">
+                                  <div className="headerResultsListItem_name">
+                                    {product.name}
                                   </div>
-                                  {product.oldPrice && (
-                                    <div className="headerResultsListItem_price-old">
-                                      {formatPrice(product.oldPrice)}
+                                  <div className="headerResultsListItem_price">
+                                    <div className="headerResultsListItem_price-actual">
+                                      {formatPrice(product.mainPrice)}
                                     </div>
-                                  )}
+                                    {product.oldPrice && (
+                                      <div className="headerResultsListItem_price-old">
+                                        {formatPrice(product.oldPrice)}
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : searchQuery ? (
-                  <div className="headerResultsMinus">
-                    <p className="headerNewSearchResultsMinus">
-                      По вашему запросу ничего не найдено
-                    </p>
-                  </div>
-                ) : (
-                  searchHistory.length > 0 && (
-                    <div className="headerResultsStory">
-                      <ul className="headerResultsStoryList">
-                        {searchHistory.map((item) => (
-                          <li key={item} className="headerResultsStoryListItem">
-                            <div
-                              className="headerResultsStoryListItemName"
-                              onClick={() => setSearchQuery(item)}
-                            >
-                              {item}
-                            </div>
-                            <button
-                              className="headerResultsStoryListItemBtn"
-                              onClick={() => removeFromHistory(item)}
-                            >
-                              Удалить
-                            </button>
+                            </Link>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  )
-                )}
+                  ) : searchQuery ? (
+                    <div className="headerResultsMinus">
+                      <p className="headerNewSearchResultsMinus">
+                        По вашему запросу ничего не найдено
+                      </p>
+                    </div>
+                  ) : (
+                    searchHistory.length > 0 && (
+                      <div className="headerResultsStory">
+                        <ul className="headerResultsStoryList">
+                          {searchHistory.map((item) => (
+                            <li
+                              key={item}
+                              className="headerResultsStoryListItem"
+                            >
+                              <div
+                                className="headerResultsStoryListItemName"
+                                onClick={() => setSearchQuery(item)}
+                              >
+                                {item}
+                              </div>
+                              <button
+                                className="headerResultsStoryListItemBtn"
+                                onClick={() => removeFromHistory(item)}
+                              >
+                                Удалить
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
         )}
       </div>
       <div className="headerFunctionsMobile">

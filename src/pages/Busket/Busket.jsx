@@ -7,6 +7,7 @@ import PersonalData from "../../components/PersonalData/PersonalData";
 import OrderItem from "../../components/myOrders/myOrders";
 import { me } from "../../api/auth";
 import { LanguageContext } from "../../context/LanguageContext";
+import CardItem from "../../components/CardItem/CardItem";
 
 function Busket() {
   const [activeSection, setActiveSection] = useState("cart");
@@ -37,7 +38,9 @@ function Busket() {
       {authenticated && activeSection === "personal" && <PersonalData />}
       {authenticated && activeSection === "order" && <OrderItem />}
 
-      <SoMayLike />
+      {/* <SoMayLike /> */}
+      <CardItem />
+      <div className="divider" style={{ marginBottom: "160px" }}></div>
     </>
   );
 }
