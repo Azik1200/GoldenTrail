@@ -37,6 +37,20 @@ const HeaderNew = () => {
     }
   }, [isHovered]);
 
+  useEffect(() => {
+    const body = document.body;
+    if (isSearchOpen) {
+      body.classList.add("active");
+    } else if (!isHovered) {
+      body.classList.remove("active");
+    }
+    return () => {
+      if (!isHovered) {
+        body.classList.remove("active");
+      }
+    };
+  }, [isSearchOpen, isHovered]);
+
   const handleMouseEnter = () => {
     setIsSearchOpen(false);
     setIsHovered(true);
@@ -383,7 +397,7 @@ const HeaderNew = () => {
                           key={c.id}
                           className="headerDropdownMobile_wrapper_second-inner-list-item"
                         >
-                          <Link to="/Filter">{c.name || c.slug}</Link>
+                          <Link to={`/Filter?category=${c.slug}`}>{c.name || c.slug}</Link>
                         </li>
                       ))}
                     </ul>

@@ -74,7 +74,6 @@
     height: 34px;
   }
 }
-// }
 
 // .FilteredProducts-objs {
 //   display: flex;
@@ -236,6 +235,16 @@
 //   }
 // }
 
+.FilteredProducts-empty {
+  width: 100%;
+  text-align: center;
+  margin-top: 40px;
+  p {
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+}
+
 .FilterSidebar {
   position: fixed;
   top: 0;
@@ -329,19 +338,25 @@
         margin-bottom: 10px;
         cursor: pointer;
 
-        .custom-checkbox-static {
+        .custom-checkbox-square {
           input {
             display: none;
           }
 
-          .checkbox-square {
+          span {
             width: 16px;
             height: 16px;
-            background: #d9d9d9;
             border: 1px solid #aaa;
+            background: #d9d9d9;
             display: inline-block;
             border-radius: 4px;
+            transition: background 0.2s ease;
             margin-right: 6px;
+          }
+
+          .active {
+            background: #ffffff;
+            border-color: #333;
           }
         }
 
@@ -372,11 +387,26 @@
         gap: 8px;
         margin-bottom: 10px;
 
-        .size-square {
-          width: 12px;
-          height: 12px;
-          background: #d9d9d9;
-          border-radius: 2px;
+        .custom-checkbox-square {
+          input {
+            display: none;
+          }
+
+          span {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #aaa;
+            background: #d9d9d9;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+            margin-right: 6px;
+          }
+
+          .active {
+            background: #ffffff;
+            border-color: #333;
+          }
         }
 
         .size-label {
