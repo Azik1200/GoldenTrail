@@ -4,7 +4,7 @@ export async function fetchProducts(params = {}) {
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
   const headers = {};
-  if (language) headers['Accept-Language'] = language;
+  if (language) headers['X-Language'] = language;
   const url = new URL(`${API_BASE_URL}/api/products`);
   Object.entries(params).forEach(([key, value]) => {
     if (value) url.searchParams.append(key, value);
@@ -21,7 +21,7 @@ export async function fetchProduct(id) {
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
   const headers = {};
-  if (language) headers['Accept-Language'] = language;
+  if (language) headers['X-Language'] = language;
   const resp = await fetch(`${API_BASE_URL}/api/products/${id}`, {
     credentials: 'include',
     headers,
@@ -34,7 +34,7 @@ export async function fetchProductFilters() {
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
   const headers = {};
-  if (language) headers['Accept-Language'] = language;
+  if (language) headers['X-Language'] = language;
   const resp = await fetch(`${API_BASE_URL}/api/products/filters`, {
     credentials: 'include',
     headers,
