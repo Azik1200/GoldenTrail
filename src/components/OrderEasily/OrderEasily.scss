@@ -6,6 +6,8 @@
   padding: 0 16px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 160px;
+  gap: 16px;
   .OrderEasily-Title {
     display: flex;
     flex-direction: column;
@@ -61,195 +63,205 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .OrderEasily-container {
-    max-width: 1072px;
-    margin: 0 auto;
-    padding: 0 36px;
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    .OrderEasily-Title {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .OrderEasily-Registration {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 520px;
-      input {
-        padding: 6px 0px 6px 12px;
-        background-color: rgba(236, 236, 236, 1);
-      }
-      textarea {
-        padding: 6px 12px;
-        background-color: rgba(236, 236, 236, 1);
-        resize: vertical;
-        min-height: 80px;
-      }
-      p {
-        font-family: $font-light;
-        font-weight: 300;
-        font-size: 12px;
-        line-height: 100%;
-        letter-spacing: 0%;
-        color: rgba(34, 34, 34, 1);
-        span {
-          font-family: $font-semibold;
-          font-weight: 600;
-          font-size: 12px;
-          line-height: 100%;
-          letter-spacing: 0%;
-          text-decoration: underline;
-          text-decoration-style: solid;
-          color: rgba(34, 34, 34, 1);
-          text-decoration-thickness: 0%;
-          text-decoration-skip-ink: auto;
-        }
-      }
-      .OrderEasily-btn {
-        font-family: $font-semibold;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 100%;
-        letter-spacing: 0%;
-        width: 100%;
-        border-bottom: 2px solid rgba(220, 182, 90, 1);
-        background-color: rgba(18, 32, 45, 1);
-        padding: 7px 0px;
-        color: rgba(255, 255, 255, 1);
-      }
-    }
+  }
+
+  .OrderEasily-container .OrderEasily-Registration {
+    width: 100%;
   }
 }
 
-@media screen and (max-width: 550px) {
-  .OrderEasily-container {
-    max-width: 1072px;
-    margin: 0 auto;
-    padding: 0 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .OrderEasily-Title {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .OrderEasily-Registration {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 450px;
-      input {
-        padding: 6px 0px 6px 12px;
-        background-color: rgba(236, 236, 236, 1);
-      }
-      textarea {
-        padding: 6px 12px;
-        background-color: rgba(236, 236, 236, 1);
-        resize: vertical;
-        min-height: 80px;
-      }
-      p {
-        font-family: $font-light;
-        font-weight: 300;
-        font-size: 12px;
-        line-height: 100%;
-        letter-spacing: 0%;
-        color: rgba(34, 34, 34, 1);
-        span {
-          font-family: $font-semibold;
-          font-weight: 600;
-          font-size: 12px;
-          line-height: 100%;
-          letter-spacing: 0%;
-          text-decoration: underline;
-          text-decoration-style: solid;
-          color: rgba(34, 34, 34, 1);
-          text-decoration-thickness: 0%;
-          text-decoration-skip-ink: auto;
-        }
-      }
-      .OrderEasily-btn {
-        font-family: $font-semibold;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 100%;
-        letter-spacing: 0%;
-        width: 100%;
-        border-bottom: 2px solid rgba(220, 182, 90, 1);
-        background-color: rgba(18, 32, 45, 1);
-        padding: 7px 0px;
-        color: rgba(255, 255, 255, 1);
-      }
-    }
-  }
-}
+// @media screen and (max-width: 600px) {
+//   .OrderEasily-container {
+//     max-width: 1072px;
+//     margin: 0 auto;
+//     padding: 0 36px;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+//     .OrderEasily-Title {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 16px;
+//     }
+//     .OrderEasily-Registration {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 12px;
+//       width: 520px;
+//       input {
+//         padding: 6px 0px 6px 12px;
+//         background-color: rgba(236, 236, 236, 1);
+//       }
+//       textarea {
+//         padding: 6px 12px;
+//         background-color: rgba(236, 236, 236, 1);
+//         resize: vertical;
+//         min-height: 80px;
+//       }
+//       p {
+//         font-family: $font-light;
+//         font-weight: 300;
+//         font-size: 12px;
+//         line-height: 100%;
+//         letter-spacing: 0%;
+//         color: rgba(34, 34, 34, 1);
+//         span {
+//           font-family: $font-semibold;
+//           font-weight: 600;
+//           font-size: 12px;
+//           line-height: 100%;
+//           letter-spacing: 0%;
+//           text-decoration: underline;
+//           text-decoration-style: solid;
+//           color: rgba(34, 34, 34, 1);
+//           text-decoration-thickness: 0%;
+//           text-decoration-skip-ink: auto;
+//         }
+//       }
+//       .OrderEasily-btn {
+//         font-family: $font-semibold;
+//         font-weight: 600;
+//         font-size: 16px;
+//         line-height: 100%;
+//         letter-spacing: 0%;
+//         width: 100%;
+//         border-bottom: 2px solid rgba(220, 182, 90, 1);
+//         background-color: rgba(18, 32, 45, 1);
+//         padding: 7px 0px;
+//         color: rgba(255, 255, 255, 1);
+//       }
+//     }
+//   }
+// }
 
-@media screen and (max-width: 480px) {
-  .OrderEasily-container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 0 22px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .OrderEasily-Title {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      width: 350px;
-    }
-    .OrderEasily-Registration {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 350px;
-      input {
-        padding: 6px 0px 6px 12px;
-        background-color: rgba(236, 236, 236, 1);
-      }
-      textarea {
-        padding: 6px 12px;
-        background-color: rgba(236, 236, 236, 1);
-        resize: vertical;
-        min-height: 80px;
-      }
-      p {
-        font-family: $font-light;
-        font-weight: 300;
-        font-size: 12px;
-        line-height: 100%;
-        letter-spacing: 0%;
-        color: rgba(34, 34, 34, 1);
-        span {
-          font-family: $font-semibold;
-          font-weight: 600;
-          font-size: 12px;
-          line-height: 100%;
-          letter-spacing: 0%;
-          text-decoration: underline;
-          text-decoration-style: solid;
-          color: rgba(34, 34, 34, 1);
-          text-decoration-thickness: 0%;
-          text-decoration-skip-ink: auto;
-        }
-      }
-      .OrderEasily-btn {
-        font-family: $font-semibold;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 100%;
-        letter-spacing: 0%;
-        width: 100%;
-        border-bottom: 2px solid rgba(220, 182, 90, 1);
-        background-color: rgba(18, 32, 45, 1);
-        padding: 7px 0px;
-        color: rgba(255, 255, 255, 1);
-      }
-    }
-  }
-}
+// @media screen and (max-width: 550px) {
+//   .OrderEasily-container {
+//     max-width: 1072px;
+//     margin: 0 auto;
+//     padding: 0 30px;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+//     .OrderEasily-Title {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 16px;
+//     }
+//     .OrderEasily-Registration {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 12px;
+//       width: 450px;
+//       input {
+//         padding: 6px 0px 6px 12px;
+//         background-color: rgba(236, 236, 236, 1);
+//       }
+//       textarea {
+//         padding: 6px 12px;
+//         background-color: rgba(236, 236, 236, 1);
+//         resize: vertical;
+//         min-height: 80px;
+//       }
+//       p {
+//         font-family: $font-light;
+//         font-weight: 300;
+//         font-size: 12px;
+//         line-height: 100%;
+//         letter-spacing: 0%;
+//         color: rgba(34, 34, 34, 1);
+//         span {
+//           font-family: $font-semibold;
+//           font-weight: 600;
+//           font-size: 12px;
+//           line-height: 100%;
+//           letter-spacing: 0%;
+//           text-decoration: underline;
+//           text-decoration-style: solid;
+//           color: rgba(34, 34, 34, 1);
+//           text-decoration-thickness: 0%;
+//           text-decoration-skip-ink: auto;
+//         }
+//       }
+//       .OrderEasily-btn {
+//         font-family: $font-semibold;
+//         font-weight: 600;
+//         font-size: 16px;
+//         line-height: 100%;
+//         letter-spacing: 0%;
+//         width: 100%;
+//         border-bottom: 2px solid rgba(220, 182, 90, 1);
+//         background-color: rgba(18, 32, 45, 1);
+//         padding: 7px 0px;
+//         color: rgba(255, 255, 255, 1);
+//       }
+//     }
+//   }
+// }
+
+// @media screen and (max-width: 480px) {
+//   .OrderEasily-container {
+//     max-width: 480px;
+//     margin: 0 auto;
+//     padding: 0 22px;
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+//     .OrderEasily-Title {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 16px;
+//       width: 350px;
+//     }
+//     .OrderEasily-Registration {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 12px;
+//       width: 350px;
+//       input {
+//         padding: 6px 0px 6px 12px;
+//         background-color: rgba(236, 236, 236, 1);
+//       }
+//       textarea {
+//         padding: 6px 12px;
+//         background-color: rgba(236, 236, 236, 1);
+//         resize: vertical;
+//         min-height: 80px;
+//       }
+//       p {
+//         font-family: $font-light;
+//         font-weight: 300;
+//         font-size: 12px;
+//         line-height: 100%;
+//         letter-spacing: 0%;
+//         color: rgba(34, 34, 34, 1);
+//         span {
+//           font-family: $font-semibold;
+//           font-weight: 600;
+//           font-size: 12px;
+//           line-height: 100%;
+//           letter-spacing: 0%;
+//           text-decoration: underline;
+//           text-decoration-style: solid;
+//           color: rgba(34, 34, 34, 1);
+//           text-decoration-thickness: 0%;
+//           text-decoration-skip-ink: auto;
+//         }
+//       }
+//       .OrderEasily-btn {
+//         font-family: $font-semibold;
+//         font-weight: 600;
+//         font-size: 16px;
+//         line-height: 100%;
+//         letter-spacing: 0%;
+//         width: 100%;
+//         border-bottom: 2px solid rgba(220, 182, 90, 1);
+//         background-color: rgba(18, 32, 45, 1);
+//         padding: 7px 0px;
+//         color: rgba(255, 255, 255, 1);
+//       }
+//     }
+//   }
+// }

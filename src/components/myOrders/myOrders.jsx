@@ -3,6 +3,7 @@ import { FaRegCopy } from 'react-icons/fa';
 import './myOrders.scss';
 import { LanguageContext } from '../../context/LanguageContext';
 import { fetchOrders } from '../../api/orders';
+import formatPrice from '../../utils/formatPrice';
 
 function OrderItem() {
   const { t } = useContext(LanguageContext);
@@ -43,7 +44,7 @@ function OrderItem() {
                 {t('orders_page.from')} {formatDate(order.created_at)}
               </span>
               <span className="order-price">
-                {parseFloat(order.total_amount).toLocaleString()} ₽
+                {formatPrice(order.total_amount)}
               </span>
             </div>
           </div>

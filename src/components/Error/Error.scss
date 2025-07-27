@@ -1,19 +1,17 @@
+@import "./../../styles/utils/_variables.scss";
+
 .Error-Container {
   max-width: 1072px;
   margin: 0 auto;
   padding: 0 16px;
-  margin-top: 14px;
+  padding-top: 120px;
   text-align: center;
+  margin-bottom: 160px;
   .Error-Imgs {
     position: relative;
-    .Error {
-      position: absolute;
-      bottom: 40px;
-      right: 47%;
-    }
   }
   h2 {
-    font-family: Nunito Sans;
+    font-family: $font-bold;
     font-weight: 700;
     font-size: 48px;
     // line-height: 100%;
@@ -26,4 +24,8 @@
   .btn-main {
     margin-top: 62px;
   }
+}
+
+.Error-Four {
+  margin-bottom: -50px;
 }

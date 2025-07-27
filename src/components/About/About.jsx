@@ -1,7 +1,7 @@
 import "./About.scss";
 import { useContext } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
-import AboutPic from "./aboutPic.png";
+import AboutPic from "./../../assets/img/about-us.png";
 
 function About() {
   const { t } = useContext(LanguageContext);

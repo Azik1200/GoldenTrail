@@ -1,7 +1,7 @@
 import "./CardItem.scss";
 
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useMemo } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 
@@ -13,6 +13,8 @@ import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 import BuyModal from "../BuyModal/BuyModal";
 import useProducts from "../../hooks/useProducts";
+import formatPrice from "../../utils/formatPrice";
+
 
 function CardItem() {
   const { t } = useContext(LanguageContext);
@@ -30,6 +32,11 @@ function CardItem() {
     }
   };
   const products = useProducts().filter((p) => p.is_popular);
+
+  const randomProducts = useMemo(() => {
+    const shuffled = [...products].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 3);
+  }, [products]);
 
   const Item = ({ product }) => {
     const [size, setSize] = useState(product.sizes?.[0] || "");
@@ -59,7 +66,10 @@ function CardItem() {
             </div>
             <div className="productCard_status">{product.status}</div>
             <div className="productCard_btns">
-              <button className="productCard_btn baasket" onClick={handleAdd}></button>
+              <button
+                className="productCard_btn baasket"
+                onClick={handleAdd}
+              ></button>
               <button
                 className={`productCard_btn fav${
                   favorites.find(
@@ -79,11 +89,6 @@ function CardItem() {
                 className={`productCard_size-item${
                   optionKey(s) === optionKey(size) ? " active" : ""
                 }`}
-                style={
-                  optionKey(s) === optionKey(size)
-                    ? { border: "1px solid #000" }
-                    : {}
-                }
                 onClick={() => setSize(s)}
                 key={index}
               >
@@ -95,8 +100,14 @@ function CardItem() {
         <div className="productCard_bottom">
           <div className="productCard_bottom-info">
             <div className="productCard_price">
-              <div className="productCard_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="productCard_price_old-price">{product.oldPrice}</div>}
+              <div className="productCard_price_main-price">
+                {formatPrice(product.mainPrice)}
+              </div>
+              {product.oldPrice && (
+                <div className="productCard_price_old-price">
+                  {formatPrice(product.oldPrice)}
+                </div>
+              )}
             </div>
             <ul className="productCard_colors">
               {product.colors.map((c, index) => (
@@ -110,10 +121,6 @@ function CardItem() {
                   <span
                     style={{
                       background: optionValue(c),
-                      border:
-                        optionKey(c) === optionKey(color)
-                          ? "1px solid #000"
-                          : "none",
                     }}
                   ></span>
                 </li>
@@ -124,7 +131,11 @@ function CardItem() {
             <button className="btn-main" onClick={() => setIsModalOpen(true)}>
               {t("products_block.buy")}
             </button>
-            <Link to={`/desc/${product.id}`} className="link-main" onClick={() => dispatch(setCurrentProduct(product))}>
+            <Link
+              to={`/desc/${product.id}`}
+              className="link-main"
+              onClick={() => dispatch(setCurrentProduct(product))}
+            >
               {t("products_block.more")}
             </Link>
             {isModalOpen && <BuyModal onClose={() => setIsModalOpen(false)} />}
@@ -135,12 +146,15 @@ function CardItem() {
   };
 
   return (
-    <div className="container-productCard">
-      <h2>{t("products_block.popular")}</h2>
-      <div className="productCard-objs">
-        {products.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+    <div className="container">
+      {" "}
+      <div className="container-productCard">
+        <h2>{t("products_block.popular")}</h2>
+        <div className="productCard-objs">
+          {randomProducts.map((product) => (
+            <Item key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );

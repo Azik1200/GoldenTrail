@@ -1,11 +1,15 @@
 import { API_BASE_URL } from './auth';
 
-export async function fetchProducts() {
+export async function fetchProducts(params = {}) {
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
   const headers = {};
   if (language) headers['X-Language'] = language;
-  const resp = await fetch(`${API_BASE_URL}/api/products`, {
+  const url = new URL(`${API_BASE_URL}/api/products`);
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) url.searchParams.append(key, value);
+  });
+  const resp = await fetch(url.toString(), {
     credentials: 'include',
     headers,
   });
@@ -38,3 +42,4 @@ export async function fetchProductFilters() {
   if (!resp.ok) throw new Error('Network request failed');
   return resp.json();
 }
+

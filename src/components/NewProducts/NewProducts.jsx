@@ -11,7 +11,9 @@ import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 import { Link } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
+import formatPrice from "../../utils/formatPrice";
 import BuyModal from "../BuyModal/BuyModal";
+
 
 function NewProducts() {
   const { t } = useContext(LanguageContext);
@@ -58,7 +60,10 @@ function NewProducts() {
             </div>
             <div className="newProducts_status">{product.status}</div>
             <div className="newProducts_btns">
-              <button className="newProducts_btn baasket" onClick={handleAdd}></button>
+              <button
+                className="newProducts_btn baasket"
+                onClick={handleAdd}
+              ></button>
               <button
                 className={`newProducts_btn fav${
                   favorites.find(
@@ -78,11 +83,6 @@ function NewProducts() {
                 className={`newProducts_size-item${
                   optionKey(s) === optionKey(size) ? " active" : ""
                 }`}
-                style={
-                  optionKey(s) === optionKey(size)
-                    ? { border: "1px solid #000" }
-                    : {}
-                }
                 onClick={() => setSize(s)}
                 key={index}
               >
@@ -94,8 +94,8 @@ function NewProducts() {
         <div className="newProducts_bottom">
           <div className="newProducts_bottom-info">
             <div className="newProducts_price">
-              <div className="newProducts_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="newProducts_price_old-price">{product.oldPrice}</div>}
+              <div className="newProducts_price_main-price">{formatPrice(product.mainPrice)}</div>
+              {product.oldPrice && <div className="newProducts_price_old-price">{formatPrice(product.oldPrice)}</div>}
             </div>
             <ul className="newProducts_colors">
               {product.colors.map((c, index) => (
@@ -109,10 +109,6 @@ function NewProducts() {
                   <span
                     style={{
                       background: optionValue(c),
-                      border:
-                        optionKey(c) === optionKey(color)
-                          ? "1px solid #000"
-                          : "none",
                     }}
                   ></span>
                 </li>
@@ -123,7 +119,11 @@ function NewProducts() {
             <button className="btn-main" onClick={() => setIsModalOpen(true)}>
               {t("products_block.buy")}
             </button>
-            <Link to={`/desc/${product.id}`} className="link-main" onClick={() => dispatch(setCurrentProduct(product))}>
+            <Link
+              to={`/desc/${product.id}`}
+              className="link-main"
+              onClick={() => dispatch(setCurrentProduct(product))}
+            >
               {t("products_block.more")}
             </Link>
             {isModalOpen && <BuyModal onClose={() => setIsModalOpen(false)} />}
@@ -134,12 +134,14 @@ function NewProducts() {
   };
 
   return (
-    <div className="container-newproducts">
-      <h2>{t("products_block.new")}</h2>
-      <div className="newProducts-objs">
-        {products.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+    <div className="container">
+      <div className="container-newproducts">
+        <h2>{t("products_block.new")}</h2>
+        <div className="newProducts-objs">
+          {products.map((product) => (
+            <Item key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );

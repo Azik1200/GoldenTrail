@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/CardSlice";
 import { addCartItem, productToCartItem } from "../../api/cart";
 import { optionKey, optionValue, optionLabel } from "../../utils/options";
+import formatPrice from "../../utils/formatPrice";
 import { addFav } from "../../redux/AddFav";
 import { addFavorite, productToFavorite } from "../../api/favorites";
 
@@ -30,7 +31,7 @@ function ChoseProffesional() {
       console.error(err);
     }
   };
-  const products = useProducts();
+  const products = useProducts().slice(0, 6);
 
   const Item = ({ product }) => {
     const [size, setSize] = useState(product.sizes?.[0] || "");
@@ -60,7 +61,10 @@ function ChoseProffesional() {
             </div>
             <div className="ChoseProffesional_status">{product.status}</div>
             <div className="ChoseProffesional_btns">
-              <button className="ChoseProffesional_btn baasket" onClick={handleAdd}></button>
+              <button
+                className="ChoseProffesional_btn baasket"
+                onClick={handleAdd}
+              ></button>
               <button
                 className={`ChoseProffesional_btn fav${
                   favorites.find(
@@ -80,11 +84,6 @@ function ChoseProffesional() {
                 className={`ChoseProffesional_size-item${
                   optionKey(s) === optionKey(size) ? " active" : ""
                 }`}
-                style={
-                  optionKey(s) === optionKey(size)
-                    ? { border: "1px solid #000" }
-                    : {}
-                }
                 onClick={() => setSize(s)}
                 key={index}
               >
@@ -96,8 +95,8 @@ function ChoseProffesional() {
         <div className="ChoseProffesional_bottom">
           <div className="ChoseProffesional_bottom-info">
             <div className="ChoseProffesional_price">
-              <div className="ChoseProffesional_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="ChoseProffesional_price_old-price">{product.oldPrice}</div>}
+              <div className="ChoseProffesional_price_main-price">{formatPrice(product.mainPrice)}</div>
+              {product.oldPrice && <div className="ChoseProffesional_price_old-price">{formatPrice(product.oldPrice)}</div>}
             </div>
             <ul className="ChoseProffesional_colors">
               {product.colors.map((c, index) => (
@@ -111,10 +110,6 @@ function ChoseProffesional() {
                   <span
                     style={{
                       background: optionValue(c),
-                      border:
-                        optionKey(c) === optionKey(color)
-                          ? "1px solid #000"
-                          : "none",
                     }}
                   ></span>
                 </li>
@@ -125,7 +120,11 @@ function ChoseProffesional() {
             <button className="btn-main" onClick={() => setIsModalOpen(true)}>
               {t("products_block.buy")}
             </button>
-            <Link to={`/desc/${product.id}`} className="link-main" onClick={() => dispatch(setCurrentProduct(product))}>
+            <Link
+              to={`/desc/${product.id}`}
+              className="link-main"
+              onClick={() => dispatch(setCurrentProduct(product))}
+            >
               {t("products_block.more")}
             </Link>
             {isModalOpen && <BuyModal onClose={() => setIsModalOpen(false)} />}
@@ -135,12 +134,14 @@ function ChoseProffesional() {
     );
   };
   return (
-    <div className="container-ChoseProffesional">
-      <h2>{t("products_block.choose")}</h2>
-      <div className="ChoseProffesional-objs">
-        {products.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+    <div className="container">
+      <div className="container-ChoseProffesional">
+        <h2>{t("products_block.choose")}</h2>
+        <div className="ChoseProffesional-objs">
+          {products.map((product) => (
+            <Item key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );

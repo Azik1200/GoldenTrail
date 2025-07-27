@@ -13,6 +13,7 @@ import {
   decrementCartItem,
 } from "../../api/cart";
 import { optionLabel } from "../../utils/options";
+import formatPrice from "../../utils/formatPrice";
 import person from "../../assets/img/person.png";
 import bahyli from "../../assets/img/bahyli.png";
 import dezenfekiciya from "../../assets/img/dezenfekciya.png";
@@ -25,6 +26,8 @@ function SelectedItem() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
     const load = async () => {
       try {
         const data = await fetchCartItems();
@@ -67,7 +70,7 @@ function SelectedItem() {
 
   const total = cart.reduce((sum, item) => {
     const raw = item.mainPrice ?? item.price ?? '0';
-    const price = parseFloat(String(raw).replace(/\s|₽/g, ""));
+    const price = parseFloat(String(raw).replace(/\s|₽|₼/g, ""));
     return sum + price * (item.quantity || 1);
   }, 0);
 
@@ -140,11 +143,11 @@ function SelectedItem() {
                   </div>
                   <div className="SelectedItem-Total-Price">
                     <div className="SelectedItem-New-Price">
-                      {item.mainPrice ?? item.price}
+                      {formatPrice(item.mainPrice ?? item.price)}
                     </div>
                     {item.oldPrice && (
                       <div className="SelectedItem-Old-Price">
-                        {item.oldPrice}
+                        {formatPrice(item.oldPrice)}
                       </div>
                     )}
                     <div className="SelectedItem-Buttons">
@@ -193,13 +196,13 @@ function SelectedItem() {
             <div className="SelectedItem-Block-Total-Price">
               <div className="SelectedItem-Block-Discount">
                 <div className="SelectedItem-Discount">{t("busket.discount")}</div>
-                <div className="SelectedItem-Discount-total">-0 ₽</div>
+                <div className="SelectedItem-Discount-total">-0 ₼</div>
               </div>
               <div className="SelectedItem-Block-Total">
                 <div className="SelectedItem-Total">{t("busket.total")}</div>
                 <div className="SelectedItem-Total-Ptice">
                   <div className="SelectedItem-Price">
-                    {total.toLocaleString()} ₽
+                    {formatPrice(total)}
                   </div>
                   <p className="delivery">{t("busket.no_delivery")}</p>
                 </div>

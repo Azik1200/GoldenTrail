@@ -13,6 +13,7 @@ import cart from '../../assets/img/cartb.svg';
 import { LanguageContext } from '../../context/LanguageContext';
 
 import styles from './ProductCard.module.css';
+import formatPrice from '../../utils/formatPrice';
 
 const ProductCard = ({ product }) => {
   const { t } = useContext(LanguageContext);
@@ -77,10 +78,9 @@ const ProductCard = ({ product }) => {
                 {product.colors.map((color, index) => (
                   <button
                     key={index}
-                    className={`${styles.colorDot} ${
+                    className={`${styles.colorDot} ${styles[color] ?? ''} ${
                       selectedColor === color ? styles.active : ''
                     }`}
-                    style={{ background: color }}
                     onClick={() => setSelectedColor(color)}
                   />
                 ))}
@@ -118,9 +118,9 @@ const ProductCard = ({ product }) => {
           </div>
 
           <div className={styles.priceBlock}>
-            <div className={styles.currentPrice}>{product.mainPrice}</div>
+            <div className={styles.currentPrice}>{formatPrice(product.mainPrice)}</div>
             {product.oldPrice && (
-              <div className={styles.oldPrice}>{product.oldPrice}</div>
+              <div className={styles.oldPrice}>{formatPrice(product.oldPrice)}</div>
             )}
           </div>
 
@@ -140,7 +140,11 @@ const ProductCard = ({ product }) => {
             </button>
           </div>
 
-          <p className={styles.guarantee}>✓ {t('product_page.guarantee')}</p>
+          {product.hasWarranty && (
+            <p className={styles.guarantee}>
+              ✓ {product.warrantyText || t('product_page.guarantee')}
+            </p>
+          )}
         </div>
       </div>
 

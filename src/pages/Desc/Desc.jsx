@@ -14,7 +14,7 @@ function Desc() {
   const product = useSelector((state) => state.currentProduct.product);
 
   useEffect(() => {
-    if (!product || product.id !== Number(id)) {
+    if (!product || product.id !== Number(id) || !product.images?.length) {
       fetchProduct(id)
         .then((data) => dispatch(setCurrentProduct(transformProduct(data))))
         .catch((err) => console.error(err));

@@ -14,6 +14,7 @@ import {
   removeFavorite as apiRemoveFavorite,
 } from "../../api/favorites";
 import { optionLabel, optionKey } from "../../utils/options";
+import formatPrice from "../../utils/formatPrice";
 import person from "../../assets/img/person.png";
 import bahyli from "../../assets/img/bahyli.png";
 import dezenfekiciya from "../../assets/img/dezenfekciya.png";
@@ -26,6 +27,8 @@ function FavBusket() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
     const load = async () => {
       try {
         const data = await fetchFavorites();
@@ -62,7 +65,7 @@ function FavBusket() {
 
   const total = favorites.reduce((sum, item) => {
     const raw = item.mainPrice ?? item.price ?? "0";
-    const price = parseFloat(String(raw).replace(/\s|₽/g, ""));
+    const price = parseFloat(String(raw).replace(/\s|₽|₼/g, ""));
     const quantity = item.quantity || 1;
     return sum + price * quantity;
   }, 0);
@@ -134,9 +137,9 @@ function FavBusket() {
                     </div>
                   </div>
                   <div className="FavBusket-Total-Price">
-                    <div className="FavBusket-New-Price">{item.mainPrice}</div>
+                    <div className="FavBusket-New-Price">{formatPrice(item.mainPrice)}</div>
                     {item.oldPrice && (
-                      <div className="FavBusket-Old-Price">{item.oldPrice}</div>
+                      <div className="FavBusket-Old-Price">{formatPrice(item.oldPrice)}</div>
                     )}
                     <div className="FavBusket-Buttons">
                       <button
@@ -175,7 +178,7 @@ function FavBusket() {
               <div className="FavBusket-Block-Total">
                 <div className="FavBusket-Total">{t("busket.total")}</div>
                 <div className="FavBusket-Price">
-                  {total.toLocaleString()} ₽
+                  {formatPrice(total)}
                 </div>
               </div>
               <div className="Delivery-texts">

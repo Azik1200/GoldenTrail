@@ -1,0 +1,23 @@
+@import "./../../styles/utils/variables";
+
+.policyWrapper {
+  padding-top: 100px;
+  margin-bottom: 100px;
+  a {
+    color: inherit;
+  }
+}
+
+.policyInner {
+  margin-top: 50px;
+  span {
+    font-weight: 600;
+  }
+  a {
+    color: $color-gold;
+    text-decoration: underline;
+  }
+  h2 {
+    padding: 0;
+  }
+}

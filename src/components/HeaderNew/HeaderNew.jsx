@@ -1,14 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import logo from "./../../assets/img/Logo.svg";
-import searchResult1 from "./../../assets/img/searchResult1.png";
-import searchResult2 from "./../../assets/img/searchResult2.png";
 import { fetchCatalogs } from "../../api/catalogs";
+import useProducts from "../../hooks/useProducts";
+import { setCurrentProduct } from "../../redux/CurrentProductSlice";
+import formatPrice from "../../utils/formatPrice";
+import { LanguageContext } from "../../context/LanguageContext";
 import "./HeaderNew.scss";
 
 const HeaderNew = () => {
   const [catalogs, setCatalogs] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchHistory, setSearchHistory] = useState(() => {
+    const stored = localStorage.getItem("searchHistory");
+    return stored ? JSON.parse(stored) : [];
+  });
+  const products = useProducts();
+  const dispatch = useDispatch();
+  const { language, setLanguage, t } = useContext(LanguageContext);
 
   useEffect(() => {
     const body = document.body;
@@ -23,7 +37,24 @@ const HeaderNew = () => {
     }
   }, [isHovered]);
 
-  const handleMouseEnter = () => setIsHovered(true);
+  useEffect(() => {
+    const body = document.body;
+    if (isSearchOpen) {
+      body.classList.add("active");
+    } else if (!isHovered) {
+      body.classList.remove("active");
+    }
+    return () => {
+      if (!isHovered) {
+        body.classList.remove("active");
+      }
+    };
+  }, [isSearchOpen, isHovered]);
+
+  const handleMouseEnter = () => {
+    setIsSearchOpen(false);
+    setIsHovered(true);
+  };
   const handleMouseLeave = () => setIsHovered(false);
 
   useEffect(() => {
@@ -39,6 +70,35 @@ const HeaderNew = () => {
       setActiveTab(`cat-${catalogs[0].id}`);
     }
   }, [catalogs, activeTab]);
+
+  useEffect(() => {
+    if (!searchQuery) {
+      setSearchResults([]);
+      return;
+    }
+    const q = searchQuery.toLowerCase();
+    setSearchResults(products.filter((p) => p.name.toLowerCase().includes(q)));
+  }, [searchQuery, products]);
+
+  const addToHistory = (query) => {
+    if (!query.trim()) return;
+    setSearchHistory((prev) => {
+      const newHistory = [query, ...prev.filter((q) => q !== query)].slice(
+        0,
+        5
+      );
+      localStorage.setItem("searchHistory", JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
+
+  const removeFromHistory = (query) => {
+    setSearchHistory((prev) => {
+      const newHistory = prev.filter((q) => q !== query);
+      localStorage.setItem("searchHistory", JSON.stringify(newHistory));
+      return newHistory;
+    });
+  };
 
   useEffect(() => {
     const burger = document.getElementById("burgerID");
@@ -120,9 +180,9 @@ const HeaderNew = () => {
         <div className="headerNew">
           <div className="container">
             <div className="headerNew_wrapper">
-              <div className="headerNew_logo">
+              <a href="/" className="headerNew_logo">
                 <img src={logo} alt="GoldenTrail" />
-              </div>
+              </a>
               <div className="headerNew_nav">
                 <button
                   className="headerNew_nav_btn"
@@ -130,17 +190,23 @@ const HeaderNew = () => {
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                 >
-                  Продукция
+                  {t("header.products")}
                 </button>
-                <a href="#" className="headerNew_nav_btn">
-                  О нас
+                <Link to="/about" className="headerNew_nav_btn">
+                  {t("header.about")}
+                </Link>
+                <a href="#contacts" className="headerNew_nav_btn">
+                  {t("header.contacts")}
                 </a>
-                <button className="headerNew_nav_btn">Контакты</button>
               </div>
               <div className="headerNew_functions">
                 <button
                   className="headerNew_functions_btn"
                   id="openSearchPanelDesctop"
+                  onClick={() => {
+                    setIsSearchOpen((prev) => !prev);
+                    setIsHovered(false);
+                  }}
                 >
                   <svg
                     width="22"
@@ -152,13 +218,13 @@ const HeaderNew = () => {
                     <path
                       d="M15.4546 15.4546L19.0909 19.0909M2.72729 10C2.72729 11.9289 3.49353 13.7787 4.85743 15.1426C6.22133 16.5065 8.07118 17.2728 10 17.2728C11.9289 17.2728 13.7787 16.5065 15.1426 15.1426C16.5065 13.7787 17.2728 11.9289 17.2728 10C17.2728 8.07118 16.5065 6.22133 15.1426 4.85743C13.7787 3.49353 11.9289 2.72729 10 2.72729C8.07118 2.72729 6.22133 3.49353 4.85743 4.85743C3.49353 6.22133 2.72729 8.07118 2.72729 10Z"
                       stroke="white"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </button>
-                <a href="#" className="headerNew_functions_btn">
+                <Link to="/favorites" className="headerNew_functions_btn">
                   <svg
                     width="21"
                     height="22"
@@ -169,11 +235,11 @@ const HeaderNew = () => {
                     <path
                       d="M14.2864 3.47729C16.5056 3.47729 18.2991 5.29843 18.2991 7.72729C18.2991 9.20607 17.6703 10.6051 16.428 12.2009C15.1765 13.8085 13.3727 15.5297 11.1292 17.6658L11.1282 17.6667L10.3899 18.3708L9.65356 17.6667L9.65259 17.6658L8.05396 16.1365C6.54166 14.6759 5.29231 13.4066 4.35376 12.2009C3.11147 10.6051 2.48267 9.20607 2.48267 7.72729C2.48267 5.2985 4.27521 3.4774 6.49438 3.47729C7.76009 3.47729 8.99836 4.09996 9.80981 5.09253L10.3909 5.80347L10.9709 5.09253C11.7823 4.09991 13.0207 3.47743 14.2864 3.47729Z"
                       stroke="white"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                     />
                   </svg>
-                </a>
-                <a href="#" className="headerNew_functions_btn">
+                </Link>
+                <Link to="/Busket" className="headerNew_functions_btn">
                   <svg
                     width="21"
                     height="22"
@@ -186,8 +252,8 @@ const HeaderNew = () => {
                       fill="white"
                     />
                   </svg>
-                </a>
-                <a href="#" className="headerNew_functions_btn">
+                </Link>
+                <Link to="/LR" className="headerNew_functions_btn">
                   <svg
                     width="22"
                     height="22"
@@ -201,13 +267,34 @@ const HeaderNew = () => {
                       fill="white"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
               <div className="headerNew_right">
                 <div className="headerNew_languages">
-                  <button className="headerNew_languages_btn">AZ</button>
-                  <button className="headerNew_languages_btn">EN</button>
-                  <button className="headerNew_languages_btn active">RU</button>
+                  <button
+                    onClick={() => setLanguage("az")}
+                    className={`headerNew_languages_btn ${
+                      language === "az" ? "active" : ""
+                    }`}
+                  >
+                    AZ
+                  </button>
+                  <button
+                    onClick={() => setLanguage("en")}
+                    className={`headerNew_languages_btn ${
+                      language === "en" ? "active" : ""
+                    }`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    onClick={() => setLanguage("ru")}
+                    className={`headerNew_languages_btn ${
+                      language === "ru" ? "active" : ""
+                    }`}
+                  >
+                    RU
+                  </button>
                 </div>
                 <button className="headerNew_right_burger" id="burgerID">
                   <span></span>
@@ -242,23 +329,24 @@ const HeaderNew = () => {
               </div>
 
               <div className="headerDropdownDesktop_categories">
-                {catalogs.map((cat) => (
-                  activeTab === `cat-${cat.id}` && (
-                    <ul
-                      key={cat.id}
-                      className="headerDropdownDesktop_categories_list"
-                    >
-                      {cat.categories?.map((c) => (
-                        <li
-                          key={c.id}
-                          className="headerDropdownDesktop_categories_item"
-                        >
-                          <a href="#">{c.name || c.slug}</a>
-                        </li>
-                      ))}
-                    </ul>
-                  )
-                ))}
+                {catalogs.map(
+                  (cat) =>
+                    activeTab === `cat-${cat.id}` && (
+                      <ul
+                        key={cat.id}
+                        className="headerDropdownDesktop_categories_list"
+                      >
+                        {cat.categories?.map((c) => (
+                          <li
+                            key={c.id}
+                            className="headerDropdownDesktop_categories_item"
+                          >
+                            <Link to="/Filter">{c.name || c.slug}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )
+                )}
               </div>
             </div>
           </div>
@@ -309,7 +397,7 @@ const HeaderNew = () => {
                           key={c.id}
                           className="headerDropdownMobile_wrapper_second-inner-list-item"
                         >
-                          <a href="#">{c.name || c.slug}</a>
+                          <Link to={`/Filter?category=${c.slug}`}>{c.name || c.slug}</Link>
                         </li>
                       ))}
                     </ul>
@@ -320,99 +408,117 @@ const HeaderNew = () => {
           </div>
         </div>
 
-        <div className="headerSearch">
-          <div className="container">
-            <div className="headerWrapper">
-              <form action="#" id="headerNewFormSearch">
-                <input
-                  type="text"
-                  className="headerNewSearchInput"
-                  placeholder="Search"
-                />
-              </form>
-              <button className="headerNewCloseBtn">
-                <span></span>
-                <span></span>
-              </button>
-            </div>
-          </div>
-
-          <div className="headerResults">
+        {isSearchOpen && (
+          <div className="headerSearch">
             <div className="container">
-              <div className="headerResultsWrapper">
-                <div className="headerResultsPlus">
-                  <ul className="headerResultsList">
-                    <li className="headerResultsListItem">
-                      <a href="#">
-                        <div className="headerResultsListItem_wrapper">
-                          <div className="headerResultsListItem_img">
-                            <img src={searchResult1} alt="searchResult1" />
-                          </div>
-                          <div className="headerResultsListItem_wrapper-inner">
-                            <div className="headerResultsListItem_name">
-                              Фартук рентгенозащитный
-                            </div>
-                            <div className="headerResultsListItem_price">
-                              <div className="headerResultsListItem_price-actual">
-                                7 800 ₽
+              <div className="headerWrapper">
+                <form action="#" id="headerNewFormSearch">
+                  <input
+                    type="text"
+                    className="headerNewSearchInput"
+                    name="search"
+                    id="headerNewSearchInput"
+                    placeholder="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </form>
+                <button
+                  className="headerNewCloseBtn"
+                  onClick={() => {
+                    setIsSearchOpen(false);
+                    setSearchQuery("");
+                  }}
+                >
+                  <span></span>
+                  <span></span>
+                </button>
+              </div>
+            </div>
+
+            <div className="headerResults">
+              <div className="container">
+                <div className="headerResultsWrapper">
+                  {searchResults.length > 0 ? (
+                    <div className="headerResultsPlus">
+                      <ul className="headerResultsList">
+                        {searchResults.map((product) => (
+                          <li
+                            key={product.id}
+                            className="headerResultsListItem"
+                          >
+                            <Link
+                              to={`/desc/${product.id}`}
+                              onClick={() => {
+                                dispatch(setCurrentProduct(product));
+                                addToHistory(searchQuery);
+                                setIsSearchOpen(false);
+                                setSearchQuery("");
+                              }}
+                            >
+                              <div className="headerResultsListItem_wrapper">
+                                <div className="headerResultsListItem_img">
+                                  <img src={product.img} alt={product.name} />
+                                </div>
+                                <div className="headerResultsListItem_wrapper-inner">
+                                  <div className="headerResultsListItem_name">
+                                    {product.name}
+                                  </div>
+                                  <div className="headerResultsListItem_price">
+                                    <div className="headerResultsListItem_price-actual">
+                                      {formatPrice(product.mainPrice)}
+                                    </div>
+                                    {product.oldPrice && (
+                                      <div className="headerResultsListItem_price-old">
+                                        {formatPrice(product.oldPrice)}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
                               </div>
-                              <div className="headerResultsListItem_price-old">
-                                11 300 ₽
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : searchQuery ? (
+                    <div className="headerResultsMinus">
+                      <p className="headerNewSearchResultsMinus">
+                        По вашему запросу ничего не найдено
+                      </p>
+                    </div>
+                  ) : (
+                    searchHistory.length > 0 && (
+                      <div className="headerResultsStory">
+                        <ul className="headerResultsStoryList">
+                          {searchHistory.map((item) => (
+                            <li
+                              key={item}
+                              className="headerResultsStoryListItem"
+                            >
+                              <div
+                                className="headerResultsStoryListItemName"
+                                onClick={() => setSearchQuery(item)}
+                              >
+                                {item}
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li className="headerResultsListItem">
-                      <a href="#">
-                        <div className="headerResultsListItem_wrapper">
-                          <div className="headerResultsListItem_img">
-                            <img src={searchResult2} alt="searchResult2" />
-                          </div>
-                          <div className="headerResultsListItem_wrapper-inner">
-                            <div className="headerResultsListItem_name">
-                              Очки рентгенозащитные
-                            </div>
-                            <div className="headerResultsListItem_price">
-                              <div className="headerResultsListItem_price-actual">
-                                4 200 ₽
-                              </div>
-                              <div className="headerResultsListItem_price-old"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div className="headerResultsMinus">
-                  <p className="headerNewSearchResultsMinus">
-                    По вашему запросу ничего не найдено
-                  </p>
-                </div>
-                <div className="headerResultsStory">
-                  <ul className="headerResultsStoryList">
-                    <li className="headerResultsStoryListItem">
-                      <div className="headerResultsStoryListItemName">
-                        Защита от мошенников
+                              <button
+                                className="headerResultsStoryListItemBtn"
+                                onClick={() => removeFromHistory(item)}
+                              >
+                                Удалить
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <button className="headerResultsStoryListItemBtn">
-                        Удалить
-                      </button>
-                    </li>
-                    <li className="headerResultsStoryListItem">
-                      <div className="headerResultsStoryListItemName">Защи</div>
-                      <button className="headerResultsStoryListItemBtn">
-                        Удалить
-                      </button>
-                    </li>
-                  </ul>
+                    )
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="headerFunctionsMobile">
         <div className="container">
@@ -420,6 +526,7 @@ const HeaderNew = () => {
             <button
               className="headerNew_functions_btn"
               id="openSearchPanelMobile"
+              onClick={() => setIsSearchOpen((prev) => !prev)}
             >
               <svg
                 width="22"
@@ -431,13 +538,13 @@ const HeaderNew = () => {
                 <path
                   d="M15.4546 15.4546L19.0909 19.0909M2.72729 10C2.72729 11.9289 3.49353 13.7787 4.85743 15.1426C6.22133 16.5065 8.07118 17.2728 10 17.2728C11.9289 17.2728 13.7787 16.5065 15.1426 15.1426C16.5065 13.7787 17.2728 11.9289 17.2728 10C17.2728 8.07118 16.5065 6.22133 15.1426 4.85743C13.7787 3.49353 11.9289 2.72729 10 2.72729C8.07118 2.72729 6.22133 3.49353 4.85743 4.85743C3.49353 6.22133 2.72729 8.07118 2.72729 10Z"
                   stroke="white"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </button>
-            <a href="#" className="headerNew_functions_btn">
+            <Link to="/favorites" className="headerNew_functions_btn">
               <svg
                 width="21"
                 height="22"
@@ -448,11 +555,11 @@ const HeaderNew = () => {
                 <path
                   d="M14.2864 3.47729C16.5056 3.47729 18.2991 5.29843 18.2991 7.72729C18.2991 9.20607 17.6703 10.6051 16.428 12.2009C15.1765 13.8085 13.3727 15.5297 11.1292 17.6658L11.1282 17.6667L10.3899 18.3708L9.65356 17.6667L9.65259 17.6658L8.05396 16.1365C6.54166 14.6759 5.29231 13.4066 4.35376 12.2009C3.11147 10.6051 2.48267 9.20607 2.48267 7.72729C2.48267 5.2985 4.27521 3.4774 6.49438 3.47729C7.76009 3.47729 8.99836 4.09996 9.80981 5.09253L10.3909 5.80347L10.9709 5.09253C11.7823 4.09991 13.0207 3.47743 14.2864 3.47729Z"
                   stroke="white"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                 />
               </svg>
-            </a>
-            <a href="#" className="headerNew_functions_btn">
+            </Link>
+            <Link to="/Busket" className="headerNew_functions_btn">
               <svg
                 width="21"
                 height="22"
@@ -465,8 +572,8 @@ const HeaderNew = () => {
                   fill="white"
                 />
               </svg>
-            </a>
-            <a href="#" className="headerNew_functions_btn">
+            </Link>
+            <Link to="/LR" className="headerNew_functions_btn">
               <svg
                 width="22"
                 height="22"
@@ -480,7 +587,7 @@ const HeaderNew = () => {
                   fill="white"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

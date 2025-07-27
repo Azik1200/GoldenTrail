@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/CardSlice";
 import { addCartItem, productToCartItem } from "../../api/cart";
 import { optionKey, optionValue, optionLabel } from "../../utils/options";
+import formatPrice from "../../utils/formatPrice";
 import { useContext, useState } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
 
@@ -75,11 +76,6 @@ function SoMayLike() {
                 className={`SoMayLike_size-item${
                   optionKey(s) === optionKey(size) ? " active" : ""
                 }`}
-                style={
-                  optionKey(s) === optionKey(size)
-                    ? { border: "1px solid #000" }
-                    : {}
-                }
                 onClick={() => setSize(s)}
                 key={index}
               >
@@ -91,8 +87,8 @@ function SoMayLike() {
         <div className="SoMayLike_bottom">
           <div className="SoMayLike_bottom-info">
             <div className="SoMayLike_price">
-              <div className="SoMayLike_price_main-price">{product.mainPrice}</div>
-              {product.oldPrice && <div className="SoMayLike_price_old-price">{product.oldPrice}</div>}
+              <div className="SoMayLike_price_main-price">{formatPrice(product.mainPrice)}</div>
+              {product.oldPrice && <div className="SoMayLike_price_old-price">{formatPrice(product.oldPrice)}</div>}
             </div>
             <ul className="SoMayLike_colors">
               {product.colors.map((c, index) => (
@@ -106,10 +102,6 @@ function SoMayLike() {
                   <span
                     style={{
                       background: optionValue(c),
-                      border:
-                        optionKey(c) === optionKey(color)
-                          ? "1px solid #000"
-                          : "none",
                     }}
                   ></span>
                 </li>

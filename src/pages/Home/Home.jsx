@@ -2,6 +2,7 @@ import About from "../../components/About/About";
 import Advantages from "../../components/Advantages/Advantages";
 import BanerReviews from "../../components/BanerReviews/BanerReviews";
 import BestSellers from "../../components/BestSellers/BestSellers";
+import BlogList from "../../components/BlogList/BlogList";
 import CardItem from "../../components/CardItem/CardItem";
 
 import ChoseProffesional from "../../components/ChoseProffesional/ChoseProffesional";
@@ -10,6 +11,7 @@ import OrderEasily from "../../components/OrderEasily/OrderEasily";
 import PopularBrands from "../../components/PopularBrands/PopularBrands";
 import ProductCategories from "../../components/ProductCategories/ProductCategories";
 import Reviews from "../../components/Reviews/Reviews";
+import Sertificates from "../../components/Sertificates/Sertificates";
 import WideUsage from "../../components/WideUsage/WideUsage";
 
 function Home() {
@@ -24,8 +26,10 @@ function Home() {
       <BestSellers />
       <ChoseProffesional />
       <WideUsage />
+      <Sertificates />
       <Advantages />
-      <Reviews />
+      <BlogList />
+      {/* <Reviews /> */}
       <OrderEasily />
     </>
   );

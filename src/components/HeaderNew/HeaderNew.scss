@@ -353,7 +353,7 @@ body.active::after {
 
 .headerSearch {
   background: $color-blue;
-  display: none;
+  display: block;
   .headerWrapper {
     display: flex;
     align-items: center;
@@ -412,6 +412,8 @@ body.active::after {
       align-items: center;
       gap: 16px;
       .headerResultsListItem_img {
+        width: 80px;
+        height: 80px;
         background: $color-grey;
         img {
           width: 100%;
