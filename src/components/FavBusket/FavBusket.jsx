@@ -1,5 +1,6 @@
 import "./FavBusket.scss";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   removeFav,
   clearFav,
@@ -71,9 +72,14 @@ function FavBusket() {
   }, 0);
 
   const categories = [
-    { id: 1, name: t("categories.xr"), bg: person },
-    { id: 2, name: t("categories.disposable"), bg: bahyli },
-    { id: 3, name: t("categories.antiseptics"), bg: dezenfekiciya },
+    { id: 1, name: t("categories.xr"), bg: person, slug: "xr" },
+    { id: 2, name: t("categories.disposable"), bg: bahyli, slug: "disposable" },
+    {
+      id: 3,
+      name: t("categories.antiseptics"),
+      bg: dezenfekiciya,
+      slug: "antiseptics",
+    },
   ];
 
   return (
@@ -92,9 +98,9 @@ function FavBusket() {
                   style={{ backgroundImage: `url(${category.bg})` }}
                 >
                   <h3 className="FavBusket-category-name">{category.name}</h3>
-                  <button className="btn-main btn">
+                  <Link to={`/Filter?category=${category.slug}`} className="btn-main btn">
                     {t("busket.go_to_catalog")}
-                  </button>
+                  </Link>
                 </div>
               ))}
             </div>

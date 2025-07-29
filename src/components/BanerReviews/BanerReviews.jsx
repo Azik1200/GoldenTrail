@@ -5,6 +5,7 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { LanguageContext } from "../../context/LanguageContext";
 import useSlides from "../../hooks/useSlides";
 import { formatSlideImageUrl } from "../../api/slides";
@@ -32,9 +33,9 @@ function BanerReviews() {
                     <span className="heroBadge">{slide.small_text}</span>
                     <h1 className="heroTitle">{slide.big_text}</h1>
                     <p className="heroSubtitle">{slide.medium_text}</p>
-                    <a href="#" className="heroLink">
+                    <Link to="/Filter" className="heroLink">
                       {t("hero.go_to_catalog")}
-                    </a>
+                    </Link>
                   </div>
                   <div className="heroImg__wrapper">
                     <div className="heroImg">
