@@ -56,7 +56,10 @@ function SoMayLike() {
             </div>
             <div className="SoMayLike_status">{product.status}</div>
             <div className="SoMayLike_btns">
-              <button className="SoMayLike_btn baasket" onClick={handleAdd}></button>
+              <button
+                className="SoMayLike_btn baasket"
+                onClick={handleAdd}
+              ></button>
               <button
                 className={`SoMayLike_btn fav${
                   favorites.find(
@@ -87,8 +90,14 @@ function SoMayLike() {
         <div className="SoMayLike_bottom">
           <div className="SoMayLike_bottom-info">
             <div className="SoMayLike_price">
-              <div className="SoMayLike_price_main-price">{formatPrice(product.mainPrice)}</div>
-              {product.oldPrice && <div className="SoMayLike_price_old-price">{formatPrice(product.oldPrice)}</div>}
+              <div className="SoMayLike_price_main-price">
+                {formatPrice(product.mainPrice)}
+              </div>
+              {product.oldPrice && (
+                <div className="SoMayLike_price_old-price">
+                  {formatPrice(product.oldPrice)}
+                </div>
+              )}
             </div>
             <ul className="SoMayLike_colors">
               {product.colors.map((c, index) => (
@@ -122,12 +131,14 @@ function SoMayLike() {
   };
 
   return (
-    <div className="container-SoMayLike">
-      <h2>{t("products_block.new")}</h2>
-      <div className="SoMayLike-objs">
-        {products.map((product) => (
-          <Item key={product.id} product={product} />
-        ))}
+    <div className="container">
+      <div className="container-SoMayLike">
+        <h2>{t("products_block.new")}</h2>
+        <div className="SoMayLike-objs">
+          {products.map((product) => (
+            <Item key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );

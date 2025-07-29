@@ -122,6 +122,12 @@ const translations = {
       show_more: "Tam oxu",
       hide: "Gizlət",
     },
+    error_page: {
+      title: "Səhifə tapılmadı",
+      description:
+        "Təəssüf ki, istədiyiniz səhifə mövcud deyil və ya silinib. Əsas səhifəyə qayıdın və ya naviqasiya menyusundan istifadə edin.",
+      back_home: "Əsas səhifə",
+    },
     personal: {
       title: "Şəxsi kabinet",
       logout: "Çıxış",
@@ -363,6 +369,12 @@ const translations = {
       show_more: "Read more",
       hide: "Hide",
     },
+    error_page: {
+      title: "Page not found",
+      description:
+        "Unfortunately, the requested page does not exist or has been removed. Return to the homepage or use the navigation menu.",
+      back_home: "Home",
+    },
     personal: {
       title: "Personal account",
       logout: "Logout",
@@ -603,6 +615,12 @@ const translations = {
       slide_hint: "Листайте чтобы посмотреть все отзывы",
       show_more: "Читать полностью",
       hide: "Скрыть",
+    },
+    error_page: {
+      title: "Страница не найдена",
+      description:
+        "К сожалению, запрашиваемая страница не существует или была удалена. Вернитесь на главную или воспользуйтесь меню навигации.",
+      back_home: "На главную",
     },
     personal: {
       title: "Личный кабинет",

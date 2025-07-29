@@ -9,9 +9,14 @@ import { LanguageContext } from "../../context/LanguageContext";
 function ProductCategories() {
   const { t } = useContext(LanguageContext);
   const categories = [
-    { id: 1, name: t("categories.xr"), bg: person },
-    { id: 2, name: t("categories.disposable"), bg: bahyli },
-    { id: 3, name: t("categories.antiseptics"), bg: dezenfekiciya },
+    { id: 1, name: t("categories.xr"), bg: person, slug: "xr" },
+    { id: 2, name: t("categories.disposable"), bg: bahyli, slug: "disposable" },
+    {
+      id: 3,
+      name: t("categories.antiseptics"),
+      bg: dezenfekiciya,
+      slug: "antiseptics",
+    },
   ];
 
   return (
@@ -25,7 +30,7 @@ function ProductCategories() {
             style={{ backgroundImage: `url(${category.bg})` }}
           >
             <h3 className="product-category-name">{category.name}</h3>
-            <Link to={"/Filter"}>
+            <Link to={`/Filter?category=${category.slug}`}>
               <button className="btn-main btn">
                 {t("busket.go_to_catalog")}
               </button>

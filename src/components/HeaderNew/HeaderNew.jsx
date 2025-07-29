@@ -315,16 +315,16 @@ const HeaderNew = () => {
             <div className="headerDropdownDesktop_wrapper">
               <div className="headerDropdownDesktop_chapter">
                 {catalogs.map((cat) => (
-                  <div
+                  <Link
                     key={cat.id}
                     className={`headerDropdownDesktop_chapter_item ${
                       activeTab === `cat-${cat.id}` ? "active" : ""
                     }`}
                     id={`cat-${cat.id}`}
-                    onClick={() => setActiveTab(`cat-${cat.id}`)}
+                    to={`/Filter?catalog=${cat.slug}`}
                   >
                     {cat.name || cat.slug}
-                  </div>
+                  </Link>
                 ))}
               </div>
 
@@ -341,7 +341,7 @@ const HeaderNew = () => {
                             key={c.id}
                             className="headerDropdownDesktop_categories_item"
                           >
-                            <Link to="/Filter">{c.name || c.slug}</Link>
+                            <Link to={`/Filter?category=${c.slug}`}>{c.name || c.slug}</Link>
                           </li>
                         ))}
                       </ul>
@@ -361,13 +361,14 @@ const HeaderNew = () => {
                 </div>
                 <div className="headerDropdownMobile_item_content">
                   {catalogs.map((cat) => (
-                    <div
+                    <Link
                       key={cat.id}
                       className="headerDropdownMobile_item_content_btn"
                       id={`cat-mob-${cat.id}`}
+                      to={`/Filter?catalog=${cat.slug}`}
                     >
                       {cat.name || cat.slug}
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

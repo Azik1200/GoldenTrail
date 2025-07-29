@@ -1,9 +1,12 @@
 import Error from "../../assets/img/Error.svg";
 import error404 from "../../assets/img/error404.png";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { LanguageContext } from "../../context/LanguageContext";
 import "./Error.scss";
 
 function ErrorBlock() {
+  const { t } = useContext(LanguageContext);
   return (
     <div className="Error-Container">
       <div className="Error-Imgs">
@@ -14,14 +17,11 @@ function ErrorBlock() {
           <img src={Error} />
         </div>
       </div>
-      <h2>Страница не найдена</h2>
-      <p>
-        К сожалению, запрашиваемая страница не существует или была удалена.
-        Вернитесь на главную или воспользуйтесь меню навигации.
-      </p>
+      <h2>{t("error_page.title")}</h2>
+      <p>{t("error_page.description")}</p>
       <Link to={"/"}>
         {" "}
-        <button className="btn-main">На главную</button>
+        <button className="btn-main">{t("error_page.back_home")}</button>
       </Link>
     </div>
   );

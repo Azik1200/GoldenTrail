@@ -23,21 +23,24 @@ function FilteredProducts() {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
   const location = useLocation();
-  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
-  const initialCategory = searchParams.get("category") || "";
-  const initialCatalog = initialCategory ? "" : searchParams.get("catalog") || "";
-  const [selectedCatalog, setSelectedCatalog] = useState(initialCatalog);
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const searchParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
+  const initialCategories = searchParams.getAll("category");
+  const initialCatalogs = searchParams.getAll("catalog");
+  const [selectedCatalogs, setSelectedCatalogs] = useState(initialCatalogs);
+  const [selectedCategories, setSelectedCategories] = useState(initialCategories);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const category = params.get("category") || "";
-    const cat = category ? "" : params.get("catalog") || "";
-    setSelectedCategory(category);
-    setSelectedCatalog(cat);
+    const categories = params.getAll("category");
+    const catalogs = params.getAll("catalog");
+    setSelectedCategories(categories);
+    setSelectedCatalogs(catalogs);
   }, [location.search]);
 
   const dispatch = useDispatch();
@@ -52,23 +55,27 @@ function FilteredProducts() {
   useEffect(() => {
     const body = document.body;
     if (sidebarOpen) {
-      body.classList.add('active');
+      body.classList.add("active");
     } else {
-      body.classList.remove('active');
+      body.classList.remove("active");
     }
-    return () => body.classList.remove('active');
+    return () => body.classList.remove("active");
   }, [sidebarOpen]);
 
   useEffect(() => {
-    if (filterOptions && selectedCategory) {
-      const found = filterOptions.catalogs?.find((cat) =>
-        cat.categories?.some((c) => c.slug === selectedCategory)
-      );
-      if (found && found.slug !== selectedCatalog) {
-        setSelectedCatalog(found.slug);
+    if (filterOptions && selectedCategories.length) {
+      const parents = filterOptions.catalogs
+        ?.filter((cat) =>
+          cat.categories?.some((c) => selectedCategories.includes(c.slug))
+        )
+        .map((cat) => cat.slug);
+      if (parents?.length) {
+        setSelectedCatalogs((prev) =>
+          Array.from(new Set([...prev, ...parents]))
+        );
       }
     }
-  }, [filterOptions, selectedCategory, selectedCatalog]);
+  }, [filterOptions, selectedCategories]);
 
   const handleAddFav = async (product) => {
     try {
@@ -82,15 +89,23 @@ function FilteredProducts() {
   };
   const filterParams = useMemo(() => {
     const params = {};
-    if (!selectedCategory && selectedCatalog) params.catalog = selectedCatalog;
-    if (selectedCategory) params.category = selectedCategory;
+    if (selectedCatalogs.length) params.catalog = selectedCatalogs;
+    if (selectedCategories.length) params.category = selectedCategories;
     if (selectedBrands.length) params.brands = selectedBrands;
     if (selectedColors.length) params.colors = selectedColors;
     if (selectedSizes.length) params.sizes = selectedSizes;
     if (minPrice) params.min_price = minPrice;
     if (maxPrice) params.max_price = maxPrice;
     return params;
-  }, [selectedCatalog, selectedCategory, selectedBrands, selectedColors, selectedSizes, minPrice, maxPrice]);
+  }, [
+    selectedCatalogs,
+    selectedCategories,
+    selectedBrands,
+    selectedColors,
+    selectedSizes,
+    minPrice,
+    maxPrice,
+  ]);
 
   const products = useProducts(filterParams);
   const filteredProducts = products;
@@ -105,12 +120,10 @@ function FilteredProducts() {
     setSelectedBrands([]);
     setSelectedColors([]);
     setSelectedSizes([]);
-    setMinPrice('');
-    setMaxPrice('');
-    setSelectedCatalog('');
-    setSelectedCategory('');
     setMinPrice("");
     setMaxPrice("");
+    setSelectedCatalogs([]);
+    setSelectedCategories([]);
   };
 
   const Item = ({ product }) => {
@@ -132,7 +145,6 @@ function FilteredProducts() {
     };
 
     return (
-      // <div className="container">
       <div className="FilteredProducts" key={product.id}>
         <div className="FilteredProducts_top">
           <div className="FilteredProducts_main-info">
@@ -216,235 +228,298 @@ function FilteredProducts() {
           </div>
         </div>
       </div>
-      // </div>
     );
   };
 
   const heading = useMemo(() => {
-    if (!filterOptions) return 'Каталог';
-    if (selectedCategory) {
+    if (!filterOptions) return "Каталог";
+    if (selectedCategories.length === 1) {
       for (const cat of filterOptions.catalogs || []) {
-        const found = cat.categories?.find((c) => c.slug === selectedCategory);
+        const found = cat.categories?.find(
+          (c) => c.slug === selectedCategories[0]
+        );
         if (found) return found.name || found.slug;
       }
     }
-    if (selectedCatalog) {
-      const cat = (filterOptions.catalogs || []).find((c) => c.slug === selectedCatalog);
+    if (
+      selectedCategories.length === 0 &&
+      selectedCatalogs.length === 1
+    ) {
+      const cat = (filterOptions.catalogs || []).find(
+        (c) => c.slug === selectedCatalogs[0]
+      );
       if (cat) return cat.name || cat.slug;
     }
-    return 'Каталог';
-  }, [filterOptions, selectedCatalog, selectedCategory]);
+    return "Каталог";
+  }, [filterOptions, selectedCatalogs, selectedCategories]);
 
   return (
-    <div className="FilteredProducts-container">
-      <h2>{heading}</h2>
-      <div className="FilteredProducts-Buttons">
-        <div className="FilteredProducts-filter">
-          <div className="FilteredProducts-name">По умолчанию</div>
-          <div className="FilteredProducts-img">
-            <img src={up} />
+    <div className="container">
+      <div className="FilteredProducts-container">
+        <h2>{heading}</h2>
+        <div className="FilteredProducts-Buttons">
+          <div className="FilteredProducts-filter">
+            <div className="FilteredProducts-name">По умолчанию</div>
+            <div className="FilteredProducts-img">
+              <img src={up} />
+            </div>
           </div>
+          <button
+            className="FilteredProducts-All"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <span className="FilteredProducts-All-name">Все фильтры</span>
+            <div>
+              <img src={vector} />
+            </div>
+          </button>
+          <button className="FilteredProducts-delete" onClick={clearFilters}>
+            Очистить фильтры
+          </button>
         </div>
-        <button
-          className="FilteredProducts-All"
-          onClick={() => setSidebarOpen(true)}
-        >
-          <span className="FilteredProducts-All-name">Все фильтры</span>
-          <div>
-            <img src={vector} />
-          </div>
-        </button>
-        <button className="FilteredProducts-delete" onClick={clearFilters}>
-          Очистить фильтры
-        </button>
-      </div>
 
-      <div className="FilteredProducts-All-buttns">
-        {!selectedCategory && selectedCatalog && (
-          <div className="FilteredProducts-All-btn">
-            {filterOptions?.catalogs?.find((c) => c.slug === selectedCatalog)?.name || selectedCatalog}
-          </div>
-        )}
-        {selectedCategory && (
-          <div className="FilteredProducts-All-btn">
-            {filterOptions?.catalogs?.flatMap((c) => c.categories || []).find((c) => c.slug === selectedCategory)?.name || selectedCategory}
-          </div>
-        )}
-        {selectedBrands.map((b) => (
-          <div key={`brand-${b}`} className="FilteredProducts-All-btn">
-            {b}
-          </div>
-        ))}
-        {selectedColors.map((c) => (
-          <div key={`color-${optionKey(c)}`} className="FilteredProducts-All-btn">
-            {optionLabel(c)}
-          </div>
-        ))}
-        {selectedSizes.map((s) => (
-          <div key={`size-${optionKey(s)}`} className="FilteredProducts-All-btn">
-            {optionLabel(s)}
-          </div>
-        ))}
-        {(minPrice || maxPrice) && (
-          <div className="FilteredProducts-All-btn">
-            {minPrice ? `От ${minPrice}` : ''}
-            {minPrice && maxPrice ? ' - ' : ''}
-            {maxPrice ? `До ${maxPrice}` : ''}
-          </div>
-        )}
-      </div>
+        <div className="FilteredProducts-All-buttns">
+          {selectedCatalogs.map((cat) => (
+            <div key={`catalog-${cat}`} className="FilteredProducts-All-btn">
+              {filterOptions?.catalogs?.find((c) => c.slug === cat)?.name || cat}
+            </div>
+          ))}
+          {selectedCategories.map((c) => (
+            <div key={`category-${c}`} className="FilteredProducts-All-btn">
+              {filterOptions?.catalogs
+                ?.flatMap((cat) => cat.categories || [])
+                .find((cat) => cat.slug === c)?.name || c}
+            </div>
+          ))}
+          {selectedBrands.map((b) => (
+            <div key={`brand-${b}`} className="FilteredProducts-All-btn">
+              {b}
+            </div>
+          ))}
+          {selectedColors.map((c) => (
+            <div
+              key={`color-${optionKey(c)}`}
+              className="FilteredProducts-All-btn"
+            >
+              {optionLabel(c)}
+            </div>
+          ))}
+          {selectedSizes.map((s) => (
+            <div
+              key={`size-${optionKey(s)}`}
+              className="FilteredProducts-All-btn"
+            >
+              {optionLabel(s)}
+            </div>
+          ))}
+          {(minPrice || maxPrice) && (
+            <div className="FilteredProducts-All-btn">
+              {minPrice ? `От ${minPrice}` : ""}
+              {minPrice && maxPrice ? " - " : ""}
+              {maxPrice ? `До ${maxPrice}` : ""}
+            </div>
+          )}
+        </div>
 
-      {sidebarOpen && filterOptions && (
-        <div className="FilterSidebar">
-          <div className="FilterSidebar-header">
-            <h2>Фильтры</h2>
-            <button className="close-btn" onClick={() => setSidebarOpen(false)}>
-              ×
-            </button>
-          </div>
-          {filterOptions.catalogs?.length > 0 && (
-            <div className="FilterSidebar-section">
-              <h3>Каталог</h3>
-              <ul className="FilterSidebar-menu">
-                {filterOptions.catalogs.map((cat) => (
-                  <li key={cat.slug} className="FilterSidebar-menu-item">
-                    <label className="custom-checkbox-square">
-                      <input
-                        type="radio"
-                        name="catalog"
-                        checked={selectedCatalog === cat.slug}
-                        onChange={() => {
-                          setSelectedCatalog(cat.slug);
-                          setSelectedCategory('');
-                        }}
-                      />
-                      <span className={selectedCatalog === cat.slug ? 'active' : ''}></span>
-                    </label>
-                    <span className="section-label-text">{cat.name}</span>
-                  </li>
-                ))}
-              </ul>
-              {selectedCatalog &&
-                filterOptions.catalogs.find((c) => c.slug === selectedCatalog)?.categories?.length > 0 && (
-                  <ul className="FilterSidebar-menu">
-                    {filterOptions.catalogs
-                      .find((c) => c.slug === selectedCatalog)
-                      .categories.map((c) => (
+        {sidebarOpen && filterOptions && (
+          <div className="FilterSidebar">
+            <div className="FilterSidebar-header">
+              <h2>Фильтры</h2>
+              <button
+                className="close-btn"
+                onClick={() => setSidebarOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            {filterOptions.catalogs?.length > 0 && (
+              <div className="FilterSidebar-section">
+                <h3>Каталог</h3>
+                <ul className="FilterSidebar-menu">
+                  {filterOptions.catalogs.map((cat) => (
+                    <li key={cat.slug} className="FilterSidebar-menu-item">
+                      <label className="custom-checkbox-square">
+                        <input
+                          type="checkbox"
+                          checked={selectedCatalogs.includes(cat.slug)}
+                          onChange={() => {
+                            setSelectedCatalogs((prev) => {
+                              if (prev.includes(cat.slug)) {
+                                setSelectedCategories((cats) =>
+                                  cats.filter(
+                                    (c) =>
+                                      !cat.categories?.some((ct) => ct.slug === c)
+                                  )
+                                );
+                                return prev.filter((c) => c !== cat.slug);
+                              }
+                              return [...prev, cat.slug];
+                            });
+                          }}
+                        />
+                        <span
+                          className={
+                            selectedCatalogs.includes(cat.slug) ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                      <span className="section-label-text">{cat.name}</span>
+                    </li>
+                  ))}
+                </ul>
+                {selectedCatalogs.map((slug) => {
+                  const catalog = filterOptions.catalogs.find((c) => c.slug === slug);
+                  if (!catalog?.categories?.length) return null;
+                  return (
+                    <ul key={`cat-${slug}`} className="FilterSidebar-menu">
+                      {catalog.categories.map((c) => (
                         <li key={c.slug} className="FilterSidebar-menu-item">
                           <label className="custom-checkbox-square">
                             <input
-                              type="radio"
-                              name="category"
-                              checked={selectedCategory === c.slug}
-                              onChange={() => setSelectedCategory(c.slug)}
+                              type="checkbox"
+                              checked={selectedCategories.includes(c.slug)}
+                              onChange={() =>
+                                toggleItem(
+                                  selectedCategories,
+                                  setSelectedCategories,
+                                  c.slug
+                                )
+                              }
                             />
-                            <span className={selectedCategory === c.slug ? 'active' : ''}></span>
+                            <span
+                              className={
+                                selectedCategories.includes(c.slug) ? "active" : ""
+                              }
+                            ></span>
                           </label>
                           <span className="section-label-text">{c.name}</span>
                         </li>
                       ))}
-                  </ul>
-                )}
+                    </ul>
+                  );
+                })}
+              </div>
+            )}
+            {filterOptions.brands?.length > 0 && (
+              <div className="FilterSidebar-section">
+                <h3>Бренды</h3>
+                <ul className="FilterSidebar-menu">
+                  {filterOptions.brands.map((brand) => (
+                    <li key={brand} className="FilterSidebar-menu-item">
+                      <label className="custom-checkbox-square">
+                        <input
+                          type="checkbox"
+                          checked={selectedBrands.includes(brand)}
+                          onChange={() =>
+                            toggleItem(selectedBrands, setSelectedBrands, brand)
+                          }
+                        />
+                        <span
+                          className={
+                            selectedBrands.includes(brand) ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                      <span className="section-label-text">{brand}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {filterOptions.colors?.length > 0 && (
+              <div className="FilterSidebar-section-color">
+                <h3>Цвет</h3>
+                <ul className="FilterSidebar-menu">
+                  {filterOptions.colors.map((color) => (
+                    <li key={color} className="FilterSidebar-menu-item">
+                      <label className="custom-checkbox-square">
+                        <input
+                          type="checkbox"
+                          checked={selectedColors.includes(color)}
+                          onChange={() =>
+                            toggleItem(selectedColors, setSelectedColors, color)
+                          }
+                        />
+                        <span
+                          className={
+                            selectedColors.includes(color) ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                      <span
+                        className="color-dot"
+                        style={{ background: color }}
+                      ></span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {filterOptions.sizes?.length > 0 && (
+              <div className="FilterSidebar-section-size">
+                <h3>Размер</h3>
+                <ul className="size-list">
+                  {filterOptions.sizes.map((size) => (
+                    <li key={size} className="size-item">
+                      <label className="custom-checkbox-square">
+                        <input
+                          type="checkbox"
+                          checked={selectedSizes.includes(size)}
+                          onChange={() =>
+                            toggleItem(selectedSizes, setSelectedSizes, size)
+                          }
+                        />
+                        <span
+                          className={
+                            selectedSizes.includes(size) ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                      <span className="size-label">{size}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <div className="FilterSidebar-section-price">
+              <h3>Цена</h3>
+              <div className="price-inputs-single">
+                <input
+                  type="number"
+                  placeholder={filterOptions.min_price}
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                />
+                &nbsp;-&nbsp;
+                <input
+                  type="number"
+                  placeholder={filterOptions.max_price}
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                />
+              </div>
             </div>
-          )}
-          {filterOptions.brands?.length > 0 && (
-            <div className="FilterSidebar-section">
-              <h3>Бренды</h3>
-              <ul className="FilterSidebar-menu">
-                {filterOptions.brands.map((brand) => (
-                  <li key={brand} className="FilterSidebar-menu-item">
-                    <label className="custom-checkbox-square">
-                      <input
-                        type="checkbox"
-                        checked={selectedBrands.includes(brand)}
-                        onChange={() => toggleItem(selectedBrands, setSelectedBrands, brand)}
-                      />
-                      <span className={selectedBrands.includes(brand) ? 'active' : ''}></span>
-                    </label>
-                    <span className="section-label-text">{brand}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {filterOptions.colors?.length > 0 && (
-            <div className="FilterSidebar-section-color">
-              <h3>Цвет</h3>
-              <ul className="FilterSidebar-menu">
-                {filterOptions.colors.map((color) => (
-                  <li key={color} className="FilterSidebar-menu-item">
-                    <label className="custom-checkbox-square">
-                      <input
-                        type="checkbox"
-                        checked={selectedColors.includes(color)}
-                        onChange={() => toggleItem(selectedColors, setSelectedColors, color)}
-                      />
-                      <span className={selectedColors.includes(color) ? 'active' : ''}></span>
-                    </label>
-                    <span className="color-dot" style={{ background: color }}></span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {filterOptions.sizes?.length > 0 && (
-            <div className="FilterSidebar-section-size">
-              <h3>Размер</h3>
-              <ul className="size-list">
-                {filterOptions.sizes.map((size) => (
-                  <li key={size} className="size-item">
-                    <label className="custom-checkbox-square">
-                      <input
-                        type="checkbox"
-                        checked={selectedSizes.includes(size)}
-                        onChange={() => toggleItem(selectedSizes, setSelectedSizes, size)}
-                      />
-                      <span className={selectedSizes.includes(size) ? 'active' : ''}></span>
-                    </label>
-                    <span className="size-label">{size}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          <div className="FilterSidebar-section-price">
-            <h3>Цена</h3>
-            <div className="price-inputs-single">
-              <input
-                type="number"
-                placeholder={filterOptions.min_price}
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-              />
-              &nbsp;-&nbsp;
-              <input
-                type="number"
-                placeholder={filterOptions.max_price}
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
-              />
-            </div>
-          </div>
-          <button className="clear-filters" onClick={clearFilters}>
-            Очистить фильтры
-          </button>
-        </div>
-      )}
-
-      <div className="FilteredProducts-objs">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <Item key={product.id} product={product} />
-          ))
-        ) : (
-          <div className="FilteredProducts-empty">
-            <p>Нет совпадений.</p>
-            <p>
-              Ни один товар не соответствует заданым условиям. Попробуйте
-              обновить фильтры.
-            </p>
+            <button className="clear-filters" onClick={clearFilters}>
+              Очистить фильтры
+            </button>
           </div>
         )}
+
+        <div className="FilteredProducts-objs">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <Item key={product.id} product={product} />
+            ))
+          ) : (
+            <div className="FilteredProducts-empty">
+              <p>Нет совпадений.</p>
+              <p>
+                Ни один товар не соответствует заданым условиям. Попробуйте
+                обновить фильтры.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
