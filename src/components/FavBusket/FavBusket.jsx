@@ -19,13 +19,15 @@ import formatPrice from "../../utils/formatPrice";
 import person from "../../assets/img/person.png";
 import bahyli from "../../assets/img/bahyli.png";
 import dezenfekiciya from "../../assets/img/dezenfekciya.png";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
+import BuyModal from "../BuyModal/BuyModal";
 
 function FavBusket() {
   const { t } = useContext(LanguageContext);
   const favorites = useSelector((state) => state.favorites);
   const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -62,6 +64,12 @@ function FavBusket() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleAddAll = () => {
+    favorites.forEach((item) => {
+      handleAdd(item);
+    });
   };
 
   const total = favorites.reduce((sum, item) => {
@@ -197,13 +205,20 @@ function FavBusket() {
 
             <div className="FavBusket-Buttons">
               <div className="FavBusket-Buttons-add">
-                <button className="btn">{t("busket.one_click")}</button>
-                <button className="btn">{t("busket.add_all_to_cart")}</button>
+                <button className="btn" onClick={() => setIsModalOpen(true)}>
+                  {t("busket.one_click")}
+                </button>
+                <button className="btn" onClick={handleAddAll}>
+                  {t("busket.add_all_to_cart")}
+                </button>
               </div>
               <button className="delete" onClick={() => dispatch(clearFav())}>
                 {t("busket.clear_favorites")}
               </button>
             </div>
+            {isModalOpen && (
+              <BuyModal onClose={() => setIsModalOpen(false)} />
+            )}
           </>
         )}
       </div>
