@@ -6,12 +6,14 @@ import { Pagination } from "swiper/modules";
 
 import { useContext } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
-import slideContent from "../../data/slidesContent";
+import useSlides from "../../hooks/useSlides";
+import { formatSlideImageUrl } from "../../api/slides";
 
 import { Autoplay } from "swiper/modules";
 
 function BanerReviews() {
   const { t } = useContext(LanguageContext);
+  const slides = useSlides();
   return (
     <>
       <div className="mainBanner__container">
@@ -22,21 +24,24 @@ function BanerReviews() {
           className="heroSwiper"
           autoplay={{ delay: 5000, disableOnInteraction: false }}
         >
-          {slideContent.map((slide, i) => (
-            <SwiperSlide key={i}>
+          {slides.map((slide) => (
+            <SwiperSlide key={slide.id}>
               <div className="container">
                 <div className="heroWrapper">
                   <div className="heroContent">
-                    <span className="heroBadge">{slide.badge}</span>
-                    <h1 className="heroTitle">{slide.title}</h1>
-                    <p className="heroSubtitle">{slide.subtitle}</p>
-                    <a href={slide.link} className="heroLink">
+                    <span className="heroBadge">{slide.small_text}</span>
+                    <h1 className="heroTitle">{slide.big_text}</h1>
+                    <p className="heroSubtitle">{slide.medium_text}</p>
+                    <a href="#" className="heroLink">
                       {t("hero.go_to_catalog")}
                     </a>
                   </div>
                   <div className="heroImg__wrapper">
                     <div className="heroImg">
-                      <img src={slide.image} alt={slide.title} />
+                      <img
+                        src={formatSlideImageUrl(slide.image)}
+                        alt={slide.big_text}
+                      />
                     </div>
                   </div>
                 </div>
