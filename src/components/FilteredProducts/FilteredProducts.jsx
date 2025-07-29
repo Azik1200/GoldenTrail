@@ -30,19 +30,17 @@ function FilteredProducts() {
     () => new URLSearchParams(location.search),
     [location.search]
   );
-  const initialCategory = searchParams.get("category") || "";
-  const initialCatalog = initialCategory
-    ? ""
-    : searchParams.get("catalog") || "";
-  const [selectedCatalog, setSelectedCatalog] = useState(initialCatalog);
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const initialCategories = searchParams.getAll("category");
+  const initialCatalogs = searchParams.getAll("catalog");
+  const [selectedCatalogs, setSelectedCatalogs] = useState(initialCatalogs);
+  const [selectedCategories, setSelectedCategories] = useState(initialCategories);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const category = params.get("category") || "";
-    const cat = category ? "" : params.get("catalog") || "";
-    setSelectedCategory(category);
-    setSelectedCatalog(cat);
+    const categories = params.getAll("category");
+    const catalogs = params.getAll("catalog");
+    setSelectedCategories(categories);
+    setSelectedCatalogs(catalogs);
   }, [location.search]);
 
   const dispatch = useDispatch();
@@ -65,15 +63,19 @@ function FilteredProducts() {
   }, [sidebarOpen]);
 
   useEffect(() => {
-    if (filterOptions && selectedCategory) {
-      const found = filterOptions.catalogs?.find((cat) =>
-        cat.categories?.some((c) => c.slug === selectedCategory)
-      );
-      if (found && found.slug !== selectedCatalog) {
-        setSelectedCatalog(found.slug);
+    if (filterOptions && selectedCategories.length) {
+      const parents = filterOptions.catalogs
+        ?.filter((cat) =>
+          cat.categories?.some((c) => selectedCategories.includes(c.slug))
+        )
+        .map((cat) => cat.slug);
+      if (parents?.length) {
+        setSelectedCatalogs((prev) =>
+          Array.from(new Set([...prev, ...parents]))
+        );
       }
     }
-  }, [filterOptions, selectedCategory, selectedCatalog]);
+  }, [filterOptions, selectedCategories]);
 
   const handleAddFav = async (product) => {
     try {
@@ -87,8 +89,8 @@ function FilteredProducts() {
   };
   const filterParams = useMemo(() => {
     const params = {};
-    if (!selectedCategory && selectedCatalog) params.catalog = selectedCatalog;
-    if (selectedCategory) params.category = selectedCategory;
+    if (selectedCatalogs.length) params.catalog = selectedCatalogs;
+    if (selectedCategories.length) params.category = selectedCategories;
     if (selectedBrands.length) params.brands = selectedBrands;
     if (selectedColors.length) params.colors = selectedColors;
     if (selectedSizes.length) params.sizes = selectedSizes;
@@ -96,8 +98,8 @@ function FilteredProducts() {
     if (maxPrice) params.max_price = maxPrice;
     return params;
   }, [
-    selectedCatalog,
-    selectedCategory,
+    selectedCatalogs,
+    selectedCategories,
     selectedBrands,
     selectedColors,
     selectedSizes,
@@ -120,10 +122,8 @@ function FilteredProducts() {
     setSelectedSizes([]);
     setMinPrice("");
     setMaxPrice("");
-    setSelectedCatalog("");
-    setSelectedCategory("");
-    setMinPrice("");
-    setMaxPrice("");
+    setSelectedCatalogs([]);
+    setSelectedCategories([]);
   };
 
   const Item = ({ product }) => {
@@ -233,20 +233,25 @@ function FilteredProducts() {
 
   const heading = useMemo(() => {
     if (!filterOptions) return "Каталог";
-    if (selectedCategory) {
+    if (selectedCategories.length === 1) {
       for (const cat of filterOptions.catalogs || []) {
-        const found = cat.categories?.find((c) => c.slug === selectedCategory);
+        const found = cat.categories?.find(
+          (c) => c.slug === selectedCategories[0]
+        );
         if (found) return found.name || found.slug;
       }
     }
-    if (selectedCatalog) {
+    if (
+      selectedCategories.length === 0 &&
+      selectedCatalogs.length === 1
+    ) {
       const cat = (filterOptions.catalogs || []).find(
-        (c) => c.slug === selectedCatalog
+        (c) => c.slug === selectedCatalogs[0]
       );
       if (cat) return cat.name || cat.slug;
     }
     return "Каталог";
-  }, [filterOptions, selectedCatalog, selectedCategory]);
+  }, [filterOptions, selectedCatalogs, selectedCategories]);
 
   return (
     <div className="container">
@@ -274,20 +279,18 @@ function FilteredProducts() {
         </div>
 
         <div className="FilteredProducts-All-buttns">
-          {!selectedCategory && selectedCatalog && (
-            <div className="FilteredProducts-All-btn">
-              {filterOptions?.catalogs?.find((c) => c.slug === selectedCatalog)
-                ?.name || selectedCatalog}
+          {selectedCatalogs.map((cat) => (
+            <div key={`catalog-${cat}`} className="FilteredProducts-All-btn">
+              {filterOptions?.catalogs?.find((c) => c.slug === cat)?.name || cat}
             </div>
-          )}
-          {selectedCategory && (
-            <div className="FilteredProducts-All-btn">
+          ))}
+          {selectedCategories.map((c) => (
+            <div key={`category-${c}`} className="FilteredProducts-All-btn">
               {filterOptions?.catalogs
-                ?.flatMap((c) => c.categories || [])
-                .find((c) => c.slug === selectedCategory)?.name ||
-                selectedCategory}
+                ?.flatMap((cat) => cat.categories || [])
+                .find((cat) => cat.slug === c)?.name || c}
             </div>
-          )}
+          ))}
           {selectedBrands.map((b) => (
             <div key={`brand-${b}`} className="FilteredProducts-All-btn">
               {b}
@@ -337,17 +340,26 @@ function FilteredProducts() {
                     <li key={cat.slug} className="FilterSidebar-menu-item">
                       <label className="custom-checkbox-square">
                         <input
-                          type="radio"
-                          name="catalog"
-                          checked={selectedCatalog === cat.slug}
+                          type="checkbox"
+                          checked={selectedCatalogs.includes(cat.slug)}
                           onChange={() => {
-                            setSelectedCatalog(cat.slug);
-                            setSelectedCategory("");
+                            setSelectedCatalogs((prev) => {
+                              if (prev.includes(cat.slug)) {
+                                setSelectedCategories((cats) =>
+                                  cats.filter(
+                                    (c) =>
+                                      !cat.categories?.some((ct) => ct.slug === c)
+                                  )
+                                );
+                                return prev.filter((c) => c !== cat.slug);
+                              }
+                              return [...prev, cat.slug];
+                            });
                           }}
                         />
                         <span
                           className={
-                            selectedCatalog === cat.slug ? "active" : ""
+                            selectedCatalogs.includes(cat.slug) ? "active" : ""
                           }
                         ></span>
                       </label>
@@ -355,32 +367,37 @@ function FilteredProducts() {
                     </li>
                   ))}
                 </ul>
-                {selectedCatalog &&
-                  filterOptions.catalogs.find((c) => c.slug === selectedCatalog)
-                    ?.categories?.length > 0 && (
-                    <ul className="FilterSidebar-menu">
-                      {filterOptions.catalogs
-                        .find((c) => c.slug === selectedCatalog)
-                        .categories.map((c) => (
-                          <li key={c.slug} className="FilterSidebar-menu-item">
-                            <label className="custom-checkbox-square">
-                              <input
-                                type="radio"
-                                name="category"
-                                checked={selectedCategory === c.slug}
-                                onChange={() => setSelectedCategory(c.slug)}
-                              />
-                              <span
-                                className={
-                                  selectedCategory === c.slug ? "active" : ""
-                                }
-                              ></span>
-                            </label>
-                            <span className="section-label-text">{c.name}</span>
-                          </li>
-                        ))}
+                {selectedCatalogs.map((slug) => {
+                  const catalog = filterOptions.catalogs.find((c) => c.slug === slug);
+                  if (!catalog?.categories?.length) return null;
+                  return (
+                    <ul key={`cat-${slug}`} className="FilterSidebar-menu">
+                      {catalog.categories.map((c) => (
+                        <li key={c.slug} className="FilterSidebar-menu-item">
+                          <label className="custom-checkbox-square">
+                            <input
+                              type="checkbox"
+                              checked={selectedCategories.includes(c.slug)}
+                              onChange={() =>
+                                toggleItem(
+                                  selectedCategories,
+                                  setSelectedCategories,
+                                  c.slug
+                                )
+                              }
+                            />
+                            <span
+                              className={
+                                selectedCategories.includes(c.slug) ? "active" : ""
+                              }
+                            ></span>
+                          </label>
+                          <span className="section-label-text">{c.name}</span>
+                        </li>
+                      ))}
                     </ul>
-                  )}
+                  );
+                })}
               </div>
             )}
             {filterOptions.brands?.length > 0 && (
