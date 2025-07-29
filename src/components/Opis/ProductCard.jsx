@@ -10,6 +10,11 @@ import BuyModal from "../../components/BuyModal/BuyModal";
 import Heart from "../../assets/img/Heartb.svg";
 import cart from "../../assets/img/cartb.svg";
 
+import { useDispatch } from "react-redux";
+import { addItem } from "../../redux/CardSlice";
+import { addCartItem, productToCartItem } from "../../api/cart";
+import { optionKey } from "../../utils/options";
+
 import { LanguageContext } from "../../context/LanguageContext";
 
 import styles from "./ProductCard.module.css";
@@ -17,6 +22,7 @@ import formatPrice from "../../utils/formatPrice";
 
 const ProductCard = ({ product }) => {
   const { t } = useContext(LanguageContext);
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -29,6 +35,24 @@ const ProductCard = ({ product }) => {
     setSelectedColor(product?.colors?.[0] || "");
     setSelectedSize(product?.sizes?.[0] || "");
   }, [product]);
+
+  const handleAdd = async () => {
+    const selected = {
+      ...product,
+      selectedSize,
+      selectedColor,
+    };
+    dispatch(addItem(selected));
+    try {
+      const item = productToCartItem(selected, {
+        size: optionKey(selectedSize),
+        color: optionKey(selectedColor),
+      });
+      await addCartItem(item);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   if (!product) {
     return (
@@ -146,7 +170,7 @@ const ProductCard = ({ product }) => {
               {t("products_block.buy")}
             </button>
 
-            <button className={styles.cartBtn}>
+            <button className={styles.cartBtn} onClick={handleAdd}>
               <img src={cart} />
             </button>
             <button className={styles.cartBtn}>
