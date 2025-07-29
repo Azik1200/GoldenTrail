@@ -236,6 +236,8 @@ function FilteredProducts() {
   }, [filterOptions, selectedCatalog, selectedCategory]);
 
   return (
+      <div className="container">
+
     <div className="FilteredProducts-container">
       <h2>{heading}</h2>
       <div className="FilteredProducts-Buttons">
@@ -447,6 +449,7 @@ function FilteredProducts() {
         )}
       </div>
     </div>
+      </div>
   );
 }
 
