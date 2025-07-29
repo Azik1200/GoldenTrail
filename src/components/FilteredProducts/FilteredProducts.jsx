@@ -23,12 +23,17 @@ function FilteredProducts() {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
   const location = useLocation();
-  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const searchParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
   const initialCategory = searchParams.get("category") || "";
-  const initialCatalog = initialCategory ? "" : searchParams.get("catalog") || "";
+  const initialCatalog = initialCategory
+    ? ""
+    : searchParams.get("catalog") || "";
   const [selectedCatalog, setSelectedCatalog] = useState(initialCatalog);
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
@@ -52,11 +57,11 @@ function FilteredProducts() {
   useEffect(() => {
     const body = document.body;
     if (sidebarOpen) {
-      body.classList.add('active');
+      body.classList.add("active");
     } else {
-      body.classList.remove('active');
+      body.classList.remove("active");
     }
-    return () => body.classList.remove('active');
+    return () => body.classList.remove("active");
   }, [sidebarOpen]);
 
   useEffect(() => {
@@ -90,7 +95,15 @@ function FilteredProducts() {
     if (minPrice) params.min_price = minPrice;
     if (maxPrice) params.max_price = maxPrice;
     return params;
-  }, [selectedCatalog, selectedCategory, selectedBrands, selectedColors, selectedSizes, minPrice, maxPrice]);
+  }, [
+    selectedCatalog,
+    selectedCategory,
+    selectedBrands,
+    selectedColors,
+    selectedSizes,
+    minPrice,
+    maxPrice,
+  ]);
 
   const products = useProducts(filterParams);
   const filteredProducts = products;
@@ -105,10 +118,10 @@ function FilteredProducts() {
     setSelectedBrands([]);
     setSelectedColors([]);
     setSelectedSizes([]);
-    setMinPrice('');
-    setMaxPrice('');
-    setSelectedCatalog('');
-    setSelectedCategory('');
+    setMinPrice("");
+    setMaxPrice("");
+    setSelectedCatalog("");
+    setSelectedCategory("");
     setMinPrice("");
     setMaxPrice("");
   };
@@ -132,7 +145,6 @@ function FilteredProducts() {
     };
 
     return (
-      // <div className="container">
       <div className="FilteredProducts" key={product.id}>
         <div className="FilteredProducts_top">
           <div className="FilteredProducts_main-info">
@@ -216,12 +228,11 @@ function FilteredProducts() {
           </div>
         </div>
       </div>
-      // </div>
     );
   };
 
   const heading = useMemo(() => {
-    if (!filterOptions) return 'Каталог';
+    if (!filterOptions) return "Каталог";
     if (selectedCategory) {
       for (const cat of filterOptions.catalogs || []) {
         const found = cat.categories?.find((c) => c.slug === selectedCategory);
@@ -229,222 +240,269 @@ function FilteredProducts() {
       }
     }
     if (selectedCatalog) {
-      const cat = (filterOptions.catalogs || []).find((c) => c.slug === selectedCatalog);
+      const cat = (filterOptions.catalogs || []).find(
+        (c) => c.slug === selectedCatalog
+      );
       if (cat) return cat.name || cat.slug;
     }
-    return 'Каталог';
+    return "Каталог";
   }, [filterOptions, selectedCatalog, selectedCategory]);
 
   return (
-    <div className="FilteredProducts-container">
-      <h2>{heading}</h2>
-      <div className="FilteredProducts-Buttons">
-        <div className="FilteredProducts-filter">
-          <div className="FilteredProducts-name">По умолчанию</div>
-          <div className="FilteredProducts-img">
-            <img src={up} />
-          </div>
-        </div>
-        <button
-          className="FilteredProducts-All"
-          onClick={() => setSidebarOpen(true)}
-        >
-          <span className="FilteredProducts-All-name">Все фильтры</span>
-          <div>
-            <img src={vector} />
-          </div>
-        </button>
-        <button className="FilteredProducts-delete" onClick={clearFilters}>
-          Очистить фильтры
-        </button>
-      </div>
-
-      <div className="FilteredProducts-All-buttns">
-        {!selectedCategory && selectedCatalog && (
-          <div className="FilteredProducts-All-btn">
-            {filterOptions?.catalogs?.find((c) => c.slug === selectedCatalog)?.name || selectedCatalog}
-          </div>
-        )}
-        {selectedCategory && (
-          <div className="FilteredProducts-All-btn">
-            {filterOptions?.catalogs?.flatMap((c) => c.categories || []).find((c) => c.slug === selectedCategory)?.name || selectedCategory}
-          </div>
-        )}
-        {selectedBrands.map((b) => (
-          <div key={`brand-${b}`} className="FilteredProducts-All-btn">
-            {b}
-          </div>
-        ))}
-        {selectedColors.map((c) => (
-          <div key={`color-${optionKey(c)}`} className="FilteredProducts-All-btn">
-            {optionLabel(c)}
-          </div>
-        ))}
-        {selectedSizes.map((s) => (
-          <div key={`size-${optionKey(s)}`} className="FilteredProducts-All-btn">
-            {optionLabel(s)}
-          </div>
-        ))}
-        {(minPrice || maxPrice) && (
-          <div className="FilteredProducts-All-btn">
-            {minPrice ? `От ${minPrice}` : ''}
-            {minPrice && maxPrice ? ' - ' : ''}
-            {maxPrice ? `До ${maxPrice}` : ''}
-          </div>
-        )}
-      </div>
-
-      {sidebarOpen && filterOptions && (
-        <div className="FilterSidebar">
-          <div className="FilterSidebar-header">
-            <h2>Фильтры</h2>
-            <button className="close-btn" onClick={() => setSidebarOpen(false)}>
-              ×
-            </button>
-          </div>
-          {filterOptions.catalogs?.length > 0 && (
-            <div className="FilterSidebar-section">
-              <h3>Каталог</h3>
-              <ul className="FilterSidebar-menu">
-                {filterOptions.catalogs.map((cat) => (
-                  <li key={cat.slug} className="FilterSidebar-menu-item">
-                    <label className="custom-checkbox-square">
-                      <input
-                        type="radio"
-                        name="catalog"
-                        checked={selectedCatalog === cat.slug}
-                        onChange={() => {
-                          setSelectedCatalog(cat.slug);
-                          setSelectedCategory('');
-                        }}
-                      />
-                      <span className={selectedCatalog === cat.slug ? 'active' : ''}></span>
-                    </label>
-                    <span className="section-label-text">{cat.name}</span>
-                  </li>
-                ))}
-              </ul>
-              {selectedCatalog &&
-                filterOptions.catalogs.find((c) => c.slug === selectedCatalog)?.categories?.length > 0 && (
-                  <ul className="FilterSidebar-menu">
-                    {filterOptions.catalogs
-                      .find((c) => c.slug === selectedCatalog)
-                      .categories.map((c) => (
-                        <li key={c.slug} className="FilterSidebar-menu-item">
-                          <label className="custom-checkbox-square">
-                            <input
-                              type="radio"
-                              name="category"
-                              checked={selectedCategory === c.slug}
-                              onChange={() => setSelectedCategory(c.slug)}
-                            />
-                            <span className={selectedCategory === c.slug ? 'active' : ''}></span>
-                          </label>
-                          <span className="section-label-text">{c.name}</span>
-                        </li>
-                      ))}
-                  </ul>
-                )}
-            </div>
-          )}
-          {filterOptions.brands?.length > 0 && (
-            <div className="FilterSidebar-section">
-              <h3>Бренды</h3>
-              <ul className="FilterSidebar-menu">
-                {filterOptions.brands.map((brand) => (
-                  <li key={brand} className="FilterSidebar-menu-item">
-                    <label className="custom-checkbox-square">
-                      <input
-                        type="checkbox"
-                        checked={selectedBrands.includes(brand)}
-                        onChange={() => toggleItem(selectedBrands, setSelectedBrands, brand)}
-                      />
-                      <span className={selectedBrands.includes(brand) ? 'active' : ''}></span>
-                    </label>
-                    <span className="section-label-text">{brand}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {filterOptions.colors?.length > 0 && (
-            <div className="FilterSidebar-section-color">
-              <h3>Цвет</h3>
-              <ul className="FilterSidebar-menu">
-                {filterOptions.colors.map((color) => (
-                  <li key={color} className="FilterSidebar-menu-item">
-                    <label className="custom-checkbox-square">
-                      <input
-                        type="checkbox"
-                        checked={selectedColors.includes(color)}
-                        onChange={() => toggleItem(selectedColors, setSelectedColors, color)}
-                      />
-                      <span className={selectedColors.includes(color) ? 'active' : ''}></span>
-                    </label>
-                    <span className="color-dot" style={{ background: color }}></span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {filterOptions.sizes?.length > 0 && (
-            <div className="FilterSidebar-section-size">
-              <h3>Размер</h3>
-              <ul className="size-list">
-                {filterOptions.sizes.map((size) => (
-                  <li key={size} className="size-item">
-                    <label className="custom-checkbox-square">
-                      <input
-                        type="checkbox"
-                        checked={selectedSizes.includes(size)}
-                        onChange={() => toggleItem(selectedSizes, setSelectedSizes, size)}
-                      />
-                      <span className={selectedSizes.includes(size) ? 'active' : ''}></span>
-                    </label>
-                    <span className="size-label">{size}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          <div className="FilterSidebar-section-price">
-            <h3>Цена</h3>
-            <div className="price-inputs-single">
-              <input
-                type="number"
-                placeholder={filterOptions.min_price}
-                value={minPrice}
-                onChange={(e) => setMinPrice(e.target.value)}
-              />
-              &nbsp;-&nbsp;
-              <input
-                type="number"
-                placeholder={filterOptions.max_price}
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
-              />
+    <div className="container">
+      <div className="FilteredProducts-container">
+        <h2>{heading}</h2>
+        <div className="FilteredProducts-Buttons">
+          <div className="FilteredProducts-filter">
+            <div className="FilteredProducts-name">По умолчанию</div>
+            <div className="FilteredProducts-img">
+              <img src={up} />
             </div>
           </div>
-          <button className="clear-filters" onClick={clearFilters}>
+          <button
+            className="FilteredProducts-All"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <span className="FilteredProducts-All-name">Все фильтры</span>
+            <div>
+              <img src={vector} />
+            </div>
+          </button>
+          <button className="FilteredProducts-delete" onClick={clearFilters}>
             Очистить фильтры
           </button>
         </div>
-      )}
 
-      <div className="FilteredProducts-objs">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <Item key={product.id} product={product} />
-          ))
-        ) : (
-          <div className="FilteredProducts-empty">
-            <p>Нет совпадений.</p>
-            <p>
-              Ни один товар не соответствует заданым условиям. Попробуйте
-              обновить фильтры.
-            </p>
+        <div className="FilteredProducts-All-buttns">
+          {!selectedCategory && selectedCatalog && (
+            <div className="FilteredProducts-All-btn">
+              {filterOptions?.catalogs?.find((c) => c.slug === selectedCatalog)
+                ?.name || selectedCatalog}
+            </div>
+          )}
+          {selectedCategory && (
+            <div className="FilteredProducts-All-btn">
+              {filterOptions?.catalogs
+                ?.flatMap((c) => c.categories || [])
+                .find((c) => c.slug === selectedCategory)?.name ||
+                selectedCategory}
+            </div>
+          )}
+          {selectedBrands.map((b) => (
+            <div key={`brand-${b}`} className="FilteredProducts-All-btn">
+              {b}
+            </div>
+          ))}
+          {selectedColors.map((c) => (
+            <div
+              key={`color-${optionKey(c)}`}
+              className="FilteredProducts-All-btn"
+            >
+              {optionLabel(c)}
+            </div>
+          ))}
+          {selectedSizes.map((s) => (
+            <div
+              key={`size-${optionKey(s)}`}
+              className="FilteredProducts-All-btn"
+            >
+              {optionLabel(s)}
+            </div>
+          ))}
+          {(minPrice || maxPrice) && (
+            <div className="FilteredProducts-All-btn">
+              {minPrice ? `От ${minPrice}` : ""}
+              {minPrice && maxPrice ? " - " : ""}
+              {maxPrice ? `До ${maxPrice}` : ""}
+            </div>
+          )}
+        </div>
+
+        {sidebarOpen && filterOptions && (
+          <div className="FilterSidebar">
+            <div className="FilterSidebar-header">
+              <h2>Фильтры</h2>
+              <button
+                className="close-btn"
+                onClick={() => setSidebarOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+            {filterOptions.catalogs?.length > 0 && (
+              <div className="FilterSidebar-section">
+                <h3>Каталог</h3>
+                <ul className="FilterSidebar-menu">
+                  {filterOptions.catalogs.map((cat) => (
+                    <li key={cat.slug} className="FilterSidebar-menu-item">
+                      <label className="custom-checkbox-square">
+                        <input
+                          type="radio"
+                          name="catalog"
+                          checked={selectedCatalog === cat.slug}
+                          onChange={() => {
+                            setSelectedCatalog(cat.slug);
+                            setSelectedCategory("");
+                          }}
+                        />
+                        <span
+                          className={
+                            selectedCatalog === cat.slug ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                      <span className="section-label-text">{cat.name}</span>
+                    </li>
+                  ))}
+                </ul>
+                {selectedCatalog &&
+                  filterOptions.catalogs.find((c) => c.slug === selectedCatalog)
+                    ?.categories?.length > 0 && (
+                    <ul className="FilterSidebar-menu">
+                      {filterOptions.catalogs
+                        .find((c) => c.slug === selectedCatalog)
+                        .categories.map((c) => (
+                          <li key={c.slug} className="FilterSidebar-menu-item">
+                            <label className="custom-checkbox-square">
+                              <input
+                                type="radio"
+                                name="category"
+                                checked={selectedCategory === c.slug}
+                                onChange={() => setSelectedCategory(c.slug)}
+                              />
+                              <span
+                                className={
+                                  selectedCategory === c.slug ? "active" : ""
+                                }
+                              ></span>
+                            </label>
+                            <span className="section-label-text">{c.name}</span>
+                          </li>
+                        ))}
+                    </ul>
+                  )}
+              </div>
+            )}
+            {filterOptions.brands?.length > 0 && (
+              <div className="FilterSidebar-section">
+                <h3>Бренды</h3>
+                <ul className="FilterSidebar-menu">
+                  {filterOptions.brands.map((brand) => (
+                    <li key={brand} className="FilterSidebar-menu-item">
+                      <label className="custom-checkbox-square">
+                        <input
+                          type="checkbox"
+                          checked={selectedBrands.includes(brand)}
+                          onChange={() =>
+                            toggleItem(selectedBrands, setSelectedBrands, brand)
+                          }
+                        />
+                        <span
+                          className={
+                            selectedBrands.includes(brand) ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                      <span className="section-label-text">{brand}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {filterOptions.colors?.length > 0 && (
+              <div className="FilterSidebar-section-color">
+                <h3>Цвет</h3>
+                <ul className="FilterSidebar-menu">
+                  {filterOptions.colors.map((color) => (
+                    <li key={color} className="FilterSidebar-menu-item">
+                      <label className="custom-checkbox-square">
+                        <input
+                          type="checkbox"
+                          checked={selectedColors.includes(color)}
+                          onChange={() =>
+                            toggleItem(selectedColors, setSelectedColors, color)
+                          }
+                        />
+                        <span
+                          className={
+                            selectedColors.includes(color) ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                      <span
+                        className="color-dot"
+                        style={{ background: color }}
+                      ></span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {filterOptions.sizes?.length > 0 && (
+              <div className="FilterSidebar-section-size">
+                <h3>Размер</h3>
+                <ul className="size-list">
+                  {filterOptions.sizes.map((size) => (
+                    <li key={size} className="size-item">
+                      <label className="custom-checkbox-square">
+                        <input
+                          type="checkbox"
+                          checked={selectedSizes.includes(size)}
+                          onChange={() =>
+                            toggleItem(selectedSizes, setSelectedSizes, size)
+                          }
+                        />
+                        <span
+                          className={
+                            selectedSizes.includes(size) ? "active" : ""
+                          }
+                        ></span>
+                      </label>
+                      <span className="size-label">{size}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <div className="FilterSidebar-section-price">
+              <h3>Цена</h3>
+              <div className="price-inputs-single">
+                <input
+                  type="number"
+                  placeholder={filterOptions.min_price}
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                />
+                &nbsp;-&nbsp;
+                <input
+                  type="number"
+                  placeholder={filterOptions.max_price}
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                />
+              </div>
+            </div>
+            <button className="clear-filters" onClick={clearFilters}>
+              Очистить фильтры
+            </button>
           </div>
         )}
+
+        <div className="FilteredProducts-objs">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <Item key={product.id} product={product} />
+            ))
+          ) : (
+            <div className="FilteredProducts-empty">
+              <p>Нет совпадений.</p>
+              <p>
+                Ни один товар не соответствует заданым условиям. Попробуйте
+                обновить фильтры.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

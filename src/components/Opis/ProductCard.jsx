@@ -1,36 +1,40 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Thumbs } from 'swiper/modules';
+import React, { useState, useEffect, useContext } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Thumbs } from "swiper/modules";
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
 
-import BuyModal from '../../components/BuyModal/BuyModal';
-import Heart from '../../assets/img/Heartb.svg';
-import cart from '../../assets/img/cartb.svg';
+import BuyModal from "../../components/BuyModal/BuyModal";
+import Heart from "../../assets/img/Heartb.svg";
+import cart from "../../assets/img/cartb.svg";
 
-import { LanguageContext } from '../../context/LanguageContext';
+import { LanguageContext } from "../../context/LanguageContext";
 
-import styles from './ProductCard.module.css';
-import formatPrice from '../../utils/formatPrice';
+import styles from "./ProductCard.module.css";
+import formatPrice from "../../utils/formatPrice";
 
 const ProductCard = ({ product }) => {
   const { t } = useContext(LanguageContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [selectedColor, setSelectedColor] = useState(product?.colors?.[0] || '');
-  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || '');
+  const [selectedColor, setSelectedColor] = useState(
+    product?.colors?.[0] || ""
+  );
+  const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || "");
 
   useEffect(() => {
-    setSelectedColor(product?.colors?.[0] || '');
-    setSelectedSize(product?.sizes?.[0] || '');
+    setSelectedColor(product?.colors?.[0] || "");
+    setSelectedSize(product?.sizes?.[0] || "");
   }, [product]);
 
   if (!product) {
     return (
-      <div className={styles.ProductWrapper}>{t('product_page.product_not_selected')}</div>
+      <div className={styles.ProductWrapper}>
+        {t("product_page.product_not_selected")}
+      </div>
     );
   }
 
@@ -41,7 +45,10 @@ const ProductCard = ({ product }) => {
           <Swiper
             modules={[Navigation, Thumbs]}
             thumbs={{ swiper: thumbsSwiper }}
-            navigation
+            navigation={{
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            }}
             className={styles.mainSwiper}
           >
             {product.images?.map((img, idx) => (
@@ -49,6 +56,8 @@ const ProductCard = ({ product }) => {
                 <img src={img} alt={`Product ${idx}`} />
               </SwiperSlide>
             ))}
+            <div className="swiper-button-prev" />
+            <div className="swiper-button-next" />
           </Swiper>
 
           <Swiper
@@ -69,17 +78,17 @@ const ProductCard = ({ product }) => {
 
         <div className={styles.infoSection}>
           <h1>{product.name}</h1>
-          <p className={styles.inStock}>🟢 {t('product_page.in_stock')}</p>
+          <p className={styles.inStock}>🟢 {t("product_page.in_stock")}</p>
 
           {product.colors?.length > 0 && (
             <div className={styles.optionBlock}>
-              <span>{t('busket.color')}:</span>
+              <span>{t("busket.color")}:</span>
               <div className={styles.colorOptions}>
                 {product.colors.map((color, index) => (
                   <button
                     key={index}
-                    className={`${styles.colorDot} ${styles[color] ?? ''} ${
-                      selectedColor === color ? styles.active : ''
+                    className={`${styles.colorDot} ${styles[color] ?? ""} ${
+                      selectedColor === color ? styles.active : ""
                     }`}
                     onClick={() => setSelectedColor(color)}
                   />
@@ -90,13 +99,13 @@ const ProductCard = ({ product }) => {
 
           {product.sizes?.length > 0 && (
             <div className={styles.optionBlock}>
-              <span>{t('busket.size')}:</span>
+              <span>{t("busket.size")}:</span>
               <div className={styles.sizeOptions}>
                 {product.sizes.map((size, index) => (
                   <button
                     key={index}
                     className={`${styles.sizeBtn} ${
-                      selectedSize === size ? styles.active : ''
+                      selectedSize === size ? styles.active : ""
                     }`}
                     onClick={() => setSelectedSize(size)}
                   >
@@ -108,9 +117,10 @@ const ProductCard = ({ product }) => {
           )}
 
           <div className={styles.optionBlock}>
-            <span>{t('busket.quantity')}:</span>
+            <span>{t("busket.quantity")}:</span>
             <div className={styles.quantity}>
-              <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>-
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>
+                -
               </button>
               <input type="number" value={quantity} readOnly />
               <button onClick={() => setQuantity(quantity + 1)}>+</button>
@@ -118,9 +128,13 @@ const ProductCard = ({ product }) => {
           </div>
 
           <div className={styles.priceBlock}>
-            <div className={styles.currentPrice}>{formatPrice(product.mainPrice)}</div>
+            <div className={styles.currentPrice}>
+              {formatPrice(product.mainPrice)}
+            </div>
             {product.oldPrice && (
-              <div className={styles.oldPrice}>{formatPrice(product.oldPrice)}</div>
+              <div className={styles.oldPrice}>
+                {formatPrice(product.oldPrice)}
+              </div>
             )}
           </div>
 
@@ -129,7 +143,7 @@ const ProductCard = ({ product }) => {
               className={styles.buyButton}
               onClick={() => setIsModalOpen(true)}
             >
-              {t('products_block.buy')}
+              {t("products_block.buy")}
             </button>
 
             <button className={styles.cartBtn}>
@@ -142,13 +156,13 @@ const ProductCard = ({ product }) => {
 
           {product.hasWarranty && (
             <p className={styles.guarantee}>
-              ✓ {product.warrantyText || t('product_page.guarantee')}
+              ✓ {product.warrantyText || t("product_page.guarantee")}
             </p>
           )}
         </div>
       </div>
 
-      <h2>{t('product_page.description')}</h2>
+      <h2>{t("product_page.description")}</h2>
       <div>
         <p>{product.desc}</p>
       </div>

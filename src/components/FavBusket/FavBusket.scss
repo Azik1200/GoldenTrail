@@ -3,7 +3,7 @@
 .container-FavBusket {
   max-width: 1072px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 100px 16px;
   .FavBusket-Block {
     margin-top: 64px;
     align-items: flex-start;
@@ -35,6 +35,12 @@
               width: 336px;
               margin-bottom: 25px;
               color: rgba(34, 34, 34, 1);
+
+              display: -webkit-box;
+              -webkit-line-clamp: 2; // Максимум 2 строки
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
             .FavBusket-Menu {
               display: flex;
@@ -226,5 +232,107 @@
         left: 18px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 785px) {
+  .FavBusket-Block-Obj {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .container-FavBusket
+    .FavBusket-Block
+    .FavBusket-Block-newcard
+    .FavBusket-Block-Obj
+    .FavBusket-Total-Price {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .FavBusket-Left-Block,
+  .FavBusket-Blok-desc {
+    width: 100%;
+  }
+
+  .container-FavBusket
+    .FavBusket-Block
+    .FavBusket-Block-newcard
+    .FavBusket-Block-Obj
+    .FavBusket-Left-Block
+    .FavBusket-Blok-desc
+    .h3 {
+    width: unset;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .FavBusket-categories-list {
+    flex-direction: column;
+  }
+  .FavBusket-category-card {
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 585px) {
+  .container-FavBusket
+    .FavBusket-Block
+    .FavBusket-Block-newcard
+    .FavBusket-Block-Obj
+    .FavBusket-Total-Price {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .container-FavBusket
+    .FavBusket-Block
+    .FavBusket-Block-Total-Price
+    .FavBusket-Block-Total {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .container-FavBusket
+    .FavBusket-Block
+    .FavBusket-Block-Total-Price
+    .Delivery-texts {
+    flex-direction: column-reverse;
+  }
+  .container-FavBusket .FavBusket-Block .FavBusket-Buttons {
+    // flex-direction: column;
+    align-items: center;
+  }
+
+  .container-FavBusket
+    .FavBusket-Block
+    .FavBusket-Buttons
+    .FavBusket-Buttons-add {
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+  }
+
+  .container-FavBusket
+    .FavBusket-Block
+    .FavBusket-Block-newcard
+    .FavBusket-Block-Obj
+    .FavBusket-Left-Block {
+    flex-direction: column;
+  }
+
+  .container-FavBusket
+    .FavBusket-Block
+    .FavBusket-Block-newcard
+    .FavBusket-Block-Obj
+    .FavBusket-Left-Block
+    .FavBusket-img {
+    width: 100%;
   }
 }
