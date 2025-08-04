@@ -35,7 +35,7 @@ const translations = {
       desc1:
         "Golden Trail MMC 2022-ci ildən etibarən Azərbaycanda Trivitron Healthcare Pvt Ltd şirkətinin eksklüziv distribyutorudur. Bizim missiyamız insanların sağlamlığını qorumaqdır.",
       desc2:
-        "Biz Kiran Medical Systems-in rentgenə qarşı qoruyucu geyimlərini təklif edirik ki, bu da tibbi personalı və pasiyentləri etibarlı qoruyur. Assortimentdə kişi və qadın modelləri, müxtəlif materiallar və fərdi ölçülərə uyğun tikilişlər mövcuddur.",
+        "Biz MDT-in rentgenə qarşı qoruyucu geyimlərini təklif edirik ki, bu da tibbi personalı və pasiyentləri etibarlı qoruyur. Assortimentdə kişi və qadın modelləri, müxtəlif materiallar və fərdi ölçülərə uyğun tikilişlər mövcuddur.",
       desc3:
         "Həmçinin, biz tibb və kosmetologiya müəssisələri üçün dünya üzrə aparıcı istehsalçılardan birdəfəlik tibbi sərfiyyat materialları, antiseptiklər və dezinfeksiya vasitələri təqdim edirik.",
       button: "Şirkət haqqında ətraflı",
@@ -63,8 +63,7 @@ const translations = {
     },
     popular_brands: {
       title: "Məşhur brendlər",
-      desc:
-        "Biz Kiran Medical Systems və Trivitron Healthcare kimi etibarlı istehsalçılarla işləyirik. Bu, klinikalar və salonlar, kosmetoloji müəssisələr üçün etibarlı rentgen qoruyucu geyim və keyfiyyətli tibbi istehlak materiallarıdır.",
+      desc: "Biz MDT və Trivitron Healthcare kimi etibarlı istehsalçılarla işləyirik. Bu, klinikalar və salonlar, kosmetoloji müəssisələr üçün etibarlı rentgen qoruyucu geyim və keyfiyyətli tibbi istehlak materiallarıdır.",
     },
     products_block: {
       new: "Yeniliklər",
@@ -153,7 +152,8 @@ const translations = {
       total: "Cəmi",
       no_delivery: "Çatdırılma xərci daxil deyil",
       one_click: "1 kliklə al",
-      pay_delivery_info: "Ödəniş və çatdırılma üsullarını sifariş zamanı seçə bilərsiniz.",
+      pay_delivery_info:
+        "Ödəniş və çatdırılma üsullarını sifariş zamanı seçə bilərsiniz.",
       add_to_cart: "Səbətə əlavə et",
       add_all_to_cart: "Hamısını səbətə əlavə et",
       clear_favorites: "Seçilmişləri təmizlə",
@@ -239,8 +239,7 @@ const translations = {
       },
       buy_modal: {
         title: "1 kliklə al",
-        desc:
-          "Əlaqə məlumatlarınızı göndərin — təsdiq və dəqiqləşdirmə üçün əlaqə saxlayacağıq.",
+        desc: "Əlaqə məlumatlarınızı göndərin — təsdiq və dəqiqləşdirmə üçün əlaqə saxlayacağıq.",
         name: "Ad*",
         phone: "+994-__-___-__-__",
         email: "E-mail*",
@@ -282,7 +281,7 @@ const translations = {
       desc1:
         "Since 2022 Golden Trail LLC has been the exclusive distributor of Trivitron Healthcare Pvt Ltd in Azerbaijan. Our mission is to protect people's health.",
       desc2:
-        "We offer Kiran Medical Systems X-ray protective clothing that reliably protects medical staff and patients. The range includes men's and women's models, various materials and tailoring to individual measurements.",
+        "We offer MDT X-ray protective clothing that reliably protects medical staff and patients. The range includes men's and women's models, various materials and tailoring to individual measurements.",
       desc3:
         "We also supply disposable medical consumables, antiseptics and disinfectants from leading global manufacturers for medical and cosmetology institutions.",
       button: "More about the company",
@@ -310,8 +309,7 @@ const translations = {
     },
     popular_brands: {
       title: "Popular brands",
-      desc:
-        "We work with trusted manufacturers such as Kiran Medical Systems and Trivitron Healthcare. They provide reliable X-ray protective clothing and quality medical consumables for clinics, salons and cosmetology institutions.",
+      desc: "We work with trusted manufacturers such as MDT and Trivitron Healthcare. They provide reliable X-ray protective clothing and quality medical consumables for clinics, salons and cosmetology institutions.",
     },
     products_block: {
       new: "New arrivals",
@@ -400,7 +398,8 @@ const translations = {
       total: "Total",
       no_delivery: "Shipping not included",
       one_click: "Buy in 1 click",
-      pay_delivery_info: "Available payment and delivery methods can be chosen when ordering.",
+      pay_delivery_info:
+        "Available payment and delivery methods can be chosen when ordering.",
       add_to_cart: "Add to cart",
       add_all_to_cart: "Add all to cart",
       clear_favorites: "Clear favorites",
@@ -486,8 +485,7 @@ const translations = {
       },
       buy_modal: {
         title: "Buy in 1 click",
-        desc:
-          "Leave your contact details — we will contact you for confirmation and details.",
+        desc: "Leave your contact details — we will contact you for confirmation and details.",
         name: "Name*",
         phone: "+994-__-___-__-__",
         email: "E-mail*",
@@ -529,7 +527,7 @@ const translations = {
       desc1:
         "Компания Golden Trail MMC с 2022 года является эксклюзивным дистрибьютором Trivitron Healthcare Pvt Ltd в Азербайджане. Наша миссия — защита здоровья людей.",
       desc2:
-        "Мы предлагаем рентгенозащитную одежду Kiran Medical Systems, которая обеспечивает надёжную защиту медицинского персонала и пациентов. В ассортименте — мужские и женские модели, различные материалы и пошив по индивидуальным меркам.",
+        "Мы предлагаем рентгенозащитную одежду MDT, которая обеспечивает надёжную защиту медицинского персонала и пациентов. В ассортименте — мужские и женские модели, различные материалы и пошив по индивидуальным меркам.",
       desc3:
         "Также мы поставляем одноразовые медицинские расходные материалы, антисептики и дезинфицирующие средства от ведущих мировых производителей для медицинских и косметологических учреждений.",
       button: "Подробнее о компании",
@@ -557,8 +555,7 @@ const translations = {
     },
     popular_brands: {
       title: "Популярные бренды",
-      desc:
-        "Мы работаем с проверенными производителями, такими как Kiran Medical Systems и Trivitron Healthcare. Это надёжная рентгенозащитная одежда и качественные медицинские расходники для клиник и салонов, косметологических учреждений.",
+      desc: "Мы работаем с проверенными производителями, такими как MDT и Trivitron Healthcare. Это надёжная рентгенозащитная одежда и качественные медицинские расходники для клиник и салонов, косметологических учреждений.",
     },
     products_block: {
       new: "Новинки",
@@ -647,7 +644,8 @@ const translations = {
       total: "Итого",
       no_delivery: "Без учета стоимости доставки",
       one_click: "Купить в 1 клик",
-      pay_delivery_info: "Доступные способы оплаты и доставки можно выбрать при оформлении заказа.",
+      pay_delivery_info:
+        "Доступные способы оплаты и доставки можно выбрать при оформлении заказа.",
       add_to_cart: "Добавить в корзину",
       add_all_to_cart: "Добавить все в корзину",
       clear_favorites: "Очистить избранное",
@@ -733,8 +731,7 @@ const translations = {
       },
       buy_modal: {
         title: "Купить в 1 клик",
-        desc:
-          "Оставьте контактные данные — мы свяжемся с вами для подтверждения и уточнения деталей.",
+        desc: "Оставьте контактные данные — мы свяжемся с вами для подтверждения и уточнения деталей.",
         name: "Имя*",
         phone: "+994-__-___-__-__",
         email: "E-mail*",
@@ -776,7 +773,7 @@ export const LanguageProvider = ({ children }) => {
   };
 
   const t = (key) => {
-    const parts = key.split('.');
+    const parts = key.split(".");
     let value = translations[language];
     for (const part of parts) {
       value = value?.[part];
