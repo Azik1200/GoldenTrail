@@ -554,6 +554,8 @@
 .BestSellers_price_main-price {
   font-family: $font-bold;
   font-size: 18px;
+  color: $color-grey;
+  text-decoration: line-through;
 }
 
 .BestSellers_price_old-price {
