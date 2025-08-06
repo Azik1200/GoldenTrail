@@ -33,7 +33,11 @@ function Header() {
     }
     const q = searchQuery.toLowerCase();
     setSearchResults(
-      products.filter((p) => p.name.toLowerCase().includes(q))
+      products.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.sku?.toString().toLowerCase().includes(q)
+      )
     );
   }, [searchQuery, products]);
 
