@@ -187,9 +187,7 @@ const ProductCard = ({ product }) => {
       </div>
 
       <h2>{t("product_page.description")}</h2>
-      <div>
-        <p>{product.desc}</p>
-      </div>
+      <div dangerouslySetInnerHTML={{ __html: product.desc }} />
 
       {isModalOpen && <BuyModal onClose={() => setIsModalOpen(false)} />}
     </div>

@@ -11,6 +11,7 @@ export default function transformProduct(product) {
   return {
     id: product.id,
     name: product.title,
+    sku: product.sku || '',
     img: formatImageUrl(product.image),
     images: (product.images || []).map(formatImageUrl),
     sizes: product.sizes || [],

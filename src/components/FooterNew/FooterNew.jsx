@@ -43,7 +43,7 @@ const FooterNew = () => {
         </div>
         <div className="container">
           <div className="contactsInfoWrapper">
-            <h2 className="h2 contactsFooterHeader">Контакты</h2>
+            <h2 className="h2 contactsFooterHeader">{t("contacts_section.title")}</h2>
             <ul className="contactsFooterList">
               <li className="contactsFooterListItem">
                 <a href="tel:+994103231074">
@@ -57,7 +57,7 @@ const FooterNew = () => {
                 <div>
                   <div className="contactsFooterListItemIcon workHours"></div>
                   <div className="contactsFooterListItemText">
-                    Режим работы с 9:00-18:00
+                    {t("contacts_section.work_hours")}
                   </div>
                 </div>
               </li>
@@ -139,7 +139,7 @@ const FooterNew = () => {
                   rel="noopener noreferrer"
                   className="footerNewBottomLink"
                 >
-                  Политика конфиденциальности
+                  {t("footer.privacy_policy")}
                 </a>
                 <a
                   href="/terms-of-service"
@@ -147,7 +147,7 @@ const FooterNew = () => {
                   rel="noopener noreferrer"
                   className="footerNewBottomLink"
                 >
-                  Договор оферты
+                  {t("footer.terms_of_service")}
                 </a>
               </div>
               <div className="footerNewBottomRight">

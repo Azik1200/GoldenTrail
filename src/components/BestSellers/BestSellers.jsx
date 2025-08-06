@@ -31,7 +31,7 @@ function BestSellers() {
       console.error(err);
     }
   };
-  const products = useProducts().filter((p) => p.is_on_sale);
+  const products = useProducts().filter((p) => p.is_on_sale).slice(0, 3);
 
   const Item = ({ product }) => {
     const [size, setSize] = useState(product.sizes?.[0] || "");

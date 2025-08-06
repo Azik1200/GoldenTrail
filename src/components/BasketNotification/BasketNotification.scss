@@ -1,0 +1,56 @@
+@use "../../styles/utils/variables" as *;
+
+.notification {
+  position: fixed;
+  left: 80px;
+  bottom: 80px;
+  background: $color-grey;
+  width: 320px;
+  height: 70px;
+  z-index: 10;
+  opacity: 0;
+}
+
+.notification.active {
+  opacity: 1;
+}
+
+.notificationText {
+  margin: 0;
+}
+
+.notificationWrapper {
+  display: flex;
+  padding: 20px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.notificationCloseBtn {
+  width: 30px;
+  height: 30px;
+  //   background: red;
+  position: relative;
+}
+
+.notificationCloseBtn span {
+  width: 25px;
+  height: 1px;
+  background-color: black;
+  position: absolute;
+  transform: rotate(45deg);
+  top: 50%;
+  left: 0;
+}
+
+.notificationCloseBtn span:nth-child(2) {
+  transform: rotate(-45deg);
+}
+
+@media screen and (max-width: 580px) {
+  .notification {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

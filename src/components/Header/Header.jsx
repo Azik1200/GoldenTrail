@@ -33,7 +33,11 @@ function Header() {
     }
     const q = searchQuery.toLowerCase();
     setSearchResults(
-      products.filter((p) => p.name.toLowerCase().includes(q))
+      products.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.sku?.toString().toLowerCase().includes(q)
+      )
     );
   }, [searchQuery, products]);
 
@@ -141,7 +145,7 @@ function Header() {
                   setIsSearchOpen(false);
                   setSearchQuery("");
                 }}
-                aria-label="Закрыть"
+                aria-label={t("common.close")}
               >
                 ×
               </button>
@@ -192,7 +196,7 @@ function Header() {
                 <button
                   className="searchClose"
                   onClick={() => setIsSearchOpenProducts(false)}
-                  aria-label="Закрыть"
+                  aria-label={t("common.close")}
                 >
                   ×
                 </button>

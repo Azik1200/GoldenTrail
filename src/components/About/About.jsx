@@ -1,11 +1,21 @@
 import "./About.scss";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
-import AboutPic from "./../../assets/img/about-us.png";
+import { fetchAbout } from "../../api/about";
+import { formatSlideImageUrl } from "../../api/slides";
 
 function About() {
-  const { t } = useContext(LanguageContext);
+  const { t, language } = useContext(LanguageContext);
   const texts = t("about_section");
+  const [about, setAbout] = useState(null);
+
+  useEffect(() => {
+    fetchAbout()
+      .then((data) => setAbout(data))
+      .catch((err) => console.error(err));
+  }, [language]);
+
+  const paragraphs = about?.text ? about.text.split("\n\n") : [];
 
   return (
     <div className="container-About">
@@ -13,14 +23,16 @@ function About() {
       <div className="about-block">
         <div className="About-Info">
           <div className="About-Descs">
-            <p>{texts.desc1}</p>
-            <p>{texts.desc2}</p>
-            <p>{texts.desc3}</p>
+            {paragraphs.map((p, idx) => (
+              <p key={idx}>{p}</p>
+            ))}
           </div>
           <button className="btn-main">{texts.button}</button>
         </div>
         <div className="AboutPic-img">
-          <img src={AboutPic} />
+          {about && (
+            <img src={formatSlideImageUrl(about.image)} alt={texts.title} />
+          )}
         </div>
       </div>
     </div>

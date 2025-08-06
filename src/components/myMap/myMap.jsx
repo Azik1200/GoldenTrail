@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./myMap.scss";
 import tel from "../../assets/img/telefon.svg";
 import clock from "../../assets/img/clock.svg";
 import gmail from "../../assets/img/gmail.svg";
 import loco from "../../assets/img/loco.svg";
+import { LanguageContext } from "../../context/LanguageContext";
 
 function MyMap() {
+  const { t } = useContext(LanguageContext);
   return (
     <div className="map-wrapper">
       <iframe
@@ -20,7 +22,7 @@ function MyMap() {
       ></iframe>
 
       <div className="contact-card">
-        <div className="contacts">Контакты</div>
+        <div className="contacts">{t("contacts_section.title")}</div>
         <div className="contacts-navs">
           <div className="contacts-nav">
             <div className="contacts-img">
@@ -32,7 +34,7 @@ function MyMap() {
             <div className="contacts-img">
               <img src={clock} />
             </div>
-            <div className="contacts-elementr">Режим работы: 9:00–18:00</div>
+            <div className="contacts-elementr">{t("contacts_section.work_hours")}</div>
           </div>
           <div className="contacts-nav">
             <div className="contacts-img">

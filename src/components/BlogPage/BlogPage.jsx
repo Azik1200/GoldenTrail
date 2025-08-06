@@ -2,13 +2,16 @@ import { useParams } from "react-router-dom";
 import blogContent from "../../data/blogContent";
 
 import "./BlogPage.scss";
+import { useContext } from "react";
+import { LanguageContext } from "../../context/LanguageContext";
 
 const BlogPage = () => {
   const { id } = useParams();
+  const { t } = useContext(LanguageContext);
   const blogItem = blogContent.find((item) => item.id === parseInt(id));
 
   if (!blogItem) {
-    return <div className="container">Статья не найдена</div>;
+    return <div className="container">{t("blog.not_found")}</div>;
   }
 
   return (

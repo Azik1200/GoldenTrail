@@ -30,7 +30,7 @@ function NewProducts() {
       console.error(err);
     }
   };
-  const products = useProducts().filter((p) => p.is_new);
+  const products = useProducts().filter((p) => p.is_new).slice(0, 3);
 
   const Item = ({ product }) => {
     const [size, setSize] = useState(product.sizes?.[0] || "");

@@ -198,7 +198,8 @@
   font-family: "NunitoSans-Bold", sans-serif;
   font-weight: 700;
   font-size: 18px;
-  color: rgb(34, 34, 34);
+  color: rgb(236, 236, 236);
+  text-decoration: line-through;
 }
 .container-BestSellers
   .BestSellers-objs
@@ -460,7 +461,8 @@
     font-family: "NunitoSans-Bold", sans-serif;
     font-weight: 700;
     font-size: 18px;
-    color: rgb(34, 34, 34);
+    color: rgb(236, 236, 236);
+    text-decoration: line-through;
   }
   .container-BestSellers
     .BestSellers-objs
@@ -714,6 +716,8 @@
     font-family: "NunitoSans-Bold", sans-serif;
     font-weight: 700;
     font-size: 14px;
+    color: rgb(236, 236, 236);
+    text-decoration: line-through;
   }
   .container-BestSellers
     .BestSellers-objs

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -11,13 +11,15 @@ import sert3 from "./../../assets/img/1x/SERTIFICATE-8716.png";
 import sertDownload1 from "./../../assets/img/PDF/SERTIFICATE-8714.pdf";
 import sertDownload2 from "./../../assets/img/PDF/SERTIFICATE-8715.pdf";
 import sertDownload3 from "./../../assets/img/PDF/SERTIFICATE-8716.pdf";
+import { LanguageContext } from "../../context/LanguageContext";
 
 const Sertificates = () => {
+  const { t } = useContext(LanguageContext);
   return (
     <>
       <div className="SertificatesSection">
         <div className="container">
-          <h2 className="h2 sertificatesH2">Наши сертификаты</h2>
+          <h2 className="h2 sertificatesH2">{t("certificates.title")}</h2>
           <Swiper
             className="SertsSwiper"
             spaceBetween={16}
@@ -41,7 +43,7 @@ const Sertificates = () => {
                     download={sertDownload1}
                     className="downloadSertLink"
                   >
-                    Скачать сертификат
+                    {t("certificates.download")}
                   </a>
                 </div>
                 <div className="sertImg">
@@ -57,7 +59,7 @@ const Sertificates = () => {
                     download={sertDownload2}
                     className="downloadSertLink"
                   >
-                    Скачать сертификат
+                    {t("certificates.download")}
                   </a>
                 </div>
                 <div className="sertImg">
@@ -73,7 +75,7 @@ const Sertificates = () => {
                     download={sertDownload3}
                     className="downloadSertLink"
                   >
-                    Скачать сертификат
+                    {t("certificates.download")}
                   </a>
                 </div>
                 <div className="sertImg">
