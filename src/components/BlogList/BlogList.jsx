@@ -1,6 +1,6 @@
 import "./BlogList.scss";
 
-import React from "react";
+import React, { useContext } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -9,13 +9,15 @@ import "swiper/css";
 import blogContent from "../../data/blogContent";
 
 import { Link } from "react-router-dom";
+import { LanguageContext } from "../../context/LanguageContext";
 
 const BlogList = () => {
+  const { t } = useContext(LanguageContext);
   return (
     <>
       <div className="blogListSection">
         <div className="container">
-          <h2 className="h2 blogListH2">Блог</h2>
+          <h2 className="h2 blogListH2">{t("blog.title")}</h2>
           <div className="blogListWrapper">
             <Swiper
               className="BlogSwiper"
@@ -46,7 +48,7 @@ const BlogList = () => {
                     <div className="blogItemBottom">
                       <h3 className="blogItemName">{item.name}</h3>
                       <Link to={`/blog/${item.id}`} className="blogItemLink">
-                        Читать
+                        {t("blog.read")}
                       </Link>
                     </div>
                   </div>

@@ -23,6 +23,8 @@ const translations = {
       favorites: "Seçilmişlər",
       about: "Haqqımızda",
       development: "Sayt idarelab.az tərəfindən hazırlanıb",
+      privacy_policy: "Məxfilik siyasəti",
+      terms_of_service: "İctimai təklif müqaviləsi",
     },
     hero: {
       badge: "Fərdi tikiliş. Zəmanət — 1 il.",
@@ -198,6 +200,45 @@ const translations = {
       quantity: "Say",
       copied: "Kopyalandı",
     },
+    certificates: {
+      title: "Sertifikatlarımız",
+      download: "Sertifikatı yüklə",
+    },
+    filters: {
+      default: "Susmaya görə",
+      all_filters: "Bütün filtrlər",
+      clear: "Filtrləri təmizlə",
+      from: "Min",
+      to: "Max",
+      title: "Filtrlər",
+      catalog: "Kataloq",
+      brands: "Brendlər",
+      color: "Rəng",
+      size: "Ölçü",
+      price: "Qiymət",
+      no_matches: "Uyğunluq yoxdur.",
+      no_results: "Heç bir məhsul seçilən şərtlərə uyğun deyil. Filtrləri dəyişin.",
+    },
+    contacts_section: {
+      title: "Əlaqə",
+      work_hours: "İş rejimi: 9:00–18:00",
+    },
+    notifications: {
+      added_to_cart: "Məhsul səbətə əlavə olundu",
+      added_to_favorites: "Məhsul seçilmişlərə əlavə olundu",
+    },
+    blog: {
+      title: "Bloq",
+      read: "Oxu",
+      not_found: "Məqalə tapılmadı",
+    },
+    common: {
+      back: "Geri",
+      close: "Bağla",
+    },
+    search: {
+      no_results: "Sorğunuza uyğun nəticə tapılmadı",
+    },
     product_page: {
       in_stock: "Stokda",
       guarantee: "2 il zəmanət",
@@ -269,6 +310,8 @@ const translations = {
       favorites: "Favorites",
       about: "About us",
       development: "Website by idarelab.az",
+      privacy_policy: "Privacy policy",
+      terms_of_service: "Terms of service",
     },
     hero: {
       badge: "Custom tailoring. 1-year warranty.",
@@ -444,6 +487,46 @@ const translations = {
       quantity: "Quantity",
       copied: "Copied",
     },
+    certificates: {
+      title: "Our certificates",
+      download: "Download certificate",
+    },
+    filters: {
+      default: "Default",
+      all_filters: "All filters",
+      clear: "Clear filters",
+      from: "From",
+      to: "To",
+      title: "Filters",
+      catalog: "Catalog",
+      brands: "Brands",
+      color: "Color",
+      size: "Size",
+      price: "Price",
+      no_matches: "No matches.",
+      no_results:
+        "No items match the selected criteria. Try updating the filters.",
+    },
+    contacts_section: {
+      title: "Contacts",
+      work_hours: "Working hours: 9:00–18:00",
+    },
+    notifications: {
+      added_to_cart: "Item added to cart",
+      added_to_favorites: "Item added to favorites",
+    },
+    blog: {
+      title: "Blog",
+      read: "Read",
+      not_found: "Article not found",
+    },
+    common: {
+      back: "Back",
+      close: "Close",
+    },
+    search: {
+      no_results: "No results found",
+    },
     product_page: {
       in_stock: "In stock",
       guarantee: "2-year warranty",
@@ -515,6 +598,8 @@ const translations = {
       favorites: "Избранное",
       about: "О нас",
       development: "Разработка сайта idarelab.az",
+      privacy_policy: "Политика конфиденциальности",
+      terms_of_service: "Договор оферты",
     },
     hero: {
       badge: "Индивидуальный пошив. Гарантия — 1 год.",
@@ -689,6 +774,46 @@ const translations = {
       size: "Размер",
       quantity: "Количество",
       copied: "Скопировано",
+    },
+    certificates: {
+      title: "Наши сертификаты",
+      download: "Скачать сертификат",
+    },
+    filters: {
+      default: "По умолчанию",
+      all_filters: "Все фильтры",
+      clear: "Очистить фильтры",
+      from: "От",
+      to: "До",
+      title: "Фильтры",
+      catalog: "Каталог",
+      brands: "Бренды",
+      color: "Цвет",
+      size: "Размер",
+      price: "Цена",
+      no_matches: "Нет совпадений.",
+      no_results:
+        "Ни один товар не соответствует заданным условиям. Попробуйте обновить фильтры.",
+    },
+    contacts_section: {
+      title: "Контакты",
+      work_hours: "Режим работы: 9:00–18:00",
+    },
+    notifications: {
+      added_to_cart: "Товар добавлен в корзину",
+      added_to_favorites: "Товар добавлен в избранное",
+    },
+    blog: {
+      title: "Блог",
+      read: "Читать",
+      not_found: "Статья не найдена",
+    },
+    common: {
+      back: "Назад",
+      close: "Закрыть",
+    },
+    search: {
+      no_results: "По вашему запросу ничего не найдено",
     },
     product_page: {
       in_stock: "В наличии",

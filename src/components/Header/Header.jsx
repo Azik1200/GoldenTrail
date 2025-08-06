@@ -145,7 +145,7 @@ function Header() {
                   setIsSearchOpen(false);
                   setSearchQuery("");
                 }}
-                aria-label="Закрыть"
+                aria-label={t("common.close")}
               >
                 ×
               </button>
@@ -196,7 +196,7 @@ function Header() {
                 <button
                   className="searchClose"
                   onClick={() => setIsSearchOpenProducts(false)}
-                  aria-label="Закрыть"
+                  aria-label={t("common.close")}
                 >
                   ×
                 </button>

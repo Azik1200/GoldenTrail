@@ -363,7 +363,7 @@ const HeaderNew = () => {
             <div className="headerDropdownMobile_wrapper_main">
               <div className="headerDropdownMobile_item">
                 <div className="headerDropdownMobile_item_main-btn production">
-                  Продукция
+                  {t("header.products")}
                 </div>
                 <div className="headerDropdownMobile_item_content">
                   {catalogs.map((cat) => (
@@ -378,8 +378,8 @@ const HeaderNew = () => {
                   ))}
                 </div>
               </div>
-              <div className="headerDropdownMobile_item">О нас</div>
-              <div className="headerDropdownMobile_item">Контакты</div>
+              <div className="headerDropdownMobile_item">{t("header.about")}</div>
+              <div className="headerDropdownMobile_item">{t("header.contacts")}</div>
             </div>
             <div className="headerDropdownMobile_wrapper_second">
               {catalogs.map((cat) => (
@@ -392,7 +392,7 @@ const HeaderNew = () => {
                     className="headerDropdownMobile_wrapper_second-back"
                     id="headerGOBACK"
                   >
-                    Назад
+                    {t("common.back")}
                   </button>
                   <div className="headerDropdownMobile_wrapper_second-inner-innerest">
                     <div className="headerDropdownMobile_wrapper_second-inner_name">
@@ -425,7 +425,7 @@ const HeaderNew = () => {
                     className="headerNewSearchInput"
                     name="search"
                     id="headerNewSearchInput"
-                    placeholder="Search"
+                    placeholder={t("header.search")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -491,7 +491,7 @@ const HeaderNew = () => {
                   ) : searchQuery ? (
                     <div className="headerResultsMinus">
                       <p className="headerNewSearchResultsMinus">
-                        По вашему запросу ничего не найдено
+                        {t("search.no_results")}
                       </p>
                     </div>
                   ) : (
@@ -513,7 +513,7 @@ const HeaderNew = () => {
                                 className="headerResultsStoryListItemBtn"
                                 onClick={() => removeFromHistory(item)}
                               >
-                                Удалить
+                                {t("busket.delete")}
                               </button>
                             </li>
                           ))}

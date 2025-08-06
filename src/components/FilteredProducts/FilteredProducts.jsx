@@ -1,5 +1,5 @@
 import "./FilteredProducts.scss";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 
 import up from "../../assets/img/up.svg";
 import vector from "../../assets/img/Vector.svg";
@@ -16,6 +16,7 @@ import { addFavorite, productToFavorite } from "../../api/favorites";
 
 import { Link, useLocation } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
+import { LanguageContext } from "../../context/LanguageContext";
 
 function FilteredProducts() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -26,6 +27,7 @@ function FilteredProducts() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const location = useLocation();
+  const { t } = useContext(LanguageContext);
   const searchParams = useMemo(
     () => new URLSearchParams(location.search),
     [location.search]
@@ -216,14 +218,14 @@ function FilteredProducts() {
           </div>
           <div className="FilteredProducts_action">
             <button className="btn-main" onClick={handleAdd}>
-              Купить в 1 клик
+              {t("products_block.buy")}
             </button>
             <Link
               to={`/desc/${product.id}`}
               className="link-main"
               onClick={() => dispatch(setCurrentProduct(product))}
             >
-              Подробнее
+              {t("products_block.more")}
             </Link>
           </div>
         </div>
@@ -232,7 +234,7 @@ function FilteredProducts() {
   };
 
   const heading = useMemo(() => {
-    if (!filterOptions) return "Каталог";
+    if (!filterOptions) return t("filters.catalog");
     if (selectedCategories.length === 1) {
       for (const cat of filterOptions.catalogs || []) {
         const found = cat.categories?.find(
@@ -250,8 +252,8 @@ function FilteredProducts() {
       );
       if (cat) return cat.name || cat.slug;
     }
-    return "Каталог";
-  }, [filterOptions, selectedCatalogs, selectedCategories]);
+    return t("filters.catalog");
+  }, [filterOptions, selectedCatalogs, selectedCategories, t]);
 
   return (
     <div className="container">
@@ -259,7 +261,7 @@ function FilteredProducts() {
         <h2>{heading}</h2>
         <div className="FilteredProducts-Buttons">
           <div className="FilteredProducts-filter">
-            <div className="FilteredProducts-name">По умолчанию</div>
+            <div className="FilteredProducts-name">{t("filters.default")}</div>
             <div className="FilteredProducts-img">
               <img src={up} />
             </div>
@@ -268,13 +270,13 @@ function FilteredProducts() {
             className="FilteredProducts-All"
             onClick={() => setSidebarOpen(true)}
           >
-            <span className="FilteredProducts-All-name">Все фильтры</span>
+            <span className="FilteredProducts-All-name">{t("filters.all_filters")}</span>
             <div>
               <img src={vector} />
             </div>
           </button>
           <button className="FilteredProducts-delete" onClick={clearFilters}>
-            Очистить фильтры
+            {t("filters.clear")}
           </button>
         </div>
 
@@ -314,9 +316,9 @@ function FilteredProducts() {
           ))}
           {(minPrice || maxPrice) && (
             <div className="FilteredProducts-All-btn">
-              {minPrice ? `От ${minPrice}` : ""}
+              {minPrice ? `${t("filters.from")} ${minPrice}` : ""}
               {minPrice && maxPrice ? " - " : ""}
-              {maxPrice ? `До ${maxPrice}` : ""}
+              {maxPrice ? `${t("filters.to")} ${maxPrice}` : ""}
             </div>
           )}
         </div>
@@ -324,7 +326,7 @@ function FilteredProducts() {
         {sidebarOpen && filterOptions && (
           <div className="FilterSidebar">
             <div className="FilterSidebar-header">
-              <h2>Фильтры</h2>
+              <h2>{t("filters.title")}</h2>
               <button
                 className="close-btn"
                 onClick={() => setSidebarOpen(false)}
@@ -334,7 +336,7 @@ function FilteredProducts() {
             </div>
             {filterOptions.catalogs?.length > 0 && (
               <div className="FilterSidebar-section">
-                <h3>Каталог</h3>
+                <h3>{t("filters.catalog")}</h3>
                 <ul className="FilterSidebar-menu">
                   {filterOptions.catalogs.map((cat) => (
                     <li key={cat.slug} className="FilterSidebar-menu-item">
@@ -402,7 +404,7 @@ function FilteredProducts() {
             )}
             {filterOptions.brands?.length > 0 && (
               <div className="FilterSidebar-section">
-                <h3>Бренды</h3>
+                <h3>{t("filters.brands")}</h3>
                 <ul className="FilterSidebar-menu">
                   {filterOptions.brands.map((brand) => (
                     <li key={brand} className="FilterSidebar-menu-item">
@@ -428,7 +430,7 @@ function FilteredProducts() {
             )}
             {filterOptions.colors?.length > 0 && (
               <div className="FilterSidebar-section-color">
-                <h3>Цвет</h3>
+                <h3>{t("filters.color")}</h3>
                 <ul className="FilterSidebar-menu">
                   {filterOptions.colors.map((color) => (
                     <li key={color} className="FilterSidebar-menu-item">
@@ -457,7 +459,7 @@ function FilteredProducts() {
             )}
             {filterOptions.sizes?.length > 0 && (
               <div className="FilterSidebar-section-size">
-                <h3>Размер</h3>
+                <h3>{t("filters.size")}</h3>
                 <ul className="size-list">
                   {filterOptions.sizes.map((size) => (
                     <li key={size} className="size-item">
@@ -482,7 +484,7 @@ function FilteredProducts() {
               </div>
             )}
             <div className="FilterSidebar-section-price">
-              <h3>Цена</h3>
+              <h3>{t("filters.price")}</h3>
               <div className="price-inputs-single">
                 <input
                   type="number"
@@ -500,7 +502,7 @@ function FilteredProducts() {
               </div>
             </div>
             <button className="clear-filters" onClick={clearFilters}>
-              Очистить фильтры
+              {t("filters.clear")}
             </button>
           </div>
         )}
@@ -512,10 +514,9 @@ function FilteredProducts() {
             ))
           ) : (
             <div className="FilteredProducts-empty">
-              <p>Нет совпадений.</p>
+              <p>{t("filters.no_matches")}</p>
               <p>
-                Ни один товар не соответствует заданым условиям. Попробуйте
-                обновить фильтры.
+                {t("filters.no_results")}
               </p>
             </div>
           )}
