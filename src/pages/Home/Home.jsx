@@ -1,7 +1,6 @@
 import About from "../../components/About/About";
 import Advantages from "../../components/Advantages/Advantages";
 import BanerReviews from "../../components/BanerReviews/BanerReviews";
-import BasketNotification from "../../components/BasketNotification/BasketNotification";
 import BestSellers from "../../components/BestSellers/BestSellers";
 import BlogList from "../../components/BlogList/BlogList";
 import CardItem from "../../components/CardItem/CardItem";
@@ -35,7 +34,7 @@ function Home() {
       {/* <Reviews /> */}
       <OrderEasily />
 
-      <BasketNotification />
+      {/* <BasketNotification /> */}
       <FavNotification />
     </>
   );
