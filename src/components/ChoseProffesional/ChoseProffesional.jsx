@@ -95,7 +95,7 @@ function ChoseProffesional() {
         <div className="ChoseProffesional_bottom">
           <div className="ChoseProffesional_bottom-info">
             <div className="ChoseProffesional_price">
-              <div className="ChoseProffesional_price_main-price">{formatPrice(product.mainPrice)}</div>
+              <div className="productCard_price_main-price">{formatPrice(product.mainPrice)}</div>
               {product.oldPrice && <div className="ChoseProffesional_price_old-price">{formatPrice(product.oldPrice)}</div>}
             </div>
             <ul className="ChoseProffesional_colors">
