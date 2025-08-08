@@ -178,6 +178,9 @@ const translations = {
         building: "Ev/Bina",
         apartment: "Mənzil/Ofis",
         postalCode: "Poçt indeksi",
+        address_line: "Ünvan",
+        country: "Ölkə",
+        is_default: "Əsas ünvan",
       },
       errors: {
         name: "Adı daxil edin",
@@ -187,6 +190,7 @@ const translations = {
         password: "Şifrəni daxil edin",
       },
       saved: "Məlumatlar yadda saxlanıldı!",
+      delete: "Sil",
     },
     orders_page: {
       title: "Sifarişlərim",
@@ -465,6 +469,9 @@ const translations = {
         building: "Building",
         apartment: "Apartment/Office",
         postalCode: "Postal code",
+        address_line: "Address line",
+        country: "Country",
+        is_default: "Default address",
       },
       errors: {
         name: "Enter name",
@@ -474,6 +481,7 @@ const translations = {
         password: "Enter password",
       },
       saved: "Data saved!",
+      delete: "Delete",
     },
     orders_page: {
       title: "My orders",
@@ -753,6 +761,9 @@ const translations = {
         building: "Дом/Строение",
         apartment: "Квартира/Офис",
         postalCode: "Почтовый индекс",
+        address_line: "Адрес",
+        country: "Страна",
+        is_default: "Основной адрес",
       },
       errors: {
         name: "Введите имя",
@@ -762,6 +773,7 @@ const translations = {
         password: "Введите пароль",
       },
       saved: "Данные сохранены!",
+      delete: "Удалить",
     },
     orders_page: {
       title: "Мои заказы",

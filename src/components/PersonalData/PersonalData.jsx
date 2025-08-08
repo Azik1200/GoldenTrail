@@ -2,7 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import "./PersonalData.scss";
 import { LanguageContext } from "../../context/LanguageContext";
 import { getProfile, updateProfile } from "../../api/profile";
-import { getAddresses, saveAddress } from "../../api/addresses";
+import {
+  getAddresses,
+  createAddress,
+  updateAddress,
+  deleteAddress,
+} from "../../api/addresses";
 
 function PersonalData() {
   const { t } = useContext(LanguageContext);
@@ -15,7 +20,14 @@ function PersonalData() {
   });
   const [errors, setErrors] = useState({});
   const [addresses, setAddresses] = useState([
-    { city: "", street: "", building: "", apartment: "", postalCode: "" },
+    {
+      id: undefined,
+      address_line: "",
+      city: "",
+      postal_code: "",
+      country: "",
+      is_default: false,
+    },
   ]);
 
   const handleInputChange = (e) => {
@@ -23,9 +35,11 @@ function PersonalData() {
   };
 
   const handleAddressChange = (index, field, value) => {
-    const updated = [...addresses];
-    updated[index][field] = value;
-    setAddresses(updated);
+    setAddresses((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
   };
 
   const validate = () => {
@@ -57,9 +71,39 @@ function PersonalData() {
   };
 
   const handleAddressSave = async (index) => {
+    const addr = addresses[index];
+    const payload = {
+      address_line: addr.address_line,
+      city: addr.city,
+      postal_code: addr.postal_code,
+      country: addr.country,
+      is_default: addr.is_default,
+    };
     try {
-      await saveAddress(addresses[index]);
+      let saved;
+      if (addr.id) {
+        saved = await updateAddress(addr.id, payload);
+      } else {
+        saved = await createAddress(payload);
+      }
+      setAddresses((prev) => {
+        const updated = [...prev];
+        updated[index] = { ...addr, ...saved };
+        return updated;
+      });
       alert(t("personal_data.saved"));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleAddressDelete = async (index) => {
+    const addr = addresses[index];
+    try {
+      if (addr.id) {
+        await deleteAddress(addr.id);
+      }
+      setAddresses((prev) => prev.filter((_, i) => i !== index));
     } catch (err) {
       console.error(err);
     }
@@ -85,7 +129,16 @@ function PersonalData() {
       try {
         const data = await getAddresses();
         if (Array.isArray(data) && data.length) {
-          setAddresses(data);
+          setAddresses(
+            data.map((a) => ({
+              id: a.id,
+              address_line: a.address_line || "",
+              city: a.city || "",
+              postal_code: a.postal_code || "",
+              country: a.country || "",
+              is_default: Boolean(a.is_default),
+            }))
+          );
         }
       } catch (err) {
         console.error(err);
@@ -167,11 +220,12 @@ function PersonalData() {
                     setAddresses((prev) => [
                       ...prev,
                       {
+                        id: undefined,
+                        address_line: "",
                         city: "",
-                        street: "",
-                        building: "",
-                        apartment: "",
-                        postalCode: "",
+                        postal_code: "",
+                        country: "",
+                        is_default: false,
                       },
                     ])
                   }
@@ -182,6 +236,15 @@ function PersonalData() {
             </div>
             <div className="PersonalData-input">
               <input
+                placeholder={t("personal_data.placeholders.address_line")}
+                type="text"
+                value={address.address_line}
+                onChange={(e) =>
+                  handleAddressChange(index, "address_line", e.target.value)
+                }
+                className={address.address_line ? "filled" : ""}
+              />
+              <input
                 placeholder={t("personal_data.placeholders.city")}
                 type="text"
                 value={address.city}
@@ -191,47 +254,45 @@ function PersonalData() {
                 className={address.city ? "filled" : ""}
               />
               <input
-                placeholder={t("personal_data.placeholders.street")}
-                type="text"
-                value={address.street}
-                onChange={(e) =>
-                  handleAddressChange(index, "street", e.target.value)
-                }
-                className={address.street ? "filled" : ""}
-              />
-              <input
-                placeholder={t("personal_data.placeholders.building")}
-                type="text"
-                value={address.building}
-                onChange={(e) =>
-                  handleAddressChange(index, "building", e.target.value)
-                }
-                className={address.building ? "filled" : ""}
-              />
-              <input
-                placeholder={t("personal_data.placeholders.apartment")}
-                type="text"
-                value={address.apartment}
-                onChange={(e) =>
-                  handleAddressChange(index, "apartment", e.target.value)
-                }
-                className={address.apartment ? "filled" : ""}
-              />
-              <input
                 placeholder={t("personal_data.placeholders.postalCode")}
                 type="text"
-                value={address.postalCode}
+                value={address.postal_code}
                 onChange={(e) =>
-                  handleAddressChange(index, "postalCode", e.target.value)
+                  handleAddressChange(index, "postal_code", e.target.value)
                 }
-                className={address.postalCode ? "filled" : ""}
+                className={address.postal_code ? "filled" : ""}
               />
+              <input
+                placeholder={t("personal_data.placeholders.country")}
+                type="text"
+                value={address.country}
+                onChange={(e) =>
+                  handleAddressChange(index, "country", e.target.value)
+                }
+                className={address.country ? "filled" : ""}
+              />
+              <label className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={address.is_default}
+                  onChange={(e) =>
+                    handleAddressChange(index, "is_default", e.target.checked)
+                  }
+                />
+                {t("personal_data.placeholders.is_default")}
+              </label>
             </div>
             <button
               className="btn-main-busket"
               onClick={() => handleAddressSave(index)}
             >
               {t("personal_data.save_changes")}
+            </button>
+            <button
+              className="btn-main-busket"
+              onClick={() => handleAddressDelete(index)}
+            >
+              {t("personal_data.delete")}
             </button>
           </div>
         ))}
