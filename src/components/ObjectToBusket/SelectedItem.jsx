@@ -75,6 +75,17 @@ function SelectedItem() {
     return sum + price * (item.quantity || 1);
   }, 0);
 
+  const discount = cart.reduce((sum, item) => {
+    const mainRaw = item.mainPrice ?? item.price ?? '0';
+    const mainPrice = parseFloat(String(mainRaw).replace(/\s|₽|₼/g, ""));
+    const oldRaw = item.oldPrice ?? item.discount ?? 0;
+    const oldPrice = parseFloat(String(oldRaw).replace(/\s|₽|₼/g, ""));
+    if (oldPrice > mainPrice) {
+      return sum + (oldPrice - mainPrice) * (item.quantity || 1);
+    }
+    return sum;
+  }, 0);
+
   const categories = [
     { id: 1, name: t("categories.xr"), bg: person, slug: "xr" },
     { id: 2, name: t("categories.disposable"), bg: bahyli, slug: "disposable" },
@@ -202,7 +213,9 @@ function SelectedItem() {
             <div className="SelectedItem-Block-Total-Price">
               <div className="SelectedItem-Block-Discount">
                 <div className="SelectedItem-Discount">{t("busket.discount")}</div>
-                <div className="SelectedItem-Discount-total">-0 ₼</div>
+                <div className="SelectedItem-Discount-total">
+                  -{formatPrice(discount)}
+                </div>
               </div>
               <div className="SelectedItem-Block-Total">
                 <div className="SelectedItem-Total">{t("busket.total")}</div>
