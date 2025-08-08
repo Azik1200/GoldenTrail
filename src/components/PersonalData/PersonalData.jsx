@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./PersonalData.scss";
 import { LanguageContext } from "../../context/LanguageContext";
 import { getProfile, updateProfile } from "../../api/profile";
+import { getAddresses, saveAddress } from "../../api/addresses";
 
 function PersonalData() {
   const { t } = useContext(LanguageContext);
@@ -19,6 +20,12 @@ function PersonalData() {
 
   const handleInputChange = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+  };
+
+  const handleAddressChange = (index, field, value) => {
+    const updated = [...addresses];
+    updated[index][field] = value;
+    setAddresses(updated);
   };
 
   const validate = () => {
@@ -49,6 +56,15 @@ function PersonalData() {
     }
   };
 
+  const handleAddressSave = async (index) => {
+    try {
+      await saveAddress(addresses[index]);
+      alert(t("personal_data.saved"));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -64,7 +80,20 @@ function PersonalData() {
         console.error(err);
       }
     };
+
+    const fetchAddresses = async () => {
+      try {
+        const data = await getAddresses();
+        if (Array.isArray(data) && data.length) {
+          setAddresses(data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     fetchProfile();
+    fetchAddresses();
   }, []);
 
   return (
@@ -125,7 +154,7 @@ function PersonalData() {
       </div>
 
       <div className="PersonalData-Inputs-Block-Add">
-        {addresses.map((_, index) => (
+        {addresses.map((address, index) => (
           <div key={index} className="PersonalData-Inputs-Add">
             <div className="PersonalData-Name">
               <div className="PersonalData-name">
@@ -155,25 +184,53 @@ function PersonalData() {
               <input
                 placeholder={t("personal_data.placeholders.city")}
                 type="text"
+                value={address.city}
+                onChange={(e) =>
+                  handleAddressChange(index, "city", e.target.value)
+                }
+                className={address.city ? "filled" : ""}
               />
               <input
                 placeholder={t("personal_data.placeholders.street")}
                 type="text"
+                value={address.street}
+                onChange={(e) =>
+                  handleAddressChange(index, "street", e.target.value)
+                }
+                className={address.street ? "filled" : ""}
               />
               <input
                 placeholder={t("personal_data.placeholders.building")}
                 type="text"
+                value={address.building}
+                onChange={(e) =>
+                  handleAddressChange(index, "building", e.target.value)
+                }
+                className={address.building ? "filled" : ""}
               />
               <input
                 placeholder={t("personal_data.placeholders.apartment")}
                 type="text"
+                value={address.apartment}
+                onChange={(e) =>
+                  handleAddressChange(index, "apartment", e.target.value)
+                }
+                className={address.apartment ? "filled" : ""}
               />
               <input
                 placeholder={t("personal_data.placeholders.postalCode")}
                 type="text"
+                value={address.postalCode}
+                onChange={(e) =>
+                  handleAddressChange(index, "postalCode", e.target.value)
+                }
+                className={address.postalCode ? "filled" : ""}
               />
             </div>
-            <button className="btn-main-busket">
+            <button
+              className="btn-main-busket"
+              onClick={() => handleAddressSave(index)}
+            >
               {t("personal_data.save_changes")}
             </button>
           </div>
