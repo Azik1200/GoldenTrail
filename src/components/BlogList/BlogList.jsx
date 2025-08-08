@@ -1,18 +1,33 @@
 import "./BlogList.scss";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
-import blogContent from "../../data/blogContent";
 
 import { Link } from "react-router-dom";
 import { LanguageContext } from "../../context/LanguageContext";
+import { fetchBlogs } from "../../api/blogs";
+import { formatSlideImageUrl } from "../../api/slides";
 
 const BlogList = () => {
   const { t } = useContext(LanguageContext);
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    const loadBlogs = async () => {
+      try {
+        const data = await fetchBlogs();
+        if (Array.isArray(data)) setBlogs(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    loadBlogs();
+  }, []);
+
   return (
     <>
       <div className="blogListSection">
@@ -34,20 +49,23 @@ const BlogList = () => {
                 },
               }}
             >
-              {blogContent.map((item) => (
+              {blogs.map((item) => (
                 <SwiperSlide key={item.id}>
                   <div className="blogItemWrapper">
                     <div className="blogItemTop">
                       <div className="blogItemImg">
-                        <img src={item.img} alt={item.name} />
+                        <img
+                          src={formatSlideImageUrl(item.image)}
+                          alt={item.title}
+                        />
                       </div>
                       <div className="blogItemReadingTime">
-                        {item.timeForReading}
+                        {item.reading_time} мин
                       </div>
                     </div>
                     <div className="blogItemBottom">
-                      <h3 className="blogItemName">{item.name}</h3>
-                      <Link to={`/blog/${item.id}`} className="blogItemLink">
+                      <h3 className="blogItemName">{item.title}</h3>
+                      <Link to={`/blog/${item.slug}`} className="blogItemLink">
                         {t("blog.read")}
                       </Link>
                     </div>

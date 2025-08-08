@@ -64,7 +64,7 @@ function App() {
         <Route path="/Error" element={<ErrorBlock />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/blog/:id" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPage />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="*" element={<ErrorBlock />} />
       </Routes>
