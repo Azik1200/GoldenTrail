@@ -30,10 +30,11 @@ function ProductCategories() {
             style={{ backgroundImage: `url(${category.bg})` }}
           >
             <h3 className="product-category-name">{category.name}</h3>
-            <Link to={`/Filter?category=${category.slug}`}>
-              <button className="btn-main btn">
-                {t("busket.go_to_catalog")}
-              </button>
+            <Link
+              to={`/Filter?category=${category.slug}`}
+              className="btn-main btn"
+            >
+              {t("busket.go_to_catalog")}
             </Link>
           </div>
         ))}
