@@ -6,7 +6,6 @@ import BlogList from "../../components/BlogList/BlogList";
 import CardItem from "../../components/CardItem/CardItem";
 
 import ChoseProffesional from "../../components/ChoseProffesional/ChoseProffesional";
-import FavNotification from "../../components/FavNotification/FavNotification";
 
 import NewProducts from "../../components/NewProducts/NewProducts";
 import OrderEasily from "../../components/OrderEasily/OrderEasily";
@@ -34,8 +33,7 @@ function Home() {
       {/* <Reviews /> */}
       <OrderEasily />
 
-      {/* <BasketNotification /> */}
-      <FavNotification />
+      {/* Notifications moved to App for global use */}
     </>
   );
 }

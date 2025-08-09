@@ -3,6 +3,7 @@ import "./CardItem.scss";
 import { Link } from "react-router-dom";
 import { useContext, useState, useMemo } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
+import { NotificationContext } from "../../context/NotificationContext.jsx";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,7 @@ import formatPrice from "../../utils/formatPrice";
 
 function CardItem() {
   const { t } = useContext(LanguageContext);
+  const { showCart, showFav } = useContext(NotificationContext);
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
 
@@ -27,6 +29,7 @@ function CardItem() {
       const data = await addFavorite(fav);
       const payload = { ...product, ...data, product_id: product.id };
       dispatch(addFav(payload));
+      showFav();
     } catch (err) {
       console.error(err);
     }
@@ -46,6 +49,7 @@ function CardItem() {
     const handleAdd = async () => {
       const selected = { ...product, selectedSize: size, selectedColor: color };
       dispatch(addItem(selected));
+      showCart();
       try {
         const item = productToCartItem(selected, {
           size: optionKey(size),

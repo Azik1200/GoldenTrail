@@ -21,6 +21,8 @@ import FooterNew from "./components/FooterNew/FooterNew";
 import PrivacyPolicy from "./pages/Policy/PrivacyPolicy";
 import TermsOfService from "./pages/Policy/TermsOfService";
 import BlogPage from "./components/BlogPage/BlogPage";
+import BasketNotification from "./components/BasketNotification/BasketNotification";
+import FavNotification from "./components/FavNotification/FavNotification";
 
 function App() {
   const location = useLocation();
@@ -71,6 +73,8 @@ function App() {
       {/* <MyMap /> */}
       <FooterNew />
       {/* <Footer /> */}
+      <BasketNotification />
+      <FavNotification />
     </>
   );
 }

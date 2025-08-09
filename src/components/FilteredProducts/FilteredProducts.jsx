@@ -17,6 +17,7 @@ import { addFavorite, productToFavorite } from "../../api/favorites";
 import { Link, useLocation } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 import { LanguageContext } from "../../context/LanguageContext";
+import { NotificationContext } from "../../context/NotificationContext.jsx";
 
 function FilteredProducts() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -47,6 +48,7 @@ function FilteredProducts() {
 
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
+  const { showCart, showFav } = useContext(NotificationContext);
 
   useEffect(() => {
     fetchProductFilters()
@@ -85,6 +87,7 @@ function FilteredProducts() {
       const data = await addFavorite(fav);
       const payload = { ...product, ...data, product_id: product.id };
       dispatch(addFav(payload));
+      showFav();
     } catch (err) {
       console.error(err);
     }
@@ -135,6 +138,7 @@ function FilteredProducts() {
     const handleAdd = async () => {
       const selected = { ...product, selectedSize: size, selectedColor: color };
       dispatch(addItem(selected));
+      showCart();
       try {
         const item = productToCartItem(selected, {
           size: optionKey(size),

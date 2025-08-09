@@ -22,9 +22,11 @@ import dezenfekiciya from "../../assets/img/dezenfekciya.png";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../../context/LanguageContext";
 import BuyModal from "../BuyModal/BuyModal";
+import { NotificationContext } from "../../context/NotificationContext.jsx";
 
 function FavBusket() {
   const { t } = useContext(LanguageContext);
+  const { showCart } = useContext(NotificationContext);
   const favorites = useSelector((state) => state.favorites);
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,6 +56,7 @@ function FavBusket() {
 
   const handleAdd = async (product) => {
     dispatch(addItem(product));
+    showCart();
     try {
       const item = productToCartItem(product, {
         size: optionKey(product.selectedSize || product.size),
