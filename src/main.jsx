@@ -6,14 +6,17 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 import { LanguageProvider } from "./context/LanguageContext";
+import { NotificationProvider } from "./context/NotificationContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <LanguageProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <NotificationProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </NotificationProvider>
       </LanguageProvider>
     </Provider>
   </StrictMode>

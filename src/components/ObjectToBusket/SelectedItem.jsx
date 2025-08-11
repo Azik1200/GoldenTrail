@@ -69,10 +69,41 @@ function SelectedItem() {
     }
   };
 
+  const parseMoney = (value) => {
+    const n = parseFloat(
+      String(value ?? "")
+        .replace(/[\s₽₼]/g, "")
+        .replace(",", "."),
+    );
+    return Number.isFinite(n) ? n : 0;
+  };
+
   const total = cart.reduce((sum, item) => {
-    const raw = item.mainPrice ?? item.price ?? '0';
-    const price = parseFloat(String(raw).replace(/\s|₽|₼/g, ""));
-    return sum + price * (item.quantity || 1);
+    const price = parseMoney(item.mainPrice ?? item.price);
+    const old = parseMoney(item.oldPrice);
+    const disc = parseMoney(item.discount);
+    let final = price;
+    if (disc > 0 && disc < price && !old) {
+      final = disc;
+    } else if (disc > 0 && !old) {
+      final = price - disc;
+    }
+    return sum + final * (item.quantity || 1);
+  }, 0);
+
+  const discount = cart.reduce((sum, item) => {
+    const price = parseMoney(item.mainPrice ?? item.price);
+    const old = parseMoney(item.oldPrice);
+    const disc = parseMoney(item.discount);
+    let diff = 0;
+    if (old > price) {
+      diff = old - price;
+    } else if (disc > 0 && disc < price) {
+      diff = price - disc;
+    } else if (disc > 0) {
+      diff = disc;
+    }
+    return sum + diff * (item.quantity || 1);
   }, 0);
 
   const categories = [
@@ -113,96 +144,106 @@ function SelectedItem() {
         <>
           <div className="SelectedItem-Block">
             <div className="SelectedItem-Block-newcard">
-              {cart.map((item) => (
-                <div className="SelectedItem-Block-Obj" key={item._key || item.id || item.product_id}>
-                  <div className="SelectedItem-Block-Left">
-                    <div className="SelectedItem-img">
-                      <img src={item.img || item.image} alt={item.name} />
-                    </div>
-                    <div className="SelectedItem-Blok-desc">
-                      <h3 className="h3">{item.name}</h3>
-                      <ul className="SelectedItem-Menu">
-                        <li className="SelectedItem-Item-Size">
-                          <div>{t("busket.size")}</div>
-                          <div>
-                            {optionLabel(
-                              item.selectedSize || item.size || item.sizes?.[0]
-                            ) || '-'}
-                          </div>
-                        </li>
-                        <li className="SelectedItem-Item-Color">
-                          <div>{t("orders_page.color")}</div>
-                          <div>
-                            {optionLabel(
-                              item.selectedColor ||
-                                item.color ||
-                                item.colors?.[0]
-                            ) || '-'}
-                          </div>
-                        </li>
-                        <li className="SelectedItem-Item-Quantity">
-                          <div>{t("busket.quantity")}</div>
-                          <div>{item.quantity}</div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="SelectedItem-Total-Price">
-                    <div className="SelectedItem-New-Price">
-                      {formatPrice(item.mainPrice ?? item.price)}
-                    </div>
-                    {item.oldPrice && (
-                      <div className="SelectedItem-Old-Price">
-                        {formatPrice(item.oldPrice)}
+              {cart.map((item) => {
+                const price = parseMoney(item.mainPrice ?? item.price);
+                const disc = parseMoney(item.discount);
+                const old = parseMoney(item.oldPrice);
+                const hasDiscPrice = disc > 0 && disc < price && !old;
+                const newPrice = hasDiscPrice ? disc : price;
+                const oldPrice = hasDiscPrice ? price : old;
+                return (
+                  <div className="SelectedItem-Block-Obj" key={item._key || item.id || item.product_id}>
+                    <div className="SelectedItem-Block-Left">
+                      <div className="SelectedItem-img">
+                        <img src={item.img || item.image} alt={item.name} />
                       </div>
-                    )}
-                    <div className="SelectedItem-Buttons">
+                      <div className="SelectedItem-Blok-desc">
+                        <h3 className="h3">{item.name}</h3>
+                        <ul className="SelectedItem-Menu">
+                          <li className="SelectedItem-Item-Size">
+                            <div>{t("busket.size")}</div>
+                            <div>
+                              {optionLabel(
+                                item.selectedSize || item.size || item.sizes?.[0]
+                              ) || '-'}
+                            </div>
+                          </li>
+                          <li className="SelectedItem-Item-Color">
+                            <div>{t("orders_page.color")}</div>
+                            <div>
+                              {optionLabel(
+                                item.selectedColor ||
+                                  item.color ||
+                                  item.colors?.[0]
+                              ) || '-'}
+                            </div>
+                          </li>
+                          <li className="SelectedItem-Item-Quantity">
+                            <div>{t("busket.quantity")}</div>
+                            <div>{item.quantity}</div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="SelectedItem-Total-Price">
+                      <div className="SelectedItem-New-Price">
+                        {formatPrice(newPrice)}
+                      </div>
+                      {oldPrice > 0 && (
+                        <div className="SelectedItem-Old-Price">
+                          {formatPrice(oldPrice)}
+                        </div>
+                      )}
+                      <div className="SelectedItem-Buttons">
+                        <button
+                          onClick={() =>
+                            handleDecrease(
+                              item.id || item.product_id,
+                              item._key || item.id || item.product_id,
+                            )
+                          }
+                          className="SelectedItem-decrease"
+                        >
+                          -
+                        </button>
+                        <span className="SelectedItem-Quantity">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() =>
+                            handleIncrease(
+                              item.id || item.product_id,
+                              item._key || item.id || item.product_id,
+                            )
+                          }
+                          className="SelecctedItem-increase"
+                        >
+                          +
+                        </button>
+                      </div>
                       <button
+                        className="deleete"
                         onClick={() =>
-                          handleDecrease(
+                          handleRemove(
                             item.id || item.product_id,
                             item._key || item.id || item.product_id,
                           )
                         }
-                        className="SelectedItem-decrease"
                       >
-                        -
-                      </button>
-                      <span className="SelectedItem-Quantity">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() =>
-                          handleIncrease(
-                            item.id || item.product_id,
-                            item._key || item.id || item.product_id,
-                          )
-                        }
-                        className="SelecctedItem-increase"
-                      >
-                        +
+                        {t("busket.delete")}
                       </button>
                     </div>
-                    <button
-                      className="deleete"
-                      onClick={() =>
-                        handleRemove(
-                          item.id || item.product_id,
-                          item._key || item.id || item.product_id,
-                        )
-                      }
-                    >
-                      {t("busket.delete")}
-                    </button>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="SelectedItem-Block-Total-Price">
               <div className="SelectedItem-Block-Discount">
                 <div className="SelectedItem-Discount">{t("busket.discount")}</div>
-                <div className="SelectedItem-Discount-total">-0 ₼</div>
+                <div className="SelectedItem-Discount-total">
+                  -{formatPrice(discount)}
+                </div>
               </div>
               <div className="SelectedItem-Block-Total">
                 <div className="SelectedItem-Total">{t("busket.total")}</div>

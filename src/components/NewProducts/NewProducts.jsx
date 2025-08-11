@@ -13,10 +13,12 @@ import { Link } from "react-router-dom";
 import { setCurrentProduct } from "../../redux/CurrentProductSlice";
 import formatPrice from "../../utils/formatPrice";
 import BuyModal from "../BuyModal/BuyModal";
+import { NotificationContext } from "../../context/NotificationContext.jsx";
 
 
 function NewProducts() {
   const { t } = useContext(LanguageContext);
+  const { showCart, showFav } = useContext(NotificationContext);
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
 
@@ -26,6 +28,7 @@ function NewProducts() {
       const data = await addFavorite(fav);
       const payload = { ...product, ...data, product_id: product.id };
       dispatch(addFav(payload));
+      showFav();
     } catch (err) {
       console.error(err);
     }
@@ -40,6 +43,7 @@ function NewProducts() {
     const handleAdd = async () => {
       const selected = { ...product, selectedSize: size, selectedColor: color };
       dispatch(addItem(selected));
+      showCart();
       try {
         const item = productToCartItem(selected, {
           size: optionKey(size),

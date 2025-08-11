@@ -16,12 +16,14 @@ import { addCartItem, productToCartItem } from "../../api/cart";
 import { optionKey } from "../../utils/options";
 
 import { LanguageContext } from "../../context/LanguageContext";
+import { NotificationContext } from "../../context/NotificationContext.jsx";
 
 import styles from "./ProductCard.module.css";
 import formatPrice from "../../utils/formatPrice";
 
 const ProductCard = ({ product }) => {
   const { t } = useContext(LanguageContext);
+  const { showCart } = useContext(NotificationContext);
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -43,6 +45,7 @@ const ProductCard = ({ product }) => {
       selectedColor,
     };
     dispatch(addItem(selected));
+    showCart();
     try {
       const item = productToCartItem(selected, {
         size: optionKey(selectedSize),
