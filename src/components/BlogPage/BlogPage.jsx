@@ -1,12 +1,26 @@
 import { useParams } from "react-router-dom";
 
 import "./BlogPage.scss";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import DOMPurify from "dompurify";
 
 import { LanguageContext } from "../../context/LanguageContext";
 import { fetchBlog } from "../../api/blogs";
 import { formatSlideImageUrl } from "../../api/slides";
+
+const decodeHtmlEntities = (html) => {
+  if (!html) {
+    return "";
+  }
+
+  if (typeof window === "undefined" || typeof document === "undefined") {
+    return html;
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.innerHTML = html;
+  return textarea.value;
+};
 
 const BlogPage = () => {
   const { slug } = useParams();
@@ -29,9 +43,14 @@ const BlogPage = () => {
     loadBlog();
   }, [slug]);
 
-  const sanitizedContent = blogItem?.text
-    ? DOMPurify.sanitize(blogItem.text)
-    : "";
+  const sanitizedContent = useMemo(() => {
+    if (!blogItem?.text) {
+      return "";
+    }
+
+    const decodedContent = decodeHtmlEntities(blogItem.text);
+    return DOMPurify.sanitize(decodedContent);
+  }, [blogItem?.text]);
 
   if (loading) {
     return <div className="container">Loading...</div>;
