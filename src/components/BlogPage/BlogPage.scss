@@ -35,3 +35,71 @@
   height: 100%;
   object-fit: cover;
 }
+
+.blogDetailsContent {
+  font-size: 18px;
+  line-height: 1.6;
+  color: $color-black;
+}
+
+.blogDetailsContent h2,
+.blogDetailsContent h3,
+.blogDetailsContent h4,
+.blogDetailsContent h5,
+.blogDetailsContent h6 {
+  font-weight: 600;
+  margin: 24px 0 16px;
+}
+
+.blogDetailsContent p {
+  margin-bottom: 16px;
+}
+
+.blogDetailsContent p:last-child,
+.blogDetailsContent h2:last-child,
+.blogDetailsContent h3:last-child,
+.blogDetailsContent h4:last-child,
+.blogDetailsContent h5:last-child,
+.blogDetailsContent h6:last-child {
+  margin-bottom: 0;
+}
+
+.blogDetailsContent strong {
+  font-weight: 600;
+}
+
+.blogDetailsContent ul,
+.blogDetailsContent ol {
+  margin: 0 0 16px 20px;
+  padding: 0;
+}
+
+.blogDetailsContent ul:last-child,
+.blogDetailsContent ol:last-child {
+  margin-bottom: 0;
+}
+
+.blogDetailsContent ul li,
+.blogDetailsContent ol li {
+  list-style: disc;
+  margin-bottom: 8px;
+}
+
+.blogDetailsContent ol li {
+  list-style: decimal;
+}
+
+.blogDetailsContent ul li:last-child,
+.blogDetailsContent ol li:last-child {
+  margin-bottom: 0;
+}
+
+.blogDetailsContent img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 16px 0;
+}
+
+.blogDetailsContent img:last-child {
+  margin-bottom: 0;
+}
