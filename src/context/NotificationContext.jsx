@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useCallback, useRef, useState } from "react";
 
 export const NotificationContext = createContext({

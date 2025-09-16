@@ -13,7 +13,7 @@ import cart from "../../assets/img/cartb.svg";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../redux/CardSlice";
 import { addCartItem, productToCartItem } from "../../api/cart";
-import { optionKey } from "../../utils/options";
+import { optionKey, optionLabel, optionValue } from "../../utils/options";
 
 import { LanguageContext } from "../../context/LanguageContext";
 import { NotificationContext } from "../../context/NotificationContext.jsx";
@@ -32,6 +32,26 @@ const ProductCard = ({ product }) => {
     product?.colors?.[0] || ""
   );
   const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0] || "");
+
+  const getOptionId = (option) => {
+    const key = optionKey(option);
+    if (key) return key;
+    const value = optionValue(option);
+    if (value) return value;
+    const label = optionLabel(option);
+    if (label) return label;
+    if (option && typeof option === "object") {
+      try {
+        return JSON.stringify(option);
+      } catch {
+        return "";
+      }
+    }
+    return option ?? "";
+  };
+
+  const selectedColorId = getOptionId(selectedColor);
+  const selectedSizeId = getOptionId(selectedSize);
 
   useEffect(() => {
     setSelectedColor(product?.colors?.[0] || "");
@@ -111,15 +131,36 @@ const ProductCard = ({ product }) => {
             <div className={styles.optionBlock}>
               <span>{t("busket.color")}:</span>
               <div className={styles.colorOptions}>
-                {product.colors.map((color, index) => (
-                  <button
-                    key={index}
-                    className={`${styles.colorDot} ${styles[color] ?? ""} ${
-                      selectedColor === color ? styles.active : ""
-                    }`}
-                    onClick={() => setSelectedColor(color)}
-                  />
-                ))}
+                {product.colors.map((color, index) => {
+                  const colorId = getOptionId(color);
+                  const key = colorId || index;
+                  const colorValue = optionValue(color);
+                  const colorLabel = optionLabel(color);
+                  const isActive = colorId
+                    ? selectedColorId === colorId
+                    : selectedColor === color;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      className={`${styles.colorDot} ${
+                        isActive
+                          ? styles.active
+                          : ""
+                      }`}
+                      onClick={() => setSelectedColor(color)}
+                      style={
+                        colorValue
+                          ? {
+                              background: colorValue,
+                            }
+                          : undefined
+                      }
+                      aria-label={colorLabel || undefined}
+                      title={colorLabel || undefined}
+                    />
+                  );
+                })}
               </div>
             </div>
           )}
@@ -128,17 +169,33 @@ const ProductCard = ({ product }) => {
             <div className={styles.optionBlock}>
               <span>{t("busket.size")}:</span>
               <div className={styles.sizeOptions}>
-                {product.sizes.map((size, index) => (
-                  <button
-                    key={index}
-                    className={`${styles.sizeBtn} ${
-                      selectedSize === size ? styles.active : ""
-                    }`}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </button>
-                ))}
+                {product.sizes.map((size, index) => {
+                  const sizeId = getOptionId(size);
+                  const key = sizeId || index;
+                  const sizeLabel =
+                    optionLabel(size) ||
+                    optionValue(size) ||
+                    (typeof size === "string" || typeof size === "number"
+                      ? size
+                      : "");
+                  const isActive = sizeId
+                    ? selectedSizeId === sizeId
+                    : selectedSize === size;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      className={`${styles.sizeBtn} ${
+                        isActive
+                          ? styles.active
+                          : ""
+                      }`}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {sizeLabel}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
