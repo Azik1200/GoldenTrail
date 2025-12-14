@@ -24,7 +24,10 @@ async function request(path, options = {}) {
   };
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
-  if (language) headers['X-Language'] = language;
+  if (language) {
+    headers['X-Language'] = language;
+    headers['X-Is-Ferroli'] = '0';
+  }
   if (token) headers['Authorization'] = `Bearer ${token}`;
   const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
   if (match) headers['X-XSRF-TOKEN'] = decodeURIComponent(match[1]);

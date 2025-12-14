@@ -3,7 +3,10 @@ import { API_BASE_URL } from './auth';
 export async function fetchAbout() {
   const language = localStorage.getItem('language') || navigator.language?.slice(0, 2);
   const headers = {};
-  if (language) headers['X-Language'] = language;
+  if (language) {
+    headers['X-Language'] = language;
+    headers['X-Is-Ferroli'] = '0';
+  }
   const resp = await fetch(`${API_BASE_URL}/api/about-us`, {
     credentials: 'include',
     headers,
