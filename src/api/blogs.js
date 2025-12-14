@@ -4,7 +4,10 @@ export async function fetchBlogs() {
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
   const headers = {};
-  if (language) headers['X-Language'] = language;
+  if (language) {
+    headers['X-Language'] = language;
+    headers['X-Is-Ferroli'] = '0';
+  }
   const resp = await fetch(`${API_BASE_URL}/api/blogs`, {
     credentials: 'include',
     headers,
@@ -17,7 +20,10 @@ export async function fetchBlog(slug) {
   const language =
     localStorage.getItem('language') || navigator.language?.slice(0, 2);
   const headers = {};
-  if (language) headers['X-Language'] = language;
+  if (language) {
+    headers['X-Language'] = language;
+    headers['X-Is-Ferroli'] = '0';
+  }
   const resp = await fetch(`${API_BASE_URL}/api/blogs/${slug}`, {
     credentials: 'include',
     headers,
