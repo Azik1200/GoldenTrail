@@ -99,7 +99,7 @@ function BestSellers() {
         <div className="BestSellers_bottom">
           <div className="BestSellers_bottom-info">
             <div className="BestSellers_price">
-              <div className="BestSellers_price_main-price">{formatPrice(product.mainPrice)}</div>
+              <div className="newProducts_price_main-price">{formatPrice(product.mainPrice)}</div>
               {product.oldPrice && <div className="BestSellers_price_old-price">{formatPrice(product.oldPrice)}</div>}
             </div>
             <ul className="BestSellers_colors">
