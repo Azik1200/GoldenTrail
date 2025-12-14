@@ -10,7 +10,15 @@ export async function fetchProducts(params = {}) {
   }
   const url = new URL(`${API_BASE_URL}/api/products`);
   Object.entries(params).forEach(([key, value]) => {
-    if (value) url.searchParams.append(key, value);
+    if (value === undefined || value === null) return;
+
+    if (Array.isArray(value)) {
+      value
+        .filter((v) => v !== undefined && v !== null && v !== "")
+        .forEach((v) => url.searchParams.append(key, v));
+    } else if (value !== "") {
+      url.searchParams.append(key, value);
+    }
   });
   const resp = await fetch(url.toString(), {
     credentials: 'include',
