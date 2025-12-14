@@ -1,0 +1,87 @@
+[33ma65ad3b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mproduction[m[33m, [m[1;31morigin/codex/fix-html-rendering-issue-on-blog-page[m[33m)[m Decode blog HTML entities before rendering
+[33mf8bfe74[m[33m ([m[1;31morigin/codex-6hlzqn[m[33m)[m Fix product color display
+[33m8a1d563[m Fix blog
+[33m6740bbd[m Merge remote-tracking branch 'origin/codex/add-text-styles-from-admin-panel'
+[33mf7648fa[m[33m ([m[1;31morigin/codex/add-text-styles-from-admin-panel[m[33m)[m Render blog content with admin HTML styles
+[33m5032ca3[m Merge branch 'main' into production
+[33m13b6630[m[33m ([m[1;31morigin/codex/add-notification-for-cart-favorites[m[33m)[m feat: add notification context
+[33md347e6b[m[33m ([m[1;31morigin/codex/fix-navigation-issue-across-site[m[33m)[m Fix catalog navigation links
+[33me9fb4c8[m[33m ([m[1;31morigin/codex/update-profile-to-display-username[m[33m)[m Hook profile address CRUD to personal data
+[33mb901b2a[m Save addresses via API
+[33mfddd266[m feat: add profile API helper
+[33m98a83f6[m Merge remote-tracking branch 'origin/uhcga1-codex' into test-dev
+[33m14b6969[m[33m ([m[1;31morigin/uhcga1-codex[m[33m)[m Handle discount price formats in cart
+[33ma5e0cc1[m Merge remote-tracking branch 'origin/uhcga1-codex' into test-dev
+[33m61c4bd2[m Calculate discounts in cart
+[33m813f904[m[33m ([m[1;31morigin/codex/update-main-blog-page-content[m[33m)[m Add blog API
+[33m4e9de4a[m Merge branch 'main' into production
+[33me208c44[m[33m ([m[1;31morigin/codex/limit-new-and-bestsellers-to-3-items[m[33m)[m Temporarily hide add to cart notification
+[33mbfc1bac[m Limit products in new and best sellers sections
+[33m6839837[m[33m ([m[1;31morigin/codex/add-missing-translations-to-site[m[33m)[m feat: add missing translations
+[33me48aae6[m[33m ([m[1;31morigin/codex/update-about-us-section-to-use-api-data[m[33m)[m Fetch About section data from API
+[33m0b6efe7[m[33m ([m[1;31morigin/codex/add-sku-search-functionality[m[33m)[m feat: search products by SKU
+[33m8e81b2c[m fix-price
+[33m4c31376[m[33m ([m[1;31morigin/codex/fix-price-color-for-professionals[m[33m)[m style: match BestSellers price to professional choice
+[33mbb1ca88[m[33m ([m[1;31morigin/codex/render-html-tags-in-product-details[m[33m)[m Render product description as HTML
+[33m8dd4277[m 05-08-fixes
+[33m2a575c4[m 04\08\2025 front fix
+[33m7a84c40[m Merge branch 'main' into production
+[33m62686bb[m[33m ([m[1;31morigin/codex/add-multilingual-support-for-404-page[m[33m)[m Add multilingual support for 404 page
+[33mec04e4c[m[33m ([m[1;31morigin/codex/fix-buy-and-add-to-cart-buttons[m[33m)[m Fix favorites page actions
+[33m0b3c022[m[33m ([m[1;31morigin/o0ye0o-codex[m[33m)[m Allow multiple catalogs and categories
+[33m8e0c192[m Link categories to filtered page
+[33m48c2e58[m[33m ([m[1;31morigin/codex/implement-add-to-cart-feature[m[33m)[m Add add-to-cart logic to product card
+[33mfeb6cb9[m[33m ([m[1;31morigin/codex/update-slides-api-response-format[m[33m)[m feat: load slides from api
+[33m8160d94[m last design makes
+[33madfaea6[m Merge branch 'main' into production
+[33mbb9092c[m Bug fix
+[33m218b07d[m[33m ([m[1;31morigin/test-merge[m[33m)[m Merge branch 'test-dev' into test-merge
+[33m3a51f2f[m fix v2.0
+[33m4651f0e[m[33m ([m[1;31morigin/codex/update-warranty-text-on-product-page[m[33m)[m Show warranty only when provided
+[33m09a4b02[m Display product warranty from API
+[33m554715a[m[33m ([m[1;31morigin/jdaxlw-codex[m[33m)[m Add body class toggle for search overlay
+[33m2748095[m Show message when no products match filters
+[33me761d0b[m Add body active toggle for filter sidebar
+[33me439c1c[m Unify filter checkbox design and simplify color labels
+[33m43de2aa[m[33m ([m[1;31morigin/codex/fix-filtering-page-navigation-issue[m[33m)[m Display active filters under filter buttons
+[33m2525525[m fix filter link and params
+[33m4a0604a[m Merge remote-tracking branch 'origin/rau0w0-codex' into test-dev
+[33maffb0ef[m[33m ([m[1;31morigin/rau0w0-codex[m[33m)[m Fix filter checkbox state from URL params
+[33m37025ed[m Fix filtering with catalogs and categories
+[33m159bcf7[m[33m ([m[1;31morigin/hzltzr-codex[m[33m)[m Fix filtering with catalogs and categories
+[33mb472a00[m Add JSON-based server filtering
+[33m2ddcd8c[m Revert extra Accept-Language changes
+[33md91b044[m Use server filter and proper language header
+[33mbfd9c8a[m Link categories to filtered catalog
+[33m7811014[m Add catalog filter support for hero slider
+[33mf4a0636[m[33m ([m[1;31morigin/fcxq0m-codex[m[33m, [m[1;31morigin/codex/исправить-добавление-в-избранные-для-авторизованных-пользова[m[33m, [m[1;31morigin/7awdno-codex[m[33m, [m[1;31morigin/5zfeks-codex[m[33m)[m Persist guest favorites via localStorage
+[33m31cfdea[m[33m ([m[1;31morigin/codex/исправить-добавление-в-корзину-для-неавторизованных-пользова[m[33m)[m Fix cart behavior for guests
+[33m37117e0[m[33m ([m[1;31morigin/codex/убрать-бордер-вокруг-размера-товара[m[33m)[m Remove border style from product size options
+[33m3659851[m Merge remote-tracking branch 'origin/test-alina' into test-dev
+[33m0d8a0bc[m[33m ([m[1;31morigin/codex/удалить-стиль-из-спанов-карточек-товаров[m[33m)[m Remove unwanted border styles from color dots
+[33m95190ad[m Merge remote-tracking branch 'origin/test-alina' into test-alina
+[33mc6b364d[m[33m ([m[1;31morigin/codex/ограничить-рендер-популярных-товаров-до-3[m[33m)[m Limit popular products to three random items
+[33m034ffbf[m Bug fixed with pol
+[33m2045a95[m[33m ([m[1;31morigin/codex/добавить-перевод-пользовательского-соглашения[m[33m)[m Add multilingual Privacy Policy
+[33m4ac5fa3[m[33m ([m[1;31morigin/codex/исправить-отображение-описания-товара[m[33m)[m Map full product description
+[33m51d9641[m fix product description
+[33m070e269[m[33m ([m[1;31morigin/codex/обновить-хук-useeffect-и-загрузку-изображений[m[33m)[m Fix product loading when images missing
+[33m0c26269[m 03-07-2025-1-55
+[33m30a37b4[m[33m ([m[1;31morigin/codex/ограничить-количество-товаров-до-6-в-разделе-professional-ch[m[33m)[m Limit professional choice items to six
+[33m8cc7144[m Merge remote-tracking branch 'origin/codex/привязать-ссылки-к-хедеру-и-футеру' into test-dev
+[33mf4771d8[m[33m ([m[1;31morigin/codex/привязать-ссылки-к-хедеру-и-футеру[m[33m)[m Add header/footer links and 404 route
+[33m5027e44[m Img is added
+[33ma4c383c[m[33m ([m[1;31morigin/codex/исправить-цены-и-добавить-знак-маната[m[33m)[m Format prices with manat sign
+[33m882a0d7[m[33m ([m[1;31morigin/codex/привязать-данные-к-футеру[m[33m)[m Fetch catalog items for footer
+[33ma6a282d[m Bind footer to backend data
+[33m76e0713[m Merge branch 'main' into test-alina
+[33m7f5b2d1[m 02-07-2025-11-09
+[33m9a6a6d7[m Enhance search UI with history and image sizing
+[33ma3d297e[m feat: implement dynamic search
+[33ma545bb9[m[33m ([m[1;31morigin/codex/активировать-кнопку-поиска-на-мобильной-версии[m[33m)[m feat: enable mobile search toggle
+[33m25096a3[m[33m ([m[1;31morigin/codex/активировать-кнопку-поиска-для-версии-пк[m[33m)[m fix: display search panel when opened
+[33m2706531[m Fix SVG attribute casing
+[33m325fde4[m Add id and name to search input
+[33mccf46d9[m feat: toggle desktop search panel
+[33m87648b4[m[33m ([m[1;31morigin/codex/активировать-смену-языка-на-хедере[m[33m)[m Enable language switching in new header
+[3
